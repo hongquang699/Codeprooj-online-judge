@@ -1,0 +1,5 @@
+<svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="36" height="36" y="2" rx="8" fill="#2563EB"/>
+  <path d="M12 12L7 20L12 28M24 12L29 20L24 28M19 10L17 30" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="46" y="26" fill="#F8FAFC" font-family="system-ui, sans-serif" font-weight="800" font-size="20">CODING_OJ</text>
+</svg>

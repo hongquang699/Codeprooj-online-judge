@@ -1,0 +1,3628 @@
+{
+  "api_version": "2.0",
+  "method": "get",
+  "fetched": "2026-10-02T11:15:46.375392+00:00",
+  "data": {
+    "current_object_count": 301,
+    "objects_per_page": 1000,
+    "page_index": 1,
+    "has_more": false,
+    "objects": [
+      {
+        "code": "000",
+        "name": "A + B - C",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1e-05,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "001",
+        "name": "001. Phép toán cộng",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": false,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "002",
+        "name": "002. Phép toán trừ",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "003",
+        "name": "003. Phép toán nhân",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "004",
+        "name": "004. Phép toán chia",
+        "types": [
+          "00. Chưa phân loại",
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "005",
+        "name": "005. Phép toán luỹ thừa",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "006",
+        "name": "006. Căn bậc 2",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "007",
+        "name": "007. Nghịch đảo",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "008",
+        "name": "008. Tính giá trị biểu thức 1",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "009",
+        "name": "009. Tính giá trị biểu thức 2",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "010",
+        "name": "010. Phép chia lấy phần nguyên và lấy phần dư",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "011",
+        "name": "011. Chia táo",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "012",
+        "name": "012. Tìm chữ số",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "013",
+        "name": "013. Tính tổng chữ số",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "014",
+        "name": "014. Tính tổng hàng đơn vị",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "015",
+        "name": "015. Tính tổng hàng đơn vị và hàng chục",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "016",
+        "name": "016. Đổi tiền 1",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "017",
+        "name": "017. Đổi tiền 2",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "018",
+        "name": "018. Đổi thời gian ra giờ phút giây",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "019",
+        "name": "019. Tính số bàn học sinh",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "020",
+        "name": "020. Chia mía",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "021",
+        "name": "021. Tính chu vi và diện tích hình vuông",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "022",
+        "name": "022. Tính chu vi và diện tích hình tròn",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "023",
+        "name": "023. Tính chu vi và diện tích hình chữ nhật",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "024",
+        "name": "024. Tính diện tích tam giác 1",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "025",
+        "name": "025. Tính diện tích tam giác 2",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "026",
+        "name": "026. Tính bán kính hình tròn ngoại tiếp tam giác",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "027",
+        "name": "027. Tính trung bình cộng",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "028",
+        "name": "028. Tính điểm trung bình",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "029",
+        "name": "029. Tính diện tích hình tròn",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "030",
+        "name": "030. Tính diện tích hình vuông",
+        "types": [
+          "01. Tuần tự"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "031",
+        "name": "031. So sánh điểm",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "032",
+        "name": "032. So sánh thời gian chạy",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "033",
+        "name": "033. Chuyển số sang chữ",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "034",
+        "name": "034. Tìm số lớn nhất",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "035",
+        "name": "035. Tính niên",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "036",
+        "name": "036. Xếp loại học sinh",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "037",
+        "name": "037. Tính mùa trong năm 1",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "038",
+        "name": "038. Tính mùa trong năm 2",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "039",
+        "name": "039. Kiểm tra số nguyên dương hay âm",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "040",
+        "name": "040. Kiểm tra hai số nguyên cùng dấu hay khác dấu",
+        "types": [
+          "02. Rẽ nhánh (If)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "041",
+        "name": "041. Kiểm tra số nguyên có chia hết cho 6?",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "042",
+        "name": "042. Kiểm tra số nguyên có lớn hơn 100?",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "043",
+        "name": "043. Kiểm tra cân nặng",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "044",
+        "name": "044. Kiểm tra chiều cao",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "045",
+        "name": "045. Tìm số ngày của một tháng",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "046",
+        "name": "046. Tính nút của biển số xe",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "047",
+        "name": "047. Kiểm tra số nguyên có phải là số chính phương?",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "048",
+        "name": "048. Kiểm tra tam giác",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "049",
+        "name": "049. Tính tiền taxi",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "050",
+        "name": "050. Tính tiền điện",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "051",
+        "name": "051. Kiểm tra số nguyên chẵn lẻ, âm dương?",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "052",
+        "name": "052. Đánh giá kết quả học tập theo tổng điểm",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "053",
+        "name": "053. Kiểm tra tuổi của một người đang ở giai đoạn nào?",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "054",
+        "name": "054. Tìm 2 chữ số đầu và 2 chữ số cuối",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "055",
+        "name": "055. Tìm số lớn nhất trong 4 số",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "056",
+        "name": "056. Kiểm tra ba số có là 3 cạnh của một tam giác và tính chu vi, diện tích",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "057",
+        "name": "057. Kiểm tra 2 số a, b có là 2 kích thước của hình chữ nhật và tính chu vi, diện tích",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "058",
+        "name": "058. In ra các chữ số lẻ của một số có 8 chữ số",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "059",
+        "name": "059. Tính tổng các chữ số chẵn của một số có 8 chữ số",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "060",
+        "name": "060. Tìm chữ số lớn nhất và nhỏ nhất của một số có 8 chữ số",
+        "types": [
+          "03. Rẽ nhánh (If-Else, Switch-Case)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "061",
+        "name": "061. In những số tự nhiên từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "062",
+        "name": "062. Tính tổng những số tự nhiên từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "063",
+        "name": "063. In những số tự nhiên chia hết cho 3 từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "064",
+        "name": "064. Đếm số lượng số tự nhiên chia hết cho 3 từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "065",
+        "name": "065. Tính tổng những số tự nhiên chẵn từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "066",
+        "name": "066. Tính tổng những số tự nhiên chia hết cho 3 và 5 từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "067",
+        "name": "067. Tính tổng những số tự nhiên chia hết cho 3 hoặc 5 từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "068",
+        "name": "068. Tính trung bình cộng những số tự nhiên chẵn từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "069",
+        "name": "069. Tính trung bình cộng những số tự nhiên chia hết cho 5 từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "070",
+        "name": "070. Tính trung bình cộng những số tự nhiên chia hết cho 3 và 5 từ 1 đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "071",
+        "name": "071. In những số tự nhiên từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "072",
+        "name": "072. Tính tổng những số nguyên từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "073",
+        "name": "073. Đếm số lượng số nguyên chia hết cho 3 từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "074",
+        "name": "074. In những số nguyên chẵn từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "075",
+        "name": "075. Đếm số lượng số nguyên chẵn từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "076",
+        "name": "076. Tính tổng những số nguyên chẵn từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "077",
+        "name": "077. Tính trung bình cộng những số nguyên chẵn từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "078",
+        "name": "078. Tính trung bình cộng những số nguyên chia hết cho 2 và 3 từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "079",
+        "name": "079. Tính trung bình cộng những số nguyên chia hết cho 2 hoặc 3 từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "080",
+        "name": "080. Đếm số nguyên chia hết cho 5 và in những số nguyên chia hết cho 5 từ m đến n",
+        "types": [
+          "04. Lặp For"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "081",
+        "name": "081. Tìm ước chung lớn nhất của hai số nguyên a và",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "082",
+        "name": "082. Rút gọn phân số",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "083",
+        "name": "083. Tìm số lượng chữ số của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "084",
+        "name": "084. In các chữ số của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "085",
+        "name": "085. Tính tổng các chữ số của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "086",
+        "name": "086. In các chữ số chẵn của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "087",
+        "name": "087. Tính tổng các chữ số chẵn của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "088",
+        "name": "088. Tính tổng các chữ số lớn hơn số x của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "089",
+        "name": "089. Đếm số lượng chữ số lẻ của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "090",
+        "name": "090. Đảo ngược chữ số của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "091",
+        "name": "091. Tìm chữ số lớn nhất của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "092",
+        "name": "092. Tìm chữ số nhỏ nhất của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "093",
+        "name": "093. Tìm chữ số lẻ lớn nhất của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "094",
+        "name": "094. Tìm chữ số chẵn nhỏ nhất của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "095",
+        "name": "095. Tính số gốc của một số nguyên n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "096",
+        "name": "096. In ra các số nguyên dương chẵn cho đến khi tổng của chúng ≥ k",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "097",
+        "name": "097. Tìm số chia hết cho 3 mà không chia hết cho 9 thứ k",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "098",
+        "name": "098. Tính tổng k số Chen đầu tiên",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "099",
+        "name": "099. Tính trung bình cộng k số tự nhiên đầu tiên không chia hết cho 3",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "100",
+        "name": "100. Tính số tháng gửi tiền tiết kiệm để được số tiền n",
+        "types": [
+          "05. Lặp While, Do-While"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "101",
+        "name": "101. In hình tam giác vuông cân bằng dấu *",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "102",
+        "name": "102. In hình chữ nhật đặc bằng dấu *",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "103",
+        "name": "103. In tam giác số",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "104",
+        "name": "104. In ra bảng cửu chương của số tự nhiên n theo định dạng phép nhân.",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "105",
+        "name": "105. Đếm ước của một số nguyên n",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "106",
+        "name": "106. Kiểm tra n có phải là số nguyên tố (Prime)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "107",
+        "name": "107. Kiểm tra một số nguyên có là số hoàn hảo (Perfect)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "108",
+        "name": "108. Kiểm tra một số nguyên có là số tam giác (Triangular)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "109",
+        "name": "109. Kiểm tra một số nguyên có là số đối xứng (Palindrome)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "110",
+        "name": "110. Kiểm tra một số nguyên có là số Chen",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "111",
+        "name": "111. Kiểm tra một số nguyên có là số kỳ ảo (Magic)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "112",
+        "name": "112. Kiểm tra một số nguyên có là số Smith",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "113",
+        "name": "113. Kiểm tra một số nguyên có là số Pronic",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "114",
+        "name": "114. Kiểm tra một số nguyên có là số phong phú (Abundant)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "115",
+        "name": "115. Tính n giai thừa (n!)",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "116",
+        "name": "116. Tính x^n",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "117",
+        "name": "117. In các số nguyên tố từ m đến n",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "118",
+        "name": "118. Đếm số lượng số nguyên tố từ m đến n",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "119",
+        "name": "119. Tính tổng các số nguyên tố từ m đến n",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "120",
+        "name": "120. Tính trung bình cộng các số nguyên tố từ m đến n",
+        "types": [
+          "06. Lặp tổng hợp"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "121",
+        "name": "121. In số ở vị trí k trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "122",
+        "name": "122. In số cuối cùng trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "123",
+        "name": "123. In mảng vừa nhập",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "124",
+        "name": "124. In mảng theo thứ tự ngược lại",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "125",
+        "name": "125. Thay giá trị của số ở vị trí k thành x",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "126",
+        "name": "126. In các số ở vị trí chẵn của mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "127",
+        "name": "127. In các số có giá trị lẻ trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "128",
+        "name": "128. Tính tổng các số trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "129",
+        "name": "129. Tính trung bình cộng các số trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "130",
+        "name": "130. Tính tổng các số chia hết cho 3 trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "131",
+        "name": "131. Đếm số lượng số chia hết cho 5 trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "132",
+        "name": "132. Tính trung bình cộng các số chẵn trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "133",
+        "name": "133. Tìm x trong mảng và vị trí",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "134",
+        "name": "134. Tìm giá trị lớn nhất trong mảng và vị trí",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "135",
+        "name": "135. Tìm giá trị nhỏ nhất trong mảng và vị trí",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "136",
+        "name": "136. In các số nguyên tố trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "137",
+        "name": "137. Đếm số lượng số nguyên tố trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "138",
+        "name": "138. Tính tổng các số nguyên tố trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "139",
+        "name": "139. Tính trung bình cộng các số nguyên tố trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "140",
+        "name": "140. Tìm số nguyên tố lớn nhất trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "141",
+        "name": "141. In các số âm trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "142",
+        "name": "142. Đếm số lượng số âm trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "143",
+        "name": "143. Tính tổng các số âm trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "144",
+        "name": "144. Tính trung bình cộng các số âm trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "145",
+        "name": "145. Tìm số âm nhỏ nhất trong mảng và vị trí",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "146",
+        "name": "146. Sắp xếp thứ tự các số trong mảng tăng dần",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "147",
+        "name": "147. Sắp xếp thứ tự các số trong mảng giảm dần",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "148",
+        "name": "148. Chèn thêm số có giá trị x vào vị trí k",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "149",
+        "name": "149. Xoá số ở vị trí k",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "150",
+        "name": "150. Xoá tất cả số có giá trị là x",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "151",
+        "name": "151. Chèn thêm số có giá trị x vào cuối mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "152",
+        "name": "152. Nối mảng 2 vào cuối mảng 1",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "153",
+        "name": "153. Đếm số lần xuất hiện của một giá trị x trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "154",
+        "name": "154. Tạo bản sao của mảng a sang b",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "155",
+        "name": "155. Tạo bản sao của mảng a sang b, xóa tất cả trong a",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "156",
+        "name": "156. Kiểm tra xem tất cả các số là số nguyên dương",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "157",
+        "name": "157. Kiểm tra có tồn tại số nào là số nguyên âm",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "158",
+        "name": "158. Lọc các số chẵn từ mảng a sang mảng b",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "159",
+        "name": "159. In ra vị trí và giá trị của các số chẵn trong mảng",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "160",
+        "name": "160. Tạo mảng b chứa tổng chữ số của các số trong mảng a",
+        "types": [
+          "07. Mảng/Danh sách 1 chiều (Arrays)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "161",
+        "name": "161. In ký tự ở vị trí k trong chuỗi",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "162",
+        "name": "162. In ký tự cuối cùng trong chuỗi",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "163",
+        "name": "163. In chuỗi theo thứ tự ngược",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "164",
+        "name": "164. In chuỗi với mỗi ký tự trên một dòng",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "165",
+        "name": "165. Thay ký tự ở vị trí k thành ký tự x",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "166",
+        "name": "166. Tạo chuỗi con",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "167",
+        "name": "167. Loại bỏ tất cả khoảng trắng trong chuỗi",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "168",
+        "name": "168. Kiểm tra xâu đối xứng",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "169",
+        "name": "169. Chèn thêm chuỗi s2 vào vị trí k của chuỗi s1",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "170",
+        "name": "170. Xoá ký tự thứ k trong chuỗi",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "171",
+        "name": "171. Xoá tất cả ký tự có giá trị là x",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "172",
+        "name": "172. Nối chuỗi s2 vào cuối chuỗi s1",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "173",
+        "name": "173. Chuyển ký tự sang mã ASCII",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "174",
+        "name": "174. Chuyển mã ASCII sang ký tự",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "175",
+        "name": "175. In ký tự kế sau trong bảng chữ cái",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "176",
+        "name": "176. In ký tự kề trước trong bảng chữ cái",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "177",
+        "name": "177. Chuyển tất cả ký tự sang ký tự viết hoa",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "178",
+        "name": "178. Chuyển tất cả ký tự sang ký tự viết thường",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "179",
+        "name": "179. Chuyển ký tự đầu tiên của chuỗi sang ký tự viết hoa",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "180",
+        "name": "180. Chuyển ký tự đầu tiên của từng từ sang ký tự viết hoa",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "181",
+        "name": "181. Kiểm tra tất cả ký tự trong chuỗi có phải là chữ cái",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "182",
+        "name": "182. Kiểm tra tất cả ký tự trong chuỗi có phải là chữ số",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "183",
+        "name": "183. Kiểm tra tất cả ký tự trong chuỗi có phải là ký hiệu",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "184",
+        "name": "184. Kiểm tra tất cả ký tự chữ cái trong chuỗi có phải là ký tự viết thường",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "185",
+        "name": "185. Kiểm tra tất cả ký tự chữ cái trong chuỗi có phải là ký tự viết hoa",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "186",
+        "name": "186. Kiểm tra chuỗi có phải là kiểu tên",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "187",
+        "name": "187. Kiểm tra chuỗi s1 có được bắt đầu bằng chuỗi s2",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "188",
+        "name": "188. Kiểm tra chuỗi s1 có kết thúc bằng chuỗi s2",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "189",
+        "name": "189. Đếm xem trong chuỗi có bao nhiêu ký tự x",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "190",
+        "name": "190. Tìm vị trí đầu tiên của chuỗi s2 xuất hiện trong chuỗi s1",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "191",
+        "name": "191. Tìm vị trí cuối cùng của chuỗi s2 xuất hiện trong chuỗi s1",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "192",
+        "name": "192. Xoá ký tự trắng thừa ở đầu câu",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "193",
+        "name": "193. Xoá ký tự trắng thừa ở cuối câu",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "194",
+        "name": "194. Xoá ký tự trắng thừa ở giữa câu",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "195",
+        "name": "195. Tìm kiếm và thay thế",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "196",
+        "name": "196. Chuyển đổi ký tự viết thường sang viết hoa và ngược lại",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "197",
+        "name": "197. Thêm n số 0 bên trái chuỗi s",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "198",
+        "name": "198. Tách chuỗi thành mảng bởi ký tự phân tách",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "199",
+        "name": "199. Đếm số từ trong xâu",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "200",
+        "name": "200. Chuyển chuỗi thành mảng ký tự",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "201",
+        "name": "201. Chuyển mảng thành chuỗi",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "202",
+        "name": "202. Tìm ký tự có mã ASCII lớn nhất",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "203",
+        "name": "203. Tìm ký tự có mã ASCII nhỏ nhất",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "204",
+        "name": "204. Tìm từ có độ dài lớn nhất",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "205",
+        "name": "205. Tìm từ có độ dài nhỏ nhất",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "206",
+        "name": "206. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở chính giữa",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "207",
+        "name": "207. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở bên phải",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "208",
+        "name": "208. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở bên trái",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "209",
+        "name": "209. Sắp xếp các ký tự theo bảng chữ cái",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "210",
+        "name": "210. Tách tên trong họ và tên",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "211",
+        "name": "211. Tách họ và chữ lót trong họ và tên",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "212",
+        "name": "212. Sắp xếp danh sách tên theo bảng chữ cái",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "213",
+        "name": "213. Sắp xếp mảng xâu theo thứ tự tăng dần của chiều dài từng xâu",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "214",
+        "name": "214. Mã hóa xâu đơn giản",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "215",
+        "name": "215. In bảng điểm",
+        "types": [
+          "08. Chuỗi (Strings)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "216",
+        "name": "216. Tính tổng các số trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "217",
+        "name": "217. In ra tổng tất cả các số chẵn trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "218",
+        "name": "218. In ra số lượng số nguyên tố trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "219",
+        "name": "219. In ra các số chính phương trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "220",
+        "name": "220. Tìm số âm lớn nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "221",
+        "name": "221. Tìm số chia hết cho 3 bé nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "222",
+        "name": "222. In các số trên đường chéo chính trong ma trận vuông",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "223",
+        "name": "223. In các số trên đường chéo phụ trong ma trận vuông",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "224",
+        "name": "224. Tìm số lớn nhất trên đường chéo chính trong ma trận vuông",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "225",
+        "name": "225. Tìm số chẵn nhỏ nhất trên đường chéo phụ trong ma trận vuông",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "226",
+        "name": "226. Tìm hàng có tổng lớn nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "227",
+        "name": "227. Tìm cột có tổng nhỏ nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "228",
+        "name": "228. Xoá cột thứ k trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "229",
+        "name": "229. Xoá dòng thứ k trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "230",
+        "name": "230. Chèn các giá trị vào dòng thứ k trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "231",
+        "name": "231. Chèn các giá trị vào cột thứ k trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "232",
+        "name": "232. Tìm số lớn nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "233",
+        "name": "233. Tìm số nhỏ nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "234",
+        "name": "234. Tìm số có số lần xuất hiện nhỏ nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "235",
+        "name": "235. Tìm số có số lần xuất hiện lớn nhất trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "236",
+        "name": "236. Sắp xếp các số theo thứ tự giảm dần từ trái qua phải, từ trên xuống dưới",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "237",
+        "name": "237. Hoán vị các giá trị của cột h và cột k trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "238",
+        "name": "238. Hoán vị các giá trị của dòng h và dòng k trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "239",
+        "name": "239. Hoán vị các giá trị của đường chéo chính và đường chéo phụ trong ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "240",
+        "name": "240. Tìm số lớn nhất trên dòng x",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "241",
+        "name": "241. Tìm số nhỏ nhất trên cột y",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "242",
+        "name": "242. Tìm số nguyên tố lớn nhất trên dòng x",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "243",
+        "name": "243. Tìm số chính phương nhỏ nhất trên cột y",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "244",
+        "name": "244. Tính tổng các số trên đường chéo chính của ma trận vuông",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "245",
+        "name": "245. Tính trung bình cộng các số trên đường chéo phụ của ma trận vuông",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "246",
+        "name": "246. In ra các số nguyên tố trên dòng x của ma trận",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "247",
+        "name": "247. In các số chính phương trên cột y",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "248",
+        "name": "248. Sắp xếp các hàng tăng dần",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "249",
+        "name": "249. Sắp xếp các cột giảm dần",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "250",
+        "name": "250. Tìm các dòng chứa toàn số âm",
+        "types": [
+          "09. Mảng/Danh sách 2 chiều (Matrix)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "251",
+        "name": "251. Viết hàm kiểm tra n có phải là số nguyên tố và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "252",
+        "name": "252. Viết hàm kiểm tra n có phải là số chính phương và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "253",
+        "name": "253. Viết hàm kiểm tra một số nguyên có là số hoàn hảo và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "254",
+        "name": "254. Viết hàm kiểm tra một số nguyên có là số Chen và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "255",
+        "name": "255. Viết hàm kiểm tra một số nguyên có là số Triangular và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "256",
+        "name": "256. Viết hàm tính tổng chữ số của một số nguyên n và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "257",
+        "name": "257. Viết hàm kiểm tra một số nguyên có là số Pronic và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "258",
+        "name": "258. Viết hàm kiểm tra một số nguyên có là số phong phú (Abundant) và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "259",
+        "name": "259. Viết hàm tính tổng ước dương của một số nguyên n và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "260",
+        "name": "260. Viết hàm tính đếm số ước dương của một số nguyên n và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "261",
+        "name": "261. Viết hàm đảo ngược một số nguyên n và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "262",
+        "name": "262. Viết hàm tính n giai thừa và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "263",
+        "name": "263. Viết hàm tính x^n và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "264",
+        "name": "264. Viết hàm kiểm tra chuỗi có đối xứng hay không và áp dụng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "265",
+        "name": "265. Viết hàm xóa tất cả ký tự trắng thừa bên phải và bên trái",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "266",
+        "name": "266. Viết hàm đếm xem chuỗi s1 xuất hiện trong chuỗi s2 bao nhiêu lần",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "267",
+        "name": "267. Viết hàm tìm Max, Min và vị trí tương ứng của Max, Min trong mảng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "268",
+        "name": "268. Viết hàm đổi giá trị 2 biến",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "269",
+        "name": "269. Viết hàm in hình chữ nhật rỗng",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "270",
+        "name": "270. Viết hàm in ra các ký tự in hoa trong chuỗi",
+        "types": [
+          "10. Hàm tự định nghĩa"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "271",
+        "name": "271. Định dạng ngày và giờ",
+        "types": [
+          "11. Ngày/Giờ (Date/Time)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "272",
+        "name": "272. Tính toán khoảng thời gian giữa hai ngày",
+        "types": [
+          "11. Ngày/Giờ (Date/Time)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "273",
+        "name": "273. Tính toán khoảng thời gian giữa hai giờ",
+        "types": [
+          "11. Ngày/Giờ (Date/Time)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "274",
+        "name": "274. Sử dụng timedelta để tính toán thời gian sau một khoảng thời gian nhất định",
+        "types": [
+          "11. Ngày/Giờ (Date/Time)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "275",
+        "name": "275. Tính toán thời gian còn lại đến một mốc thời gian",
+        "types": [
+          "11. Ngày/Giờ (Date/Time)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "276",
+        "name": "276. Tính khoảng cách giữa 2 điểm trong mặt phẳng tọa độ Oxy",
+        "types": [
+          "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "277",
+        "name": "277. Tính chu vi và diện tích tam giác trong mặt phẳng tọa độ Oxy",
+        "types": [
+          "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "278",
+        "name": "278. Cộng, trừ, nhân, chia hai phân số",
+        "types": [
+          "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "279",
+        "name": "279. Tìm học sinh nhỏ tuổi nhất",
+        "types": [
+          "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "280",
+        "name": "280. Sắp xếp danh sách học sinh",
+        "types": [
+          "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "281",
+        "name": "281. In bảng điểm",
+        "types": [
+          "13. Cặp giá trị (Pair/Tuple)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "282",
+        "name": "282. Tính trung bình điểm của tất cả học sinh",
+        "types": [
+          "13. Cặp giá trị (Pair/Tuple)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "283",
+        "name": "283. Tìm học sinh có điểm lớn nhất",
+        "types": [
+          "13. Cặp giá trị (Pair/Tuple)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "284",
+        "name": "284. Cộng cho mỗi bạn 1 điểm và in bảng điểm mới",
+        "types": [
+          "13. Cặp giá trị (Pair/Tuple)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "285",
+        "name": "285. Sắp xếp danh sách theo thứ tự tăng dần của điểm",
+        "types": [
+          "13. Cặp giá trị (Pair/Tuple)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "286",
+        "name": "286. Tạo một tập hợp s chứa các ký tự xuất hiện trong chuỗi str",
+        "types": [
+          "14. Tập hợp (Set)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "287",
+        "name": "287. Mảng có bao nhiêu số nguyên đôi một khác nhau",
+        "types": [
+          "14. Tập hợp (Set)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "288",
+        "name": "288. Kiểm tra số nguyên x có trong tập hợp s hay không",
+        "types": [
+          "14. Tập hợp (Set)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "289",
+        "name": "289. Xoá số có giá trị x ra khỏi s",
+        "types": [
+          "14. Tập hợp (Set)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "290",
+        "name": "290. In ra các số có trong tập hợp s1 mà không có trong tập hợp s2",
+        "types": [
+          "14. Tập hợp (Set)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "291",
+        "name": "291. In từng ký tự và số lần xuất hiện trong chuỗi",
+        "types": [
+          "15. Map-Dict"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "292",
+        "name": "292. Tìm ký tự xuất hiện nhiều lần nhất trong chuỗi s",
+        "types": [
+          "15. Map-Dict"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "293",
+        "name": "293. Sắp xếp từ điển theo key giảm dần",
+        "types": [
+          "15. Map-Dict"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "294",
+        "name": "294. Sắp xếp từ điển theo value tăng dần",
+        "types": [
+          "15. Map-Dict"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "295",
+        "name": "295. Xoá key x trong từ điển b",
+        "types": [
+          "15. Map-Dict"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "296",
+        "name": "296. Thêm phần tử vào stack và in stack",
+        "types": [
+          "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "297",
+        "name": "297. Thêm và xóa phần tử trong stack",
+        "types": [
+          "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "298",
+        "name": "298. Đọc dữ liệu từ file và lưu vào Queue",
+        "types": [
+          "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "299",
+        "name": "299. Thêm giá trị x vào Queue",
+        "types": [
+          "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      },
+      {
+        "code": "300",
+        "name": "300. Xoá giá trị x trong Queue",
+        "types": [
+          "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+        ],
+        "group": "01. Nhập môn",
+        "points": 1.0,
+        "partial": true,
+        "is_organization_private": false,
+        "is_public": true
+      }
+    ],
+    "total_objects": 301,
+    "total_pages": 1
+  }
+}

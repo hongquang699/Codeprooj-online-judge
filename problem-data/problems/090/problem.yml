@@ -1,0 +1,9 @@
+code: "090"
+name: "090. Đảo ngược chữ số của một số nguyên n"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

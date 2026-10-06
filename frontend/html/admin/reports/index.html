@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <link rel="icon" type="image/svg+xml" href="/frontend/assets/icons/favicon.svg">
+  <link rel="stylesheet" href="/frontend/css/global/icons.css">
+  <script src="/frontend/js/core/icons.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo &amp; Gian Lận Thi Đấu | CodeProOJ Admin</title>
+  <link rel="stylesheet" href="/frontend/css/global/reset.css">
+  <link rel="stylesheet" href="/frontend/css/global/variables.css">
+  <link rel="stylesheet" href="/frontend/css/global/typography.css">
+  <link rel="stylesheet" href="/frontend/css/global/common.css">
+  <link rel="stylesheet" href="/frontend/css/admin/dashboard.css">
+  <script src="/frontend/js/core/admin-guard.js"></script>
+  <link rel="stylesheet" href="/frontend/css/global/theme.css">
+  <link rel="stylesheet" href="/frontend/css/global/site-refresh.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a href="/admin" class="admin-brand">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="8" fill="#DC2626"/><path d="M12 12L7 20L12 28M24 12L29 20L24 28M19 10L17 30" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <div>
+          <div class="brand-title">CodeProOJ <span class="brand-badge">ADMIN</span></div>
+          <div style="font-size:.7rem;color:#94a3b8;">CodeProOJ Control Center</div>
+        </div>
+      </a>
+
+      <div class="nav-group-title">Hệ thống &amp; Giám sát</div>
+      <a href="/admin" class="admin-nav-item"><cp-icon name="chart" size="sm"></cp-icon> Bảng tổng quan</a>
+      <a href="/admin/announcements" class="admin-nav-item"><span><cp-icon name="bell" size="sm"></cp-icon> </span> Quản lý thông báo</a>
+      <a href="/admin/reports" class="admin-nav-item active"><span>🚨</span> Báo cáo &amp; Vi phạm</a>
+      <a href="/admin/settings" class="admin-nav-item"><cp-icon name="settings" size="sm"></cp-icon> Cấu hình hệ thống</a>
+
+      <div class="sidebar-footer">
+        <div>CodeProOJ Admin v2.4</div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div class="topbar-title">
+          <h1>Quản Lý Khiếu Nại &amp; Phát Hiện Gian Lận (Anti-Plagiarism)</h1>
+          <p>Xử lý tố cáo sao chép mã nguồn trong contest, khiếu nại test case và các báo cáo vi phạm cộng đồng.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn-top btn-top-primary" onclick="runMossCheck()"><cp-icon name="bolt" size="sm"></cp-icon> Chạy MOSS Code Similarity Check</button>
+        </div>
+      </div>
+
+      <!-- Reports Table -->
+      <div class="panel-box">
+        <div class="panel-hdr">
+          <h3>🚨 Danh sách Báo cáo &amp; Cảnh báo gian lận</h3>
+          <span class="badge-v bv-other" id="pendingCountBadge">0 chờ xử lý</span>
+        </div>
+        <div class="panel-bdy" style="padding:0;">
+          <table class="admin-tbl">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Phân loại</th>
+                <th>Đối tượng vi phạm</th>
+                <th>Người báo cáo</th>
+                <th>Mô tả / Bằng chứng</th>
+                <th>Thời điểm</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="reportsTbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const mockReports = [
+      { id: 101, type: "Trùng mã nguồn (MOSS 94%)", target: "Bài #12345 (User: hacker_vn & leet_coder)", reporter: "Hệ thống MOSS AI", note: "Thuật toán và cấu trúc code tương đồng 94.2% trong kỳ thi HSG_TIN_2026", date: "2026-09-30 21:15", status: "PENDING" },
+      { id: 102, type: "Khiếu nại Test Case", target: "Problem: KNAPSACK (Test #14)", reporter: "quang_pro", note: "Test 14 có input N=0 gây Runtime Error cho code chuẩn", date: "2026-09-30 18:40", status: "RESOLVED" },
+      { id: 103, type: "Spam Submissions", target: "IP: 185.220.101.5", reporter: "WAF Anti-DDoS", note: "Nộp 40 bài/phút gây nghẽn hàng đợi máy chấm", date: "2026-09-30 15:10", status: "RESOLVED" }
+    ];
+
+    function renderReports() {
+      const tbody = document.getElementById('reportsTbody');
+      tbody.innerHTML = mockReports.map(r => `
+        <tr>
+          <td>#${r.id}</td>
+          <td><span class="badge-v ${r.type.includes('MOSS') ? 'bv-WA' : 'bv-other'}">${r.type}</span></td>
+          <td><strong>${r.target}</strong></td>
+          <td>${r.reporter}</td>
+          <td style="font-size:0.85rem;color:#cbd5e1;max-width:300px;">${r.note}</td>
+          <td style="font-size:0.75rem;color:#94a3b8;">${r.date}</td>
+          <td>
+            <span class="badge-v ${r.status === 'RESOLVED' ? 'bv-AC' : 'bv-WA'}">${r.status === 'RESOLVED' ? 'Đã xử lý' : 'Đang chờ'}</span>
+          </td>
+          <td>
+            ${r.status === 'PENDING' ? `
+              <button class="btn-act" style="background:#065f46;color:#34d399;" onclick="resolveReport(${r.id})">Duyệt xử phạt</button>
+              <button class="btn-act" onclick="dismissReport(${r.id})">Bác bỏ</button>
+            ` : '<span style="color:#64748b;font-size:0.8rem;">Hoàn tất</span>'}
+          </td>
+        </tr>
+      `).join('');
+
+      const pending = mockReports.filter(r => r.status === 'PENDING').length;
+      document.getElementById('pendingCountBadge').textContent = `${pending} chờ xử lý`;
+    }
+
+    function resolveReport(id) {
+      const r = mockReports.find(x => x.id === id);
+      if (r) {
+        if (confirm(`Xác nhận xử phạt vi phạm #${id}? Điểm contest của thí sinh liên quan sẽ bị hủy.`)) {
+          r.status = 'RESOLVED';
+          renderReports();
+          alert('Đã xử phạt và ghi nhận biên bản vi phạm!');
+        }
+      }
+    }
+
+    function dismissReport(id) {
+      const r = mockReports.find(x => x.id === id);
+      if (r) {
+        r.status = 'RESOLVED';
+        renderReports();
+        alert('Đã đóng báo cáo.');
+      }
+    }
+
+    function runMossCheck() {
+      alert('Đang chạy thuật toán kiểm tra tương đồng mã nguồn (MOSS AST Tree Diff) trên toàn bộ bài nộp của HSG_TIN_2026... Không phát hiện thêm cặp bài nộp trùng lặp mới.');
+    }
+
+    renderReports();
+  </script>
+  <script src="/frontend/js/core/theme.js"></script>
+  <script src="/frontend/js/core/i18n.js"></script>
+</body>
+</html>

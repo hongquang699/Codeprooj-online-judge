@@ -1,0 +1,9 @@
+code: "069"
+name: "069. Tính trung bình cộng những số tự nhiên chia hết cho 5 từ 1 đến n"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

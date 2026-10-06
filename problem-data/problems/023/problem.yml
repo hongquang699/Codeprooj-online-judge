@@ -1,0 +1,9 @@
+code: "023"
+name: "023. Tính chu vi và diện tích hình chữ nhật"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "easy"
+status: "published"
+checker: "standard"
+validator: "standard"

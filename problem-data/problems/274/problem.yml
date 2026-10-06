@@ -1,0 +1,9 @@
+code: "274"
+name: "274. Sử dụng timedelta để tính toán thời gian sau một khoảng thời gian nhất định"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

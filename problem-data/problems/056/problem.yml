@@ -1,0 +1,9 @@
+code: "056"
+name: "056. Kiểm tra ba số có là 3 cạnh của một tam giác và tính chu vi, diện tích"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

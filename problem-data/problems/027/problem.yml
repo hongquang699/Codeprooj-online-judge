@@ -1,0 +1,9 @@
+code: "027"
+name: "027. Tính trung bình cộng"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "easy"
+status: "published"
+checker: "standard"
+validator: "standard"

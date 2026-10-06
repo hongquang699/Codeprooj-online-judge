@@ -1,0 +1,9 @@
+code: "178"
+name: "178. Chuyển tất cả ký tự sang ký tự viết thường"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

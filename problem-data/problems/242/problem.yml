@@ -1,0 +1,9 @@
+code: "242"
+name: "242. Tìm số nguyên tố lớn nhất trên dòng x"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

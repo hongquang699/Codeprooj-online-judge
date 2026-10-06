@@ -1,0 +1,9 @@
+code: "150"
+name: "150. Xoá tất cả số có giá trị là x"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

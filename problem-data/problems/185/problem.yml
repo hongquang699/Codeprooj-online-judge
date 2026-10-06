@@ -1,0 +1,9 @@
+code: "185"
+name: "185. Kiểm tra tất cả ký tự chữ cái trong chuỗi có phải là ký tự viết hoa"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

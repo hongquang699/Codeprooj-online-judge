@@ -1,0 +1,9 @@
+code: "290"
+name: "290. In ra các số có trong tập hợp s1 mà không có trong tập hợp s2"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

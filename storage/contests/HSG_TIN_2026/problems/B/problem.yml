@@ -1,0 +1,7 @@
+code: 'HSG_DAY_CON'
+name: 'Dãy Con Tăng Dài Nhất'
+prefix: 'B'
+points: 100.0
+time_limit: 2.0
+memory_limit: 262144
+difficulty: 'medium'

@@ -1,0 +1,9 @@
+code: "097"
+name: "097. Tìm số chia hết cho 3 mà không chia hết cho 9 thứ k"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

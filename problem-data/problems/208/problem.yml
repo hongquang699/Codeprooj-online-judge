@@ -1,0 +1,9 @@
+code: "208"
+name: "208. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở bên trái"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

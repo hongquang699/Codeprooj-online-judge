@@ -1,0 +1,9 @@
+code: "214"
+name: "214. Mã hóa xâu đơn giản"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

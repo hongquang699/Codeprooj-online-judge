@@ -1,0 +1,9 @@
+code: "191"
+name: "191. Tìm vị trí cuối cùng của chuỗi s2 xuất hiện trong chuỗi s1"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

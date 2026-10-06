@@ -1,0 +1,9 @@
+code: "157"
+name: "157. Kiểm tra có tồn tại số nào là số nguyên âm"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

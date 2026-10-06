@@ -1,0 +1,7 @@
+code: 'HSG_TONG_HAI_SO'
+name: 'Tổng Hai Số'
+prefix: 'A'
+points: 100.0
+time_limit: 1.0
+memory_limit: 262144
+difficulty: 'medium'

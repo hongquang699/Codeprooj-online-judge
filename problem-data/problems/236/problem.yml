@@ -1,0 +1,9 @@
+code: "236"
+name: "236. Sắp xếp các số theo thứ tự giảm dần từ trái qua phải, từ trên xuống dưới"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

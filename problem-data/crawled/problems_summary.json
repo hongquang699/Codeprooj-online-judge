@@ -1,0 +1,6176 @@
+[
+  {
+    "code": "000",
+    "name": "A + B - C",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n3 2",
+        "out": "6"
+      },
+      {
+        "in": "-2\n4 -1",
+        "out": "3"
+      }
+    ]
+  },
+  {
+    "code": "001",
+    "name": "001. Phép toán cộng",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2009",
+        "out": "4034"
+      },
+      {
+        "in": "-1",
+        "out": "2024"
+      }
+    ]
+  },
+  {
+    "code": "002",
+    "name": "002. Phép toán trừ",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2009",
+        "out": "2007"
+      },
+      {
+        "in": "1",
+        "out": "-1"
+      }
+    ]
+  },
+  {
+    "code": "003",
+    "name": "003. Phép toán nhân",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5",
+        "out": "15"
+      },
+      {
+        "in": "-2",
+        "out": "-6"
+      }
+    ]
+  },
+  {
+    "code": "004",
+    "name": "004. Phép toán chia",
+    "group": "01. Nhập môn",
+    "types": [
+      "00. Chưa phân loại",
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "13",
+        "out": "4.33"
+      },
+      {
+        "in": "8",
+        "out": "2.67"
+      },
+      {
+        "in": "-7",
+        "out": "-2.33"
+      }
+    ]
+  },
+  {
+    "code": "005",
+    "name": "005. Phép toán luỹ thừa",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4",
+        "out": "16\n1024"
+      },
+      {
+        "in": "7",
+        "out": "49\n16807"
+      }
+    ]
+  },
+  {
+    "code": "006",
+    "name": "006. Căn bậc 2",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "15",
+        "out": "3.87"
+      },
+      {
+        "in": "7",
+        "out": "2.65"
+      }
+    ]
+  },
+  {
+    "code": "007",
+    "name": "007. Nghịch đảo",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2021",
+        "out": "0.00049"
+      },
+      {
+        "in": "9",
+        "out": "0.11111"
+      }
+    ]
+  },
+  {
+    "code": "008",
+    "name": "008. Tính giá trị biểu thức 1",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2\n3",
+        "out": "-1952 0.0038\n0.014399"
+      },
+      {
+        "in": "7\n10",
+        "out": "-1812 0.0049\n0.032181"
+      }
+    ]
+  },
+  {
+    "code": "009",
+    "name": "009. Tính giá trị biểu thức 2",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3 4 5",
+        "out": "0.0054 0.0127"
+      },
+      {
+        "in": "4 2 5",
+        "out": "0.0071 0.0438"
+      }
+    ]
+  },
+  {
+    "code": "010",
+    "name": "010. Phép chia lấy phần nguyên và lấy phần dư",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "11 2",
+        "out": "5 1"
+      },
+      {
+        "in": "16 4",
+        "out": "4 0"
+      }
+    ]
+  },
+  {
+    "code": "011",
+    "name": "011. Chia táo",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "28 11",
+        "out": "2 6"
+      },
+      {
+        "in": "51 13",
+        "out": "3 12"
+      }
+    ]
+  },
+  {
+    "code": "012",
+    "name": "012. Tìm chữ số",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "12",
+        "out": "2 1"
+      },
+      {
+        "in": "30",
+        "out": "0 3"
+      }
+    ]
+  },
+  {
+    "code": "013",
+    "name": "013. Tính tổng chữ số",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1234",
+        "out": "10"
+      },
+      {
+        "in": "5067",
+        "out": "18"
+      }
+    ]
+  },
+  {
+    "code": "014",
+    "name": "014. Tính tổng hàng đơn vị",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1234 56",
+        "out": "10"
+      },
+      {
+        "in": "3 789",
+        "out": "12"
+      }
+    ]
+  },
+  {
+    "code": "015",
+    "name": "015. Tính tổng hàng đơn vị và hàng chục",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1234 56",
+        "out": "9"
+      },
+      {
+        "in": "3 789",
+        "out": "11"
+      }
+    ]
+  },
+  {
+    "code": "016",
+    "name": "016. Đổi tiền 1",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "54000",
+        "out": "10 4000"
+      },
+      {
+        "in": "123000",
+        "out": "24 3000"
+      }
+    ]
+  },
+  {
+    "code": "017",
+    "name": "017. Đổi tiền 2",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "43000",
+        "out": "8 1 1"
+      },
+      {
+        "in": "51000",
+        "out": "10 0 1"
+      }
+    ]
+  },
+  {
+    "code": "018",
+    "name": "018. Đổi thời gian ra giờ phút giây",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4010",
+        "out": "1:6:50"
+      },
+      {
+        "in": "9799",
+        "out": "2:43:19"
+      }
+    ]
+  },
+  {
+    "code": "019",
+    "name": "019. Tính số bàn học sinh",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "35 36 33",
+        "out": "53"
+      },
+      {
+        "in": "40 41 39",
+        "out": "61"
+      }
+    ]
+  },
+  {
+    "code": "020",
+    "name": "020. Chia mía",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "14\n3",
+        "out": "4 2"
+      },
+      {
+        "in": "11\n2",
+        "out": "5 1"
+      }
+    ]
+  },
+  {
+    "code": "021",
+    "name": "021. Tính chu vi và diện tích hình vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2",
+        "out": "8 4"
+      },
+      {
+        "in": "3",
+        "out": "12 9"
+      }
+    ]
+  },
+  {
+    "code": "022",
+    "name": "022. Tính chu vi và diện tích hình tròn",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3",
+        "out": "18.84 28.26"
+      },
+      {
+        "in": "4",
+        "out": "25.12 50.24"
+      }
+    ]
+  },
+  {
+    "code": "023",
+    "name": "023. Tính chu vi và diện tích hình chữ nhật",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "6 4",
+        "out": "20 24"
+      },
+      {
+        "in": "10 5",
+        "out": "30 50"
+      }
+    ]
+  },
+  {
+    "code": "024",
+    "name": "024. Tính diện tích tam giác 1",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3 5",
+        "out": "7.5"
+      },
+      {
+        "in": "9 7",
+        "out": "31.5"
+      }
+    ]
+  },
+  {
+    "code": "025",
+    "name": "025. Tính diện tích tam giác 2",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2 3 4",
+        "out": "9\n2.905"
+      },
+      {
+        "in": "3 4 6",
+        "out": "13\n5.333"
+      }
+    ]
+  },
+  {
+    "code": "026",
+    "name": "026. Tính bán kính hình tròn ngoại tiếp tam giác",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2 3 4",
+        "out": "2.066"
+      },
+      {
+        "in": "3 4 5",
+        "out": "2.500"
+      }
+    ]
+  },
+  {
+    "code": "027",
+    "name": "027. Tính trung bình cộng",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2\n3\n9",
+        "out": "4.7"
+      },
+      {
+        "in": "3\n4\n5",
+        "out": "4.0"
+      }
+    ]
+  },
+  {
+    "code": "028",
+    "name": "028. Tính điểm trung bình",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3.0\n4.5\n5.6",
+        "out": "4.1"
+      },
+      {
+        "in": "6.5\n8.5\n9.1",
+        "out": "7.8"
+      }
+    ]
+  },
+  {
+    "code": "029",
+    "name": "029. Tính diện tích hình tròn",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "18.84",
+        "out": "28.26"
+      },
+      {
+        "in": "25.12",
+        "out": "50.24"
+      }
+    ]
+  },
+  {
+    "code": "030",
+    "name": "030. Tính diện tích hình vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "01. Tuần tự"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "8",
+        "out": "4"
+      },
+      {
+        "in": "12",
+        "out": "9"
+      }
+    ]
+  },
+  {
+    "code": "031",
+    "name": "031. So sánh điểm",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "8.2\n6.5",
+        "out": "An gioi hon"
+      },
+      {
+        "in": "5.3\n6.7",
+        "out": "Binh gioi hon"
+      },
+      {
+        "in": "8.0\n8.0",
+        "out": "Bang nhau"
+      }
+    ]
+  },
+  {
+    "code": "032",
+    "name": "032. So sánh thời gian chạy",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "180 191",
+        "out": "An nhanh hon"
+      },
+      {
+        "in": "213 201",
+        "out": "Binh nhanh hon"
+      },
+      {
+        "in": "200 200",
+        "out": "Bang nhau"
+      }
+    ]
+  },
+  {
+    "code": "033",
+    "name": "033. Chuyển số sang chữ",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3",
+        "out": "Three"
+      },
+      {
+        "in": "8",
+        "out": "Eight"
+      }
+    ]
+  },
+  {
+    "code": "034",
+    "name": "034. Tìm số lớn nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2 5 4",
+        "out": "5"
+      },
+      {
+        "in": "7 3 9",
+        "out": "9"
+      }
+    ]
+  },
+  {
+    "code": "035",
+    "name": "035. Tính niên",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31",
+        "out": "Trung nien"
+      },
+      {
+        "in": "8",
+        "out": "Thieu nhi"
+      }
+    ]
+  },
+  {
+    "code": "036",
+    "name": "036. Xếp loại học sinh",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "8 9",
+        "out": "8.7\nGioi"
+      },
+      {
+        "in": "4 7",
+        "out": "6.0\nTrung binh"
+      }
+    ]
+  },
+  {
+    "code": "037",
+    "name": "037. Tính mùa trong năm 1",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2",
+        "out": "Mua Xuan"
+      },
+      {
+        "in": "8",
+        "out": "Mua Thu"
+      }
+    ]
+  },
+  {
+    "code": "038",
+    "name": "038. Tính mùa trong năm 2",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "25",
+        "out": "Mua Xuan"
+      },
+      {
+        "in": "29",
+        "out": "Mua Thu"
+      }
+    ]
+  },
+  {
+    "code": "039",
+    "name": "039. Kiểm tra số nguyên dương hay âm",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "5",
+        "out": "So duong"
+      },
+      {
+        "in": "-3",
+        "out": "So am"
+      },
+      {
+        "in": "0",
+        "out": "So khong"
+      }
+    ]
+  },
+  {
+    "code": "040",
+    "name": "040. Kiểm tra hai số nguyên cùng dấu hay khác dấu",
+    "group": "01. Nhập môn",
+    "types": [
+      "02. Rẽ nhánh (If)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "2 5",
+        "out": "1"
+      },
+      {
+        "in": "0 3",
+        "out": "0"
+      },
+      {
+        "in": "4 -2",
+        "out": "-1"
+      }
+    ]
+  },
+  {
+    "code": "041",
+    "name": "041. Kiểm tra số nguyên có chia hết cho 6?",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "22",
+        "out": "No"
+      },
+      {
+        "in": "30",
+        "out": "Yes"
+      }
+    ]
+  },
+  {
+    "code": "042",
+    "name": "042. Kiểm tra số nguyên có lớn hơn 100?",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "22",
+        "out": "No"
+      },
+      {
+        "in": "101",
+        "out": "Yes"
+      }
+    ]
+  },
+  {
+    "code": "043",
+    "name": "043. Kiểm tra cân nặng",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "91",
+        "out": "Beo phi"
+      },
+      {
+        "in": "22",
+        "out": "Suy dinh duong"
+      },
+      {
+        "in": "50",
+        "out": "Binh thuong"
+      }
+    ]
+  },
+  {
+    "code": "044",
+    "name": "044. Kiểm tra chiều cao",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "150",
+        "out": "Binh thuong"
+      },
+      {
+        "in": "90",
+        "out": "Nam lun cute"
+      },
+      {
+        "in": "182",
+        "out": "Huu cao co"
+      }
+    ]
+  },
+  {
+    "code": "045",
+    "name": "045. Tìm số ngày của một tháng",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2025",
+        "out": "31"
+      },
+      {
+        "in": "4 2030",
+        "out": "30"
+      }
+    ]
+  },
+  {
+    "code": "046",
+    "name": "046. Tính nút của biển số xe",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "45612",
+        "out": "8\nNo"
+      },
+      {
+        "in": "12349",
+        "out": "9\nYes"
+      }
+    ]
+  },
+  {
+    "code": "047",
+    "name": "047. Kiểm tra số nguyên có phải là số chính phương?",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9",
+        "out": "Yes"
+      },
+      {
+        "in": "15",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "048",
+    "name": "048. Kiểm tra tam giác",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "2 3 4",
+        "out": "Yes\nThuong"
+      },
+      {
+        "in": "3 4 5",
+        "out": "Yes\nVuong"
+      },
+      {
+        "in": "1 2 3",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "049",
+    "name": "049. Tính tiền taxi",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3",
+        "out": "32000"
+      },
+      {
+        "in": "40",
+        "out": "392000"
+      }
+    ]
+  },
+  {
+    "code": "050",
+    "name": "050. Tính tiền điện",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 4,
+    "samples": [
+      {
+        "in": "40",
+        "out": "24000"
+      },
+      {
+        "in": "70",
+        "out": "46000"
+      },
+      {
+        "in": "110",
+        "out": "81000"
+      },
+      {
+        "in": "230",
+        "out": "225000"
+      }
+    ]
+  },
+  {
+    "code": "051",
+    "name": "051. Kiểm tra số nguyên chẵn lẻ, âm dương?",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "9",
+        "out": "Le\nDuong"
+      },
+      {
+        "in": "-10",
+        "out": "Chan\nAm"
+      },
+      {
+        "in": "0",
+        "out": "Chan\nKhong"
+      }
+    ]
+  },
+  {
+    "code": "052",
+    "name": "052. Đánh giá kết quả học tập theo tổng điểm",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "92",
+        "out": "Loai A\nXuat sac"
+      },
+      {
+        "in": "51",
+        "out": "Loai B\nTrung binh"
+      }
+    ]
+  },
+  {
+    "code": "053",
+    "name": "053. Kiểm tra tuổi của một người đang ở giai đoạn nào?",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "10",
+        "out": "Tre em\nTre tieu hoc"
+      },
+      {
+        "in": "25",
+        "out": "Nguoi truong thanh\nNguoi di lam"
+      }
+    ]
+  },
+  {
+    "code": "054",
+    "name": "054. Tìm 2 chữ số đầu và 2 chữ số cuối",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "673",
+        "out": "67 73"
+      },
+      {
+        "in": "602",
+        "out": "60 02"
+      }
+    ]
+  },
+  {
+    "code": "055",
+    "name": "055. Tìm số lớn nhất trong 4 số",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3 4 2 1",
+        "out": "4"
+      },
+      {
+        "in": "9 9 9 9",
+        "out": "="
+      }
+    ]
+  },
+  {
+    "code": "056",
+    "name": "056. Kiểm tra ba số có là 3 cạnh của một tam giác và tính chu vi, diện tích",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3",
+        "out": "Day khong phai la 3 canh cua mot tam giac"
+      },
+      {
+        "in": "3 4 5",
+        "out": "Day la 3 canh cua mot tam giac\n12 6.0"
+      }
+    ]
+  },
+  {
+    "code": "057",
+    "name": "057. Kiểm tra 2 số a, b có là 2 kích thước của hình chữ nhật và tính chu vi, diện tích",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "-2 3",
+        "out": "Day khong phai la 2 kich thuoc cua mot hinh chu nhat\na la so am"
+      },
+      {
+        "in": "3 4",
+        "out": "Day la 2 kich thuoc cua mot hinh chu nhat\n14 12"
+      }
+    ]
+  },
+  {
+    "code": "058",
+    "name": "058. In ra các chữ số lẻ của một số có 8 chữ số",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "21052009",
+        "out": "9 5 1"
+      },
+      {
+        "in": "08246820",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "059",
+    "name": "059. Tính tổng các chữ số chẵn của một số có 8 chữ số",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "14102004",
+        "out": "10"
+      },
+      {
+        "in": "15111977",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "060",
+    "name": "060. Tìm chữ số lớn nhất và nhỏ nhất của một số có 8 chữ số",
+    "group": "01. Nhập môn",
+    "types": [
+      "03. Rẽ nhánh (If-Else, Switch-Case)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "21052004",
+        "out": "5 0"
+      },
+      {
+        "in": "15111977",
+        "out": "9 1"
+      }
+    ]
+  },
+  {
+    "code": "061",
+    "name": "061. In những số tự nhiên từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3",
+        "out": "1 2 3"
+      },
+      {
+        "in": "6",
+        "out": "1 2 3 4 5 6"
+      }
+    ]
+  },
+  {
+    "code": "062",
+    "name": "062. Tính tổng những số tự nhiên từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3",
+        "out": "6"
+      },
+      {
+        "in": "6",
+        "out": "21"
+      }
+    ]
+  },
+  {
+    "code": "063",
+    "name": "063. In những số tự nhiên chia hết cho 3 từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "3 6 9 12"
+      },
+      {
+        "in": "21",
+        "out": "3 6 9 12 15 18 21"
+      }
+    ]
+  },
+  {
+    "code": "064",
+    "name": "064. Đếm số lượng số tự nhiên chia hết cho 3 từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "4"
+      },
+      {
+        "in": "21",
+        "out": "7"
+      }
+    ]
+  },
+  {
+    "code": "065",
+    "name": "065. Tính tổng những số tự nhiên chẵn từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "42"
+      },
+      {
+        "in": "21",
+        "out": "110"
+      }
+    ]
+  },
+  {
+    "code": "066",
+    "name": "066. Tính tổng những số tự nhiên chia hết cho 3 và 5 từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "0"
+      },
+      {
+        "in": "21",
+        "out": "15"
+      }
+    ]
+  },
+  {
+    "code": "067",
+    "name": "067. Tính tổng những số tự nhiên chia hết cho 3 hoặc 5 từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "45"
+      },
+      {
+        "in": "21",
+        "out": "119"
+      }
+    ]
+  },
+  {
+    "code": "068",
+    "name": "068. Tính trung bình cộng những số tự nhiên chẵn từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "7"
+      },
+      {
+        "in": "21",
+        "out": "11"
+      }
+    ]
+  },
+  {
+    "code": "069",
+    "name": "069. Tính trung bình cộng những số tự nhiên chia hết cho 5 từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "7.5"
+      },
+      {
+        "in": "21",
+        "out": "12.5"
+      }
+    ]
+  },
+  {
+    "code": "070",
+    "name": "070. Tính trung bình cộng những số tự nhiên chia hết cho 3 và 5 từ 1 đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31",
+        "out": "22.5"
+      },
+      {
+        "in": "52",
+        "out": "30.0"
+      }
+    ]
+  },
+  {
+    "code": "071",
+    "name": "071. In những số tự nhiên từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3\n7",
+        "out": "3 4 5 6 7"
+      },
+      {
+        "in": "5\n12",
+        "out": "5 6 7 8 9 10 11 12"
+      }
+    ]
+  },
+  {
+    "code": "072",
+    "name": "072. Tính tổng những số nguyên từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3\n7",
+        "out": "25"
+      },
+      {
+        "in": "5\n12",
+        "out": "68"
+      }
+    ]
+  },
+  {
+    "code": "073",
+    "name": "073. Đếm số lượng số nguyên chia hết cho 3 từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "21\n32",
+        "out": "4"
+      },
+      {
+        "in": "11\n13",
+        "out": "1"
+      }
+    ]
+  },
+  {
+    "code": "074",
+    "name": "074. In những số nguyên chẵn từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "11\n15",
+        "out": "12 14"
+      },
+      {
+        "in": "2\n9",
+        "out": "2 4 6 8"
+      }
+    ]
+  },
+  {
+    "code": "075",
+    "name": "075. Đếm số lượng số nguyên chẵn từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "11 15",
+        "out": "2"
+      },
+      {
+        "in": "2 13",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "076",
+    "name": "076. Tính tổng những số nguyên chẵn từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "11 15",
+        "out": "26"
+      },
+      {
+        "in": "2 9",
+        "out": "20"
+      }
+    ]
+  },
+  {
+    "code": "077",
+    "name": "077. Tính trung bình cộng những số nguyên chẵn từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "11 15",
+        "out": "13"
+      },
+      {
+        "in": "2 11",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "078",
+    "name": "078. Tính trung bình cộng những số nguyên chia hết cho 2 và 3 từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4 15",
+        "out": "30 9"
+      },
+      {
+        "in": "2 11",
+        "out": "15 6"
+      }
+    ]
+  },
+  {
+    "code": "079",
+    "name": "079. Tính trung bình cộng những số nguyên chia hết cho 2 hoặc 3 từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4 15",
+        "out": "2 9.8"
+      },
+      {
+        "in": "2 11",
+        "out": "1 6.0"
+      }
+    ]
+  },
+  {
+    "code": "080",
+    "name": "080. Đếm số nguyên chia hết cho 5 và in những số nguyên chia hết cho 5 từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "04. Lặp For"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4 15",
+        "out": "3 - 5 10 15"
+      },
+      {
+        "in": "2 11",
+        "out": "2 - 5 10"
+      }
+    ]
+  },
+  {
+    "code": "081",
+    "name": "081. Tìm ước chung lớn nhất của hai số nguyên a và",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "15 -20",
+        "out": "5"
+      },
+      {
+        "in": "49 42",
+        "out": "7"
+      }
+    ]
+  },
+  {
+    "code": "082",
+    "name": "082. Rút gọn phân số",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "15 20",
+        "out": "3/4"
+      },
+      {
+        "in": "42 49",
+        "out": "6/7"
+      }
+    ]
+  },
+  {
+    "code": "083",
+    "name": "083. Tìm số lượng chữ số của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31122023",
+        "out": "8"
+      },
+      {
+        "in": "2009",
+        "out": "4"
+      }
+    ]
+  },
+  {
+    "code": "084",
+    "name": "084. In các chữ số của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2015",
+        "out": "5 1 0 2"
+      },
+      {
+        "in": "21052009",
+        "out": "9 0 0 2 5 0 1 2"
+      }
+    ]
+  },
+  {
+    "code": "085",
+    "name": "085. Tính tổng các chữ số của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31122023",
+        "out": "14"
+      },
+      {
+        "in": "2009",
+        "out": "11"
+      }
+    ]
+  },
+  {
+    "code": "086",
+    "name": "086. In các chữ số chẵn của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987",
+        "out": "8 2"
+      },
+      {
+        "in": "2014",
+        "out": "4 0 2"
+      }
+    ]
+  },
+  {
+    "code": "087",
+    "name": "087. Tính tổng các chữ số chẵn của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987",
+        "out": "10"
+      },
+      {
+        "in": "2014",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "088",
+    "name": "088. Tính tổng các chữ số lớn hơn số x của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987 3",
+        "out": "24"
+      },
+      {
+        "in": "2014 1",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "089",
+    "name": "089. Đếm số lượng chữ số lẻ của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987",
+        "out": "6"
+      },
+      {
+        "in": "2014",
+        "out": "1"
+      }
+    ]
+  },
+  {
+    "code": "090",
+    "name": "090. Đảo ngược chữ số của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987",
+        "out": "78912113"
+      },
+      {
+        "in": "2030",
+        "out": "302"
+      }
+    ]
+  },
+  {
+    "code": "091",
+    "name": "091. Tìm chữ số lớn nhất của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987",
+        "out": "9"
+      },
+      {
+        "in": "2030",
+        "out": "3"
+      }
+    ]
+  },
+  {
+    "code": "092",
+    "name": "092. Tìm chữ số nhỏ nhất của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31121987",
+        "out": "1"
+      },
+      {
+        "in": "2030",
+        "out": "0"
+      }
+    ]
+  },
+  {
+    "code": "093",
+    "name": "093. Tìm chữ số lẻ lớn nhất của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "32145786",
+        "out": "7"
+      },
+      {
+        "in": "2531",
+        "out": "5"
+      }
+    ]
+  },
+  {
+    "code": "094",
+    "name": "094. Tìm chữ số chẵn nhỏ nhất của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "32145786",
+        "out": "2"
+      },
+      {
+        "in": "2530",
+        "out": "0"
+      }
+    ]
+  },
+  {
+    "code": "095",
+    "name": "095. Tính số gốc của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "12345678",
+        "out": "9"
+      },
+      {
+        "in": "2530",
+        "out": "1"
+      }
+    ]
+  },
+  {
+    "code": "096",
+    "name": "096. In ra các số nguyên dương chẵn cho đến khi tổng của chúng ≥ k",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4",
+        "out": "2 4"
+      },
+      {
+        "in": "7",
+        "out": "2 4 6"
+      }
+    ]
+  },
+  {
+    "code": "097",
+    "name": "097. Tìm số chia hết cho 3 mà không chia hết cho 9 thứ k",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3",
+        "out": "12"
+      },
+      {
+        "in": "6",
+        "out": "24"
+      }
+    ]
+  },
+  {
+    "code": "098",
+    "name": "098. Tính tổng k số Chen đầu tiên",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4",
+        "out": "36"
+      },
+      {
+        "in": "7",
+        "out": "165"
+      }
+    ]
+  },
+  {
+    "code": "099",
+    "name": "099. Tính trung bình cộng k số tự nhiên đầu tiên không chia hết cho 3",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4",
+        "out": "3.0"
+      },
+      {
+        "in": "6",
+        "out": "4.5"
+      }
+    ]
+  },
+  {
+    "code": "100",
+    "name": "100. Tính số tháng gửi tiền tiết kiệm để được số tiền n",
+    "group": "01. Nhập môn",
+    "types": [
+      "05. Lặp While, Do-While"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1000000 2000000",
+        "out": "36"
+      },
+      {
+        "in": "1500000 2000000",
+        "out": "15"
+      }
+    ]
+  },
+  {
+    "code": "101",
+    "name": "101. In hình tam giác vuông cân bằng dấu *",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5",
+        "out": "*\n**\n***\n****\n*****"
+      },
+      {
+        "in": "8",
+        "out": "*\n**\n***\n****\n*****\n******\n*******\n********"
+      }
+    ]
+  },
+  {
+    "code": "102",
+    "name": "102. In hình chữ nhật đặc bằng dấu *",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5 3",
+        "out": "*****\n*****\n*****"
+      },
+      {
+        "in": "7 4",
+        "out": "*******\n*******\n*******\n*******"
+      }
+    ]
+  },
+  {
+    "code": "103",
+    "name": "103. In tam giác số",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5",
+        "out": "1\n1 2\n1 2 3\n1 2 3 4\n1 2 3 4 5"
+      },
+      {
+        "in": "3",
+        "out": "1\n1 2\n1 2 3"
+      }
+    ]
+  },
+  {
+    "code": "104",
+    "name": "104. In ra bảng cửu chương của số tự nhiên n theo định dạng phép nhân.",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5",
+        "out": "1 x 5 = 5\n2 x 5 = 10\n3 x 5 = 15\n4 x 5 = 20\n5 x 5 = 25\n6 x 5 = 30\n7 x 5 = 35\n8 x 5 = 40\n9 x 5 = 45"
+      },
+      {
+        "in": "2",
+        "out": "1 x 2 = 2\n2 x 2 = 4\n3 x 2 = 6\n4 x 2 = 8\n5 x 2 = 10\n6 x 2 = 12\n7 x 2 = 14\n8 x 2 = 16\n9 x 2 = 18"
+      }
+    ]
+  },
+  {
+    "code": "105",
+    "name": "105. Đếm ước của một số nguyên n",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "13",
+        "out": "2"
+      },
+      {
+        "in": "21",
+        "out": "4"
+      }
+    ]
+  },
+  {
+    "code": "106",
+    "name": "106. Kiểm tra n có phải là số nguyên tố (Prime)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7",
+        "out": "Yes"
+      },
+      {
+        "in": "8",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "107",
+    "name": "107. Kiểm tra một số nguyên có là số hoàn hảo (Perfect)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "6",
+        "out": "Yes"
+      },
+      {
+        "in": "8",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "108",
+    "name": "108. Kiểm tra một số nguyên có là số tam giác (Triangular)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "15",
+        "out": "Yes"
+      },
+      {
+        "in": "8",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "109",
+    "name": "109. Kiểm tra một số nguyên có là số đối xứng (Palindrome)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "123321",
+        "out": "Yes"
+      },
+      {
+        "in": "123",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "110",
+    "name": "110. Kiểm tra một số nguyên có là số Chen",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "17",
+        "out": "Yes"
+      },
+      {
+        "in": "13",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "111",
+    "name": "111. Kiểm tra một số nguyên có là số kỳ ảo (Magic)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4412",
+        "out": "Yes"
+      },
+      {
+        "in": "4413",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "112",
+    "name": "112. Kiểm tra một số nguyên có là số Smith",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "85",
+        "out": "Yes"
+      },
+      {
+        "in": "100",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "113",
+    "name": "113. Kiểm tra một số nguyên có là số Pronic",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "20",
+        "out": "Yes"
+      },
+      {
+        "in": "21",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "114",
+    "name": "114. Kiểm tra một số nguyên có là số phong phú (Abundant)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "20",
+        "out": "Yes"
+      },
+      {
+        "in": "21",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "115",
+    "name": "115. Tính n giai thừa (n!)",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4",
+        "out": "24"
+      },
+      {
+        "in": "5",
+        "out": "120"
+      }
+    ]
+  },
+  {
+    "code": "116",
+    "name": "116. Tính x^n",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3  \n4",
+        "out": "81"
+      },
+      {
+        "in": "-2  \n3",
+        "out": "-8"
+      }
+    ]
+  },
+  {
+    "code": "117",
+    "name": "117. In các số nguyên tố từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3  \n15",
+        "out": "3 5 7 11 13"
+      },
+      {
+        "in": "12  \n31",
+        "out": "13 17 19 23 29 31"
+      }
+    ]
+  },
+  {
+    "code": "118",
+    "name": "118. Đếm số lượng số nguyên tố từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3  \n12",
+        "out": "4"
+      },
+      {
+        "in": "12  \n31",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "119",
+    "name": "119. Tính tổng các số nguyên tố từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3 15",
+        "out": "39"
+      },
+      {
+        "in": "12 31",
+        "out": "132"
+      }
+    ]
+  },
+  {
+    "code": "120",
+    "name": "120. Tính trung bình cộng các số nguyên tố từ m đến n",
+    "group": "01. Nhập môn",
+    "types": [
+      "06. Lặp tổng hợp"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3 15",
+        "out": "7.8"
+      },
+      {
+        "in": "12 31",
+        "out": "22.0"
+      }
+    ]
+  },
+  {
+    "code": "121",
+    "name": "121. In số ở vị trí k trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2\n4",
+        "out": "6"
+      },
+      {
+        "in": "5\n9 4 3 8 6\n1",
+        "out": "4"
+      }
+    ]
+  },
+  {
+    "code": "122",
+    "name": "122. In số cuối cùng trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "-2"
+      },
+      {
+        "in": "5\n9 4 3 8 6",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "123",
+    "name": "123. In mảng vừa nhập",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "9 0 3 8 6 7 -2"
+      },
+      {
+        "in": "5\n9 4 3 8 6",
+        "out": "9 4 3 8 6"
+      }
+    ]
+  },
+  {
+    "code": "124",
+    "name": "124. In mảng theo thứ tự ngược lại",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "-2 7 6 8 3 0 9"
+      },
+      {
+        "in": "5\n9 4 3 8 6",
+        "out": "6 8 3 4 9"
+      }
+    ]
+  },
+  {
+    "code": "125",
+    "name": "125. Thay giá trị của số ở vị trí k thành x",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2\n4\n1",
+        "out": "9\n0\n3\n8\n1\n7\n-2"
+      },
+      {
+        "in": "5\n9 4 3 8 6\n4\n2",
+        "out": "9\n4\n3\n8\n2"
+      }
+    ]
+  },
+  {
+    "code": "126",
+    "name": "126. In các số ở vị trí chẵn của mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "9 3 6 -2"
+      },
+      {
+        "in": "5\n5 7 6 8 4",
+        "out": "5 6 4"
+      }
+    ]
+  },
+  {
+    "code": "127",
+    "name": "127. In các số có giá trị lẻ trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "9\n3\n7"
+      },
+      {
+        "in": "5\n5 7 6 8 4",
+        "out": "5\n7"
+      },
+      {
+        "in": "4\n2 4 6 8",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "128",
+    "name": "128. Tính tổng các số trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "31"
+      },
+      {
+        "in": "5\n5 7 6 8 4",
+        "out": "30"
+      }
+    ]
+  },
+  {
+    "code": "129",
+    "name": "129. Tính trung bình cộng các số trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "4.43"
+      },
+      {
+        "in": "5\n5 7 6 8 4",
+        "out": "6.00"
+      }
+    ]
+  },
+  {
+    "code": "130",
+    "name": "130. Tính tổng các số chia hết cho 3 trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9 0 3 8 6 7 -2",
+        "out": "18"
+      },
+      {
+        "in": "5\n5 7 6 8 4",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "131",
+    "name": "131. Đếm số lượng số chia hết cho 5 trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n0\n3\n8\n10\n7\n-2",
+        "out": "2"
+      },
+      {
+        "in": "5\n20\n7\n6\n8\n4",
+        "out": "1"
+      }
+    ]
+  },
+  {
+    "code": "132",
+    "name": "132. Tính trung bình cộng các số chẵn trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n8\n10\n7\n-2",
+        "out": "5.500"
+      },
+      {
+        "in": "6\n5\n20\n7\n6\n8\n0",
+        "out": "8.500"
+      }
+    ]
+  },
+  {
+    "code": "133",
+    "name": "133. Tìm x trong mảng và vị trí",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n8\n6\n7\n-2\n6",
+        "out": "Yes\n1"
+      },
+      {
+        "in": "3\n1\n7\n6\n2",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "134",
+    "name": "134. Tìm giá trị lớn nhất trong mảng và vị trí",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n8\n10\n7\n10",
+        "out": "10 4"
+      },
+      {
+        "in": "5\n20\n7\n6\n8\n0",
+        "out": "20 0"
+      }
+    ]
+  },
+  {
+    "code": "135",
+    "name": "135. Tìm giá trị nhỏ nhất trong mảng và vị trí",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n-2\n8\n7\n-2",
+        "out": "-2\n3"
+      },
+      {
+        "in": "5\n15\n0\n20\n7\n10",
+        "out": "0\n1"
+      }
+    ]
+  },
+  {
+    "code": "136",
+    "name": "136. In các số nguyên tố trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n8\n10\n7\n5",
+        "out": "3 7 5"
+      },
+      {
+        "in": "5\n7\n3\n2\n8\n0",
+        "out": "7 3 2"
+      },
+      {
+        "in": "4\n4\n6\n8\n10",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "137",
+    "name": "137. Đếm số lượng số nguyên tố trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n5\n10\n7\n-2",
+        "out": "3"
+      },
+      {
+        "in": "4\n2\n7\n6\n8",
+        "out": "2"
+      }
+    ]
+  },
+  {
+    "code": "138",
+    "name": "138. Tính tổng các số nguyên tố trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n8\n10\n7\n-2",
+        "out": "10"
+      },
+      {
+        "in": "5\n7\n3\n8\n0\n2",
+        "out": "12"
+      }
+    ]
+  },
+  {
+    "code": "139",
+    "name": "139. Tính trung bình cộng các số nguyên tố trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n3\n8\n10\n7\n-2",
+        "out": "5.0"
+      },
+      {
+        "in": "5\n7\n3\n8\n0\n2",
+        "out": "4.0"
+      }
+    ]
+  },
+  {
+    "code": "140",
+    "name": "140. Tìm số nguyên tố lớn nhất trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "7\n9\n6\n11\n11\n5\n-2\n3",
+        "out": "11 2"
+      },
+      {
+        "in": "5\n71\n20\n7\n3\n0",
+        "out": "71 0"
+      }
+    ]
+  },
+  {
+    "code": "141",
+    "name": "141. In các số âm trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 8 10 -7 -2",
+        "out": "-6 -7 -2"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "142",
+    "name": "142. Đếm số lượng số âm trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 8 10 -7 -2",
+        "out": "3"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "0"
+      }
+    ]
+  },
+  {
+    "code": "143",
+    "name": "143. Tính tổng các số âm trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 8 10 -7 -2",
+        "out": "-15"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "0"
+      }
+    ]
+  },
+  {
+    "code": "144",
+    "name": "144. Tính trung bình cộng các số âm trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 8 10 -7 -2",
+        "out": "-5.0"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "0.0"
+      }
+    ]
+  },
+  {
+    "code": "145",
+    "name": "145. Tìm số âm nhỏ nhất trong mảng và vị trí",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 -5 10 -6 -2",
+        "out": "-6\n1"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "146",
+    "name": "146. Sắp xếp thứ tự các số trong mảng tăng dần",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 8 10 -7 -2",
+        "out": "-7\n-6\n-2\n3\n8\n9\n10"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "0\n2\n3\n7\n8"
+      }
+    ]
+  },
+  {
+    "code": "147",
+    "name": "147. Sắp xếp thứ tự các số trong mảng giảm dần",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "9 -6 3 8 10 -7 -2",
+        "out": "10\n9\n8\n3\n-2\n-6\n-7"
+      },
+      {
+        "in": "7 3 8 0 2",
+        "out": "8\n7\n3\n2\n0"
+      }
+    ]
+  },
+  {
+    "code": "148",
+    "name": "148. Chèn thêm số có giá trị x vào vị trí k",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4 5\n10 2",
+        "out": "1  \n2  \n10  \n3  \n4  \n5"
+      },
+      {
+        "in": "7 8 9\n5 1",
+        "out": "7  \n5  \n8  \n9"
+      }
+    ]
+  },
+  {
+    "code": "149",
+    "name": "149. Xoá số ở vị trí k",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4 5\n2",
+        "out": "1  \n2  \n4  \n5"
+      },
+      {
+        "in": "10 20 30 40\n1",
+        "out": "10  \n30  \n40"
+      }
+    ]
+  },
+  {
+    "code": "150",
+    "name": "150. Xoá tất cả số có giá trị là x",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4 2 5 2\n2",
+        "out": "1 3 4 5\n4"
+      },
+      {
+        "in": "10 20 30 20 20 50 20  \n20",
+        "out": "10 30 50  \n3"
+      }
+    ]
+  },
+  {
+    "code": "151",
+    "name": "151. Chèn thêm số có giá trị x vào cuối mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4\n5",
+        "out": "1\n2\n3\n4\n5"
+      },
+      {
+        "in": "10 20 30 50\n10",
+        "out": "10\n20\n30\n50\n10"
+      }
+    ]
+  },
+  {
+    "code": "152",
+    "name": "152. Nối mảng 2 vào cuối mảng 1",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4\n5 6 7",
+        "out": "1  \n2  \n3  \n4  \n5  \n6  \n7"
+      },
+      {
+        "in": "10 20 30 40 50",
+        "out": "10  \n20  \n30  \n40  \n50"
+      }
+    ]
+  },
+  {
+    "code": "153",
+    "name": "153. Đếm số lần xuất hiện của một giá trị x trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4 2 5 2\n2",
+        "out": "3"
+      },
+      {
+        "in": "10 20 30 40 20 50 20\n20",
+        "out": "3"
+      }
+    ]
+  },
+  {
+    "code": "154",
+    "name": "154. Tạo bản sao của mảng a sang b",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5 3 1 2 5 1 4",
+        "out": "5 3 1 2 5 1 4\n5 3 2 5 4"
+      },
+      {
+        "in": "10 20 30 10 40",
+        "out": "10 20 30 10 40\n20 30 40"
+      }
+    ]
+  },
+  {
+    "code": "155",
+    "name": "155. Tạo bản sao của mảng a sang b, xóa tất cả trong a",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5 3 8 2 5 1 4",
+        "out": "3 2 1\n5 3 8 2 5 1 4"
+      },
+      {
+        "in": "10 20 30 20 40",
+        "out": "10 20 20  \n10 20 30 20 40"
+      }
+    ]
+  },
+  {
+    "code": "156",
+    "name": "156. Kiểm tra xem tất cả các số là số nguyên dương",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4 5",
+        "out": "YES"
+      },
+      {
+        "in": "10 -20 30 40",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "157",
+    "name": "157. Kiểm tra có tồn tại số nào là số nguyên âm",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 -4 5",
+        "out": "YES"
+      },
+      {
+        "in": "10 20 30 40",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "158",
+    "name": "158. Lọc các số chẵn từ mảng a sang mảng b",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 2 3 4 5 6",
+        "out": "2\n4\n6"
+      },
+      {
+        "in": "5 7 9 11 13",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "159",
+    "name": "159. In ra vị trí và giá trị của các số chẵn trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1 4 3 2 6 5",
+        "out": "1 4\n3 2\n4 6"
+      },
+      {
+        "in": "5 7 9 11 13",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "160",
+    "name": "160. Tạo mảng b chứa tổng chữ số của các số trong mảng a",
+    "group": "01. Nhập môn",
+    "types": [
+      "07. Mảng/Danh sách 1 chiều (Arrays)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "12 34 56 78 90",
+        "out": "12 3\n34 7\n56 11\n78 15\n90 9"
+      },
+      {
+        "in": "5 10 15 20",
+        "out": "5 5\n10 1\n15 6\n20 2"
+      }
+    ]
+  },
+  {
+    "code": "161",
+    "name": "161. In ký tự ở vị trí k trong chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n1",
+        "out": "r"
+      },
+      {
+        "in": "Tran Phi Binh An\n9",
+        "out": "B"
+      }
+    ]
+  },
+  {
+    "code": "162",
+    "name": "162. In ký tự cuối cùng trong chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh Vinh Kim",
+        "out": "m"
+      },
+      {
+        "in": "Tran Phi Bình An Tien Giang",
+        "out": "g"
+      }
+    ]
+  },
+  {
+    "code": "163",
+    "name": "163. In chuỗi theo thứ tự ngược",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "hniB nA ihP narT"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "gnaiG neiT"
+      }
+    ]
+  },
+  {
+    "code": "164",
+    "name": "164. In chuỗi với mỗi ký tự trên một dòng",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Bình",
+        "out": "T\nr\na\nn\n\nP\nh\ni\n\nA\nn\n\nB\ni\nn\nh"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "T\ni\ne\nn\n\nG\ni\na\nn\ng"
+      }
+    ]
+  },
+  {
+    "code": "165",
+    "name": "165. Thay ký tự ở vị trí k thành ký tự x",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n5\nR",
+        "out": "Tran Rhi An Binh"
+      },
+      {
+        "in": "Tien Giang\n6\nz",
+        "out": "Tien Gzang"
+      }
+    ]
+  },
+  {
+    "code": "166",
+    "name": "166. Tạo chuỗi con",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n5\n10",
+        "out": "Phi An"
+      },
+      {
+        "in": "Tien Giang\n2\n6",
+        "out": "en Gi"
+      }
+    ]
+  },
+  {
+    "code": "167",
+    "name": "167. Loại bỏ tất cả khoảng trắng trong chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "TranPhiAnBinh"
+      },
+      {
+        "in": "TienGiang",
+        "out": "TienGiang"
+      }
+    ]
+  },
+  {
+    "code": "168",
+    "name": "168. Kiểm tra xâu đối xứng",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "radar",
+        "out": "YES"
+      },
+      {
+        "in": "Tran Phi An Binh",
+        "out": "NO"
+      },
+      {
+        "in": "Level",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "169",
+    "name": "169. Chèn thêm chuỗi s2 vào vị trí k của chuỗi s1",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\nTien Giang\n8",
+        "out": "Tran PhiTien Giang An Binh"
+      },
+      {
+        "in": "Tien Giang\nViet Nam\n9",
+        "out": "Tien GianViet Namg"
+      }
+    ]
+  },
+  {
+    "code": "170",
+    "name": "170. Xoá ký tự thứ k trong chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n10",
+        "out": "Tran Phi A Binh"
+      },
+      {
+        "in": "Tien Giang\n7",
+        "out": "Tien Ging"
+      }
+    ]
+  },
+  {
+    "code": "171",
+    "name": "171. Xoá tất cả ký tự có giá trị là x",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\nn",
+        "out": "Tra Phi A Bih"
+      },
+      {
+        "in": "Tien Giang\ni",
+        "out": "Ten Gang"
+      }
+    ]
+  },
+  {
+    "code": "172",
+    "name": "172. Nối chuỗi s2 vào cuối chuỗi s1",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\nTien Giang",
+        "out": "Tran Phi An BinhTien Giang"
+      },
+      {
+        "in": "Vinh Kim\nViet Nam",
+        "out": "Vinh KimViet Nam"
+      }
+    ]
+  },
+  {
+    "code": "173",
+    "name": "173. Chuyển ký tự sang mã ASCII",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "B",
+        "out": "66"
+      },
+      {
+        "in": "z",
+        "out": "122"
+      },
+      {
+        "in": "5",
+        "out": "53"
+      }
+    ]
+  },
+  {
+    "code": "174",
+    "name": "174. Chuyển mã ASCII sang ký tự",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "66",
+        "out": "B"
+      },
+      {
+        "in": "122",
+        "out": "z"
+      },
+      {
+        "in": "53",
+        "out": "5"
+      }
+    ]
+  },
+  {
+    "code": "175",
+    "name": "175. In ký tự kế sau trong bảng chữ cái",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "a",
+        "out": "b"
+      },
+      {
+        "in": "P",
+        "out": "Q"
+      }
+    ]
+  },
+  {
+    "code": "176",
+    "name": "176. In ký tự kề trước trong bảng chữ cái",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "b",
+        "out": "a"
+      },
+      {
+        "in": "P",
+        "out": "O"
+      }
+    ]
+  },
+  {
+    "code": "177",
+    "name": "177. Chuyển tất cả ký tự sang ký tự viết hoa",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "TRAN PHI AN BINH"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "TIEN GIANG"
+      }
+    ]
+  },
+  {
+    "code": "178",
+    "name": "178. Chuyển tất cả ký tự sang ký tự viết thường",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "tran phi an binh"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "tien giang"
+      }
+    ]
+  },
+  {
+    "code": "179",
+    "name": "179. Chuyển ký tự đầu tiên của chuỗi sang ký tự viết hoa",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "tran phi an binh, lap trinh Python",
+        "out": "Tran phi an binh, lap trinh python"
+      },
+      {
+        "in": "TieN gIAng",
+        "out": "Tien giang"
+      }
+    ]
+  },
+  {
+    "code": "180",
+    "name": "180. Chuyển ký tự đầu tiên của từng từ sang ký tự viết hoa",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "tran phi an binh",
+        "out": "Tran Phi An Binh"
+      },
+      {
+        "in": "TieN gIAng",
+        "out": "Tien Giang"
+      }
+    ]
+  },
+  {
+    "code": "181",
+    "name": "181. Kiểm tra tất cả ký tự trong chuỗi có phải là chữ cái",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "TranPhiAnBinh",
+        "out": "YES"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "NO"
+      },
+      {
+        "in": "HelloWorld!",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "182",
+    "name": "182. Kiểm tra tất cả ký tự trong chuỗi có phải là chữ số",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "1234567890564",
+        "out": "YES"
+      },
+      {
+        "in": "123a56789",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "183",
+    "name": "183. Kiểm tra tất cả ký tự trong chuỗi có phải là ký hiệu",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "@#&$%*!",
+        "out": "YES"
+      },
+      {
+        "in": "1234#&@",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "184",
+    "name": "184. Kiểm tra tất cả ký tự chữ cái trong chuỗi có phải là ký tự viết thường",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "tran phi an binh",
+        "out": "YES"
+      },
+      {
+        "in": "Tran Phi An Binh",
+        "out": "NO"
+      },
+      {
+        "in": "hello world!",
+        "out": "YES"
+      }
+    ]
+  },
+  {
+    "code": "185",
+    "name": "185. Kiểm tra tất cả ký tự chữ cái trong chuỗi có phải là ký tự viết hoa",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "TRAN PHI AN BINH",
+        "out": "YES"
+      },
+      {
+        "in": "Tran Phi An Binh",
+        "out": "NO"
+      },
+      {
+        "in": "HELO WORLD!",
+        "out": "YES"
+      }
+    ]
+  },
+  {
+    "code": "186",
+    "name": "186. Kiểm tra chuỗi có phải là kiểu tên",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "Yes"
+      },
+      {
+        "in": "Tran phi An Binh",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "187",
+    "name": "187. Kiểm tra chuỗi s1 có được bắt đầu bằng chuỗi s2",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\nTran",
+        "out": "Yes"
+      },
+      {
+        "in": "Vinh Kim Tien Giang\nTien",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "188",
+    "name": "188. Kiểm tra chuỗi s1 có kết thúc bằng chuỗi s2",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\nBinh",
+        "out": "Yes"
+      },
+      {
+        "in": "Vinh Kim Tien Giang\nTien",
+        "out": "No"
+      }
+    ]
+  },
+  {
+    "code": "189",
+    "name": "189. Đếm xem trong chuỗi có bao nhiêu ký tự x",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\nn",
+        "out": "3"
+      },
+      {
+        "in": "Vinh Kim Tien Giang\nZ",
+        "out": "0"
+      }
+    ]
+  },
+  {
+    "code": "190",
+    "name": "190. Tìm vị trí đầu tiên của chuỗi s2 xuất hiện trong chuỗi s1",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Nha toi co nhieu hoa mai hoa cuc hoa hue hoa\nhoa",
+        "out": "17"
+      },
+      {
+        "in": "Toi o Vinh Kim Tien Giang Viet Nam\nZ",
+        "out": "-1"
+      }
+    ]
+  },
+  {
+    "code": "191",
+    "name": "191. Tìm vị trí cuối cùng của chuỗi s2 xuất hiện trong chuỗi s1",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Nha toi co nhieu hoa mai hoa cuc hoa hue\nhoa",
+        "out": "33"
+      },
+      {
+        "in": "Toi o Vinh Kim Tien Giang Viet Nam\nZ",
+        "out": "-1"
+      }
+    ]
+  },
+  {
+    "code": "192",
+    "name": "192. Xoá ký tự trắng thừa ở đầu câu",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "Tran Phi An Binh"
+      },
+      {
+        "in": "Vinh Kim",
+        "out": "Vinh Kim"
+      }
+    ]
+  },
+  {
+    "code": "193",
+    "name": "193. Xoá ký tự trắng thừa ở cuối câu",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "\"  Tran Phi An Binh     \"",
+        "out": "\"  Tran Phi An Binh\""
+      },
+      {
+        "in": "\" Vinh Kim      \"",
+        "out": "\" Vinh Kim\""
+      }
+    ]
+  },
+  {
+    "code": "194",
+    "name": "194. Xoá ký tự trắng thừa ở giữa câu",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran   Phi   An   Binh",
+        "out": "Tran Phi An Binh"
+      },
+      {
+        "in": "Vinh    Kim",
+        "out": "Vinh Kim"
+      }
+    ]
+  },
+  {
+    "code": "195",
+    "name": "195. Tìm kiếm và thay thế",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Hom nay troi dep nen toi vui that la vui vui hanh phuc\nvui\nhanh phuc",
+        "out": "Hom nay troi dep nen toi hanh phuc that la hanh phuc hanh phuc hanh phuc"
+      },
+      {
+        "in": "Vinh Kim Tien Giang\ni\nj",
+        "out": "Vjnh Kjm Tjen Gjang"
+      }
+    ]
+  },
+  {
+    "code": "196",
+    "name": "196. Chuyển đổi ký tự viết thường sang viết hoa và ngược lại",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "tRAN pHI aN bINH"
+      },
+      {
+        "in": "TiEn GiANg",
+        "out": "tIeN gIanG"
+      }
+    ]
+  },
+  {
+    "code": "197",
+    "name": "197. Thêm n số 0 bên trái chuỗi s",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "25\n6",
+        "out": "000025"
+      },
+      {
+        "in": "123\n5",
+        "out": "00123"
+      }
+    ]
+  },
+  {
+    "code": "198",
+    "name": "198. Tách chuỗi thành mảng bởi ký tự phân tách",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran-Phi-An-Binh\n-",
+        "out": "Tran\nPhi\nAn\nBinh"
+      },
+      {
+        "in": "Vinh:Kim:Tien-Giang\n:",
+        "out": "Vinh\nKim\nTien-Giang"
+      }
+    ]
+  },
+  {
+    "code": "199",
+    "name": "199. Đếm số từ trong xâu",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "4"
+      },
+      {
+        "in": "Vinh Kim Tien-Giang",
+        "out": "3"
+      }
+    ]
+  },
+  {
+    "code": "200",
+    "name": "200. Chuyển chuỗi thành mảng ký tự",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n3\n@",
+        "out": "Tra@ Phi An Binh"
+      },
+      {
+        "in": "Vinh Kim Tien-Giang  \n2\nj",
+        "out": "Vijh Kim Tien-Giang"
+      }
+    ]
+  },
+  {
+    "code": "201",
+    "name": "201. Chuyển mảng thành chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "16\nT\nr\na\nn\n\nP\nh\ni\n\nA\nn\n\nB\ni\nn\nh",
+        "out": "Tran Phi An Binh"
+      },
+      {
+        "in": "10\nT\ni\ne\nn\n\nG\ni\na\nn\ng",
+        "out": "Tien Giang"
+      }
+    ]
+  },
+  {
+    "code": "202",
+    "name": "202. Tìm ký tự có mã ASCII lớn nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "r: 114"
+      },
+      {
+        "in": "Viet Nam",
+        "out": "t: 116"
+      }
+    ]
+  },
+  {
+    "code": "203",
+    "name": "203. Tìm ký tự có mã ASCII nhỏ nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "A: 65"
+      },
+      {
+        "in": "Viet Nam",
+        "out": "N: 78"
+      }
+    ]
+  },
+  {
+    "code": "204",
+    "name": "204. Tìm từ có độ dài lớn nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "Tran"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "Giang"
+      }
+    ]
+  },
+  {
+    "code": "205",
+    "name": "205. Tìm từ có độ dài nhỏ nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "An"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "Tien"
+      }
+    ]
+  },
+  {
+    "code": "206",
+    "name": "206. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở chính giữa",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n@\n21",
+        "out": "@@@Tran Phi An Binh@@"
+      },
+      {
+        "in": "VinhKim\n$\n10",
+        "out": "$VinhKim$$"
+      },
+      {
+        "in": "Tien Giang\n!\n18",
+        "out": "!!!!Tien Giang!!!!"
+      }
+    ]
+  },
+  {
+    "code": "207",
+    "name": "207. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở bên phải",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n&\n20",
+        "out": "&&&&Tran Phi An Binh"
+      },
+      {
+        "in": "Tien Giang\n$\n15",
+        "out": "$$$Tien Giang"
+      }
+    ]
+  },
+  {
+    "code": "208",
+    "name": "208. Thêm ký tự x sao cho xâu s có độ dài là n, và s nằm ở bên trái",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh\n&\n20",
+        "out": "Tran Phi An Binh&&&&"
+      },
+      {
+        "in": "Tien Giang\n$\n13",
+        "out": "Tien Giang$$$"
+      }
+    ]
+  },
+  {
+    "code": "209",
+    "name": "209. Sắp xếp các ký tự theo bảng chữ cái",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "TranPhiAnBinh",
+        "out": "ABPTahhiinnnr"
+      },
+      {
+        "in": "TienGiang",
+        "out": "GTaegiinn"
+      }
+    ]
+  },
+  {
+    "code": "210",
+    "name": "210. Tách tên trong họ và tên",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "Binh"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "Giang"
+      }
+    ]
+  },
+  {
+    "code": "211",
+    "name": "211. Tách họ và chữ lót trong họ và tên",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "Tran Phi An Binh",
+        "out": "Tran Phi An"
+      },
+      {
+        "in": "Tien Giang",
+        "out": "Tien"
+      }
+    ]
+  },
+  {
+    "code": "212",
+    "name": "212. Sắp xếp danh sách tên theo bảng chữ cái",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "10\nLe Bao An\nTran Phi An Binh\nLe Hoai An\nLe Thuy An\nLe Tran Thuy An\nNguyen Ngoc Thanh Binh\nTran Minh Binh\nNguyen Thanh Binh\nTran Trieu Binh\nVo Truc Lam Binh",
+        "out": "Le Bao An\nLe Hoai An\nLe Thuy An\nLe Tran Thuy An\nNguyen Ngoc Thanh Binh\nNguyen Thanh Binh\nTran Minh Binh\nTran Phi An Binh\nTran Trieu Binh\nVo Truc Lam Binh"
+      },
+      {
+        "in": "12  \nTran Phi An Binh\nDo Gia Bao\nNguyen Hoang Bach\nNguyen Tam An\nCao Quynh Anh\nNguyen Ngoc Thanh Binh\nVo Quynh Anh\nNguyen Hoang Hai Au\nLe Hoang Bach\nDang Ngo Gia Bao\nNguyen Thanh Binh\nVo Thien An",
+        "out": "Nguyen Tam An\nVo Thien An\nCao Quynh Anh\nVo Quynh Anh\nNguyen Hoang Hai Au\nLe Hoang Bach\nNguyen Hoang Bach\nDang Ngo Gia Bao\nDo Gia Bao\nNguyen Ngoc Thanh Binh\nNguyen Thanh Binh\nTran Phi An Binh"
+      }
+    ]
+  },
+  {
+    "code": "213",
+    "name": "213. Sắp xếp mảng xâu theo thứ tự tăng dần của chiều dài từng xâu",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "4\nTran Phi An Binh\nVinh Kim\nTTS\nTien Giang",
+        "out": "TTS\nVinh Kim\nTien Giang\nTran Phi An Binh"
+      },
+      {
+        "in": "3\nPrograming\nHeLo\nabcxy",
+        "out": "HeLo\nabcxy\nPrograming"
+      }
+    ]
+  },
+  {
+    "code": "214",
+    "name": "214. Mã hóa xâu đơn giản",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "abc\n3",
+        "out": "def"
+      },
+      {
+        "in": "XYuv\n1",
+        "out": "YZvw"
+      }
+    ]
+  },
+  {
+    "code": "215",
+    "name": "215. In bảng điểm",
+    "group": "01. Nhập môn",
+    "types": [
+      "08. Chuỗi (Strings)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3\nTran An\nNguyen Binh\nLe Teo\n8.5\n7.2\n9",
+        "out": "Tran An: 8.5\nNguyen Binh: 7.2\nLe Teo: 9.0"
+      }
+    ]
+  },
+  {
+    "code": "216",
+    "name": "216. Tính tổng các số trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4  \n2 3 5 7  \n1 -3 5 8  \n-4 5 -3 0",
+        "out": "26"
+      }
+    ]
+  },
+  {
+    "code": "217",
+    "name": "217. In ra tổng tất cả các số chẵn trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4  \n2 3 5 7  \n1 -3 5 8  \n-4 5 -3 0",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "218",
+    "name": "218. In ra số lượng số nguyên tố trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4  \n2 3 5 7  \n1 -3 5 8  \n-4 5 -3 0",
+        "out": "6"
+      }
+    ]
+  },
+  {
+    "code": "219",
+    "name": "219. In ra các số chính phương trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4  \n2 3 5 7  \n1 -3 4 8  \n-4 5 -3 16",
+        "out": "1  \n4  \n16"
+      }
+    ]
+  },
+  {
+    "code": "220",
+    "name": "220. Tìm số âm lớn nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4  \n2 3 -5 7  \n1 8 5 -3  \n-4 5 -3 0",
+        "out": "-3  \n1 3"
+      }
+    ]
+  },
+  {
+    "code": "221",
+    "name": "221. Tìm số chia hết cho 3 bé nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4  \n2 3 -5 -6  \n1 -3 5 9  \n-6 12 -5 2",
+        "out": "-6  \n0 3"
+      }
+    ]
+  },
+  {
+    "code": "222",
+    "name": "222. In các số trên đường chéo chính trong ma trận vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n2 3 5 0\n2 3 5 6\n1 3 5 9\n8 2 5 2",
+        "out": "2 3 5 2"
+      }
+    ]
+  },
+  {
+    "code": "223",
+    "name": "223. In các số trên đường chéo phụ trong ma trận vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n6 5 2 7\n2 3 5 6\n1 3 5 9\n8 2 5 2",
+        "out": "7 5 3 8"
+      }
+    ]
+  },
+  {
+    "code": "224",
+    "name": "224. Tìm số lớn nhất trên đường chéo chính trong ma trận vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n2 3 4 6\n1 3 7 9\n8 2 5 2\n7 4 6 0",
+        "out": "5"
+      }
+    ]
+  },
+  {
+    "code": "225",
+    "name": "225. Tìm số chẵn nhỏ nhất trên đường chéo phụ trong ma trận vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n2 3 5 6\n1 3 5 9\n8 2 5 2\n7 4 6 0",
+        "out": "2"
+      }
+    ]
+  },
+  {
+    "code": "226",
+    "name": "226. Tìm hàng có tổng lớn nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n9 -3 5 8\n-4 5 -3 0",
+        "out": "1\n19"
+      }
+    ]
+  },
+  {
+    "code": "227",
+    "name": "227. Tìm cột có tổng nhỏ nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n9 3 5 8\n-4 5 -3 0",
+        "out": "0\n7"
+      }
+    ]
+  },
+  {
+    "code": "228",
+    "name": "228. Xoá cột thứ k trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4 2\n2 3 5 7\n9 3 5 8\n4 5 3 0",
+        "out": "2 3 7\n9 3 8\n4 5 0"
+      }
+    ]
+  },
+  {
+    "code": "229",
+    "name": "229. Xoá dòng thứ k trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4 1\n2 3 5 7\n9 3 5 8\n4 5 3 0",
+        "out": "2 3 5 7\n4 5 3 0"
+      }
+    ]
+  },
+  {
+    "code": "230",
+    "name": "230. Chèn các giá trị vào dòng thứ k trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4 1\n2 3 5 7\n9 3 5 8\n4 5 3 0\n1 2 3 4",
+        "out": "2 3 5 7\n1 2 3 4\n9 3 5 8\n4 5 3 0"
+      }
+    ]
+  },
+  {
+    "code": "231",
+    "name": "231. Chèn các giá trị vào cột thứ k trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4 2\n2 3 5 7\n9 3 5 8\n4 5 3 0\n1 2 3",
+        "out": "2 3 1 5 7\n9 3 2 5 8\n4 5 3 3 0"
+      }
+    ]
+  },
+  {
+    "code": "232",
+    "name": "232. Tìm số lớn nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n1 -3 5 8\n8 5 -3 0",
+        "out": "8\n1 3"
+      }
+    ]
+  },
+  {
+    "code": "233",
+    "name": "233. Tìm số nhỏ nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n1 -3 5 8\n-4 5 -3 0",
+        "out": "-4\n2 0"
+      }
+    ]
+  },
+  {
+    "code": "234",
+    "name": "234. Tìm số có số lần xuất hiện nhỏ nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 4 5\n4 2 3 5\n8 2 5 6",
+        "out": "8\n2 3 4 5\n4 2 3 5\n0 2 5 6"
+      }
+    ]
+  },
+  {
+    "code": "235",
+    "name": "235. Tìm số có số lần xuất hiện lớn nhất trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 4 5\n4 2 3 5\n8 2 5 6",
+        "out": "5\n2 3 4 0\n4 2 3 0\n8 2 0 6"
+      }
+    ]
+  },
+  {
+    "code": "236",
+    "name": "236. Sắp xếp các số theo thứ tự giảm dần từ trái qua phải, từ trên xuống dưới",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 4 5\n4 2 3 5\n8 2 5 6",
+        "out": "8 6 5 5\n5 4 4 3\n3 2 2 2"
+      }
+    ]
+  },
+  {
+    "code": "237",
+    "name": "237. Hoán vị các giá trị của cột h và cột k trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 5 3 7\n1 5 -3 8\n-4 5 -3 0\n1\n2",
+        "out": "2 3 5 7\n1 -3 5 8\n-4 -3 5 0"
+      }
+    ]
+  },
+  {
+    "code": "238",
+    "name": "238. Hoán vị các giá trị của dòng h và dòng k trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 5 3 7\n1 5 -3 8\n-4 5 -3 0\n1\n2",
+        "out": "2 5 3 7\n-4 5 -3 0\n1 5 -3 8"
+      }
+    ]
+  },
+  {
+    "code": "239",
+    "name": "239. Hoán vị các giá trị của đường chéo chính và đường chéo phụ trong ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n6 3 5 2\n2 3 5 6\n1 4 7 9\n8 2 5 3",
+        "out": "2 3 5 6\n2 5 3 6\n1 7 4 9\n3 2 5 8"
+      }
+    ]
+  },
+  {
+    "code": "240",
+    "name": "240. Tìm số lớn nhất trên dòng x",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n1 -3 5 8\n-4 5 -3 0\n2",
+        "out": "5"
+      }
+    ]
+  },
+  {
+    "code": "241",
+    "name": "241. Tìm số nhỏ nhất trên cột y",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n1 -3 5 8\n-4 5 -3 0\n1",
+        "out": "-3"
+      }
+    ]
+  },
+  {
+    "code": "242",
+    "name": "242. Tìm số nguyên tố lớn nhất trên dòng x",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n1 -3 5 8\n-4 5 -3 0\n1",
+        "out": "5"
+      }
+    ]
+  },
+  {
+    "code": "243",
+    "name": "243. Tìm số chính phương nhỏ nhất trên cột y",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 1 9 9\n1 -3 25 8\n-4 5 4 4\n2",
+        "out": "4"
+      }
+    ]
+  },
+  {
+    "code": "244",
+    "name": "244. Tính tổng các số trên đường chéo chính của ma trận vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n2 3 5 6\n1 3 5 9\n8 2 5 3\n7 4 6 0",
+        "out": "10"
+      }
+    ]
+  },
+  {
+    "code": "245",
+    "name": "245. Tính trung bình cộng các số trên đường chéo phụ của ma trận vuông",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4\n2 3 5 6\n1 3 5 9\n8 2 5 3\n7 4 6 0",
+        "out": "5.0"
+      }
+    ]
+  },
+  {
+    "code": "246",
+    "name": "246. In ra các số nguyên tố trên dòng x của ma trận",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 3 5 7\n2 -3 5 8\n-4 5 -3 0\n1",
+        "out": "2 5"
+      }
+    ]
+  },
+  {
+    "code": "247",
+    "name": "247. In các số chính phương trên cột y",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3 4\n2 1 5 7\n2 -3 5 8\n-4 4 -3 0\n1",
+        "out": "1 4"
+      }
+    ]
+  },
+  {
+    "code": "248",
+    "name": "248. Sắp xếp các hàng tăng dần",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "2 1 5 7\n2 -3 5 8\n-4 4 -3 0",
+        "out": "1 2 5 7\n-3 2 5 8\n-4 -3 0 4"
+      }
+    ]
+  },
+  {
+    "code": "249",
+    "name": "249. Sắp xếp các cột giảm dần",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "1 2 3 4\n5 6 7 8\n3 4 5 6",
+        "out": "5 6 7 8\n3 4 5 6\n1 2 3 4"
+      }
+    ]
+  },
+  {
+    "code": "250",
+    "name": "250. Tìm các dòng chứa toàn số âm",
+    "group": "01. Nhập môn",
+    "types": [
+      "09. Mảng/Danh sách 2 chiều (Matrix)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "1 2 3 4\n-5 -6 -7 -8\n-3 -4 -5 -6",
+        "out": "1 2"
+      }
+    ]
+  },
+  {
+    "code": "251",
+    "name": "251. Viết hàm kiểm tra n có phải là số nguyên tố và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n2\n4\n-7\n0\n5",
+        "out": "2\n5"
+      },
+      {
+        "in": "4\n4\n-7\n0\n1",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "252",
+    "name": "252. Viết hàm kiểm tra n có phải là số chính phương và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n4\n-7\n0\n5\n9",
+        "out": "4 0 9"
+      },
+      {
+        "in": "4\n-7\n0\n1\n2",
+        "out": "0 1"
+      }
+    ]
+  },
+  {
+    "code": "253",
+    "name": "253. Viết hàm kiểm tra một số nguyên có là số hoàn hảo và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n28\n6\n2\n4\n-7",
+        "out": "28 6"
+      },
+      {
+        "in": "3\n2\n4\n5",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "254",
+    "name": "254. Viết hàm kiểm tra một số nguyên có là số Chen và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n3\n4\n17\n1\n-7",
+        "out": "3 17"
+      },
+      {
+        "in": "2\n0\n4",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "255",
+    "name": "255. Viết hàm kiểm tra một số nguyên có là số Triangular và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n6\n4\n10\n7\n-7",
+        "out": "6 10"
+      },
+      {
+        "in": "2\n8\n0",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "256",
+    "name": "256. Viết hàm tính tổng chữ số của một số nguyên n và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n64589\n132\n31\n50\n8",
+        "out": "32 6 4 5 8"
+      },
+      {
+        "in": "4\n9034\n-72\n0\n12",
+        "out": "16 9 0 3"
+      }
+    ]
+  },
+  {
+    "code": "257",
+    "name": "257. Viết hàm kiểm tra một số nguyên có là số Pronic và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n2\n6\n4\n12\n7",
+        "out": "2 6 12"
+      },
+      {
+        "in": "3\n-7\n1\n5",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "258",
+    "name": "258. Viết hàm kiểm tra một số nguyên có là số phong phú (Abundant) và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n2\n20\n4\n12\n7",
+        "out": "20 12"
+      },
+      {
+        "in": "4\n-7\n1\n8\n0",
+        "out": "-"
+      }
+    ]
+  },
+  {
+    "code": "259",
+    "name": "259. Viết hàm tính tổng ước dương của một số nguyên n và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n18\n15\n13\n28\n6",
+        "out": "39 24 14 56 12"
+      },
+      {
+        "in": "4\n-15\n0\n3\n-4",
+        "out": "24 0 4 7"
+      }
+    ]
+  },
+  {
+    "code": "260",
+    "name": "260. Viết hàm tính đếm số ước dương của một số nguyên n và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n10\n8\n9\n12\n5",
+        "out": "4 4 3 6 2"
+      },
+      {
+        "in": "4\n-15\n0\n3\n-4",
+        "out": "4 0 2 3"
+      }
+    ]
+  },
+  {
+    "code": "261",
+    "name": "261. Viết hàm đảo ngược một số nguyên n và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n123\n450\n2456\n12\n7",
+        "out": "321 54 6542 21 7"
+      },
+      {
+        "in": "4\n-15\n0\n3400\n-4",
+        "out": "-51 0 43 -4"
+      }
+    ]
+  },
+  {
+    "code": "262",
+    "name": "262. Viết hàm tính n giai thừa và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5\n2\n5\n4\n7\n1",
+        "out": "2 120 24 5040 1"
+      },
+      {
+        "in": "4\n1\n0\n3\n6",
+        "out": "1 1 6 720"
+      }
+    ]
+  },
+  {
+    "code": "263",
+    "name": "263. Viết hàm tính x^n và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3\n2 3\n5 2\n10 0",
+        "out": "8 25 1"
+      },
+      {
+        "in": "4\n1 2\n3 4\n2 3\n6 1",
+        "out": "1 81 8 6"
+      }
+    ]
+  },
+  {
+    "code": "264",
+    "name": "264. Viết hàm kiểm tra chuỗi có đối xứng hay không và áp dụng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3\nmadam\nhello\nracecar",
+        "out": "YES\nNO\nYES"
+      },
+      {
+        "in": "4\nTelet\nabc cba\n123432\n12321",
+        "out": "NO\nYES\nNO\nYES"
+      }
+    ]
+  },
+  {
+    "code": "265",
+    "name": "265. Viết hàm xóa tất cả ký tự trắng thừa bên phải và bên trái",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "3\nTran Phi An Binh    \n   Vinh Kim\nTien Giang",
+        "out": "Tran Phi An Binh\nVinh Kim\nTien Giang"
+      },
+      {
+        "in": "2\n   Tien Giang    \n   Viet Nam",
+        "out": "Tien Giang\nViet Nam"
+      }
+    ]
+  },
+  {
+    "code": "266",
+    "name": "266. Viết hàm đếm xem chuỗi s1 xuất hiện trong chuỗi s2 bao nhiêu lần",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2\nAn\nTran Phi An Binh An\na\nTien Giang",
+        "out": "2\n1"
+      },
+      {
+        "in": "3\nhe\nhello world\ntest\nthis is a test test\nabc\nabcabcabc",
+        "out": "1\n2\n3"
+      }
+    ]
+  },
+  {
+    "code": "267",
+    "name": "267. Viết hàm tìm Max, Min và vị trí tương ứng của Max, Min trong mảng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2\n4 8 1 5\n30 3 5 4",
+        "out": "Max: 8, Vi tri Max: 1; Min: 1, Vi tri Min: 2\nMax: 30, Vi tri Max: 0; Min: 3, Vi tri Min: 1"
+      },
+      {
+        "in": "3\n9 5 1 0\n3 2 20 1\n2 2 0",
+        "out": "Max: 9, Vi tri Max: 0; Min: 0, Vi tri Min: 3\nMax: 20, Vi tri Max: 2; Min: 1, Vi tri Min: 3\nMax: 2, Vi tri Max: 0; Min: 0, Vi tri Min: 2"
+      }
+    ]
+  },
+  {
+    "code": "268",
+    "name": "268. Viết hàm đổi giá trị 2 biến",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "5 10",
+        "out": "10 5"
+      }
+    ]
+  },
+  {
+    "code": "269",
+    "name": "269. Viết hàm in hình chữ nhật rỗng",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5 4\n*",
+        "out": "*****\n*   *\n*   *\n*****"
+      },
+      {
+        "in": "6 3\n#",
+        "out": "######\n#    #\n######"
+      }
+    ]
+  },
+  {
+    "code": "270",
+    "name": "270. Viết hàm in ra các ký tự in hoa trong chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "10. Hàm tự định nghĩa"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2\nTran Phi An Binh\nTien Giang",
+        "out": "TPAB  \nTG"
+      },
+      {
+        "in": "3\nhello world\nThis is a Test\naBcAbcabC",
+        "out": "-  \nTT  \nBAC"
+      }
+    ]
+  },
+  {
+    "code": "271",
+    "name": "271. Định dạng ngày và giờ",
+    "group": "01. Nhập môn",
+    "types": [
+      "11. Ngày/Giờ (Date/Time)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "2024-04-03 04:05:03\nd-MM-yyyy hh:m:s",
+        "out": "3-04-2024 04:5:3"
+      },
+      {
+        "in": "2024-02-03 14:45:30\nyyyy/M/dd",
+        "out": "2024/2/03"
+      }
+    ]
+  },
+  {
+    "code": "272",
+    "name": "272. Tính toán khoảng thời gian giữa hai ngày",
+    "group": "01. Nhập môn",
+    "types": [
+      "11. Ngày/Giờ (Date/Time)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "30-12-2024  \n01-1-2025",
+        "out": "2"
+      },
+      {
+        "in": "01-1-2025  \n01-1-2025",
+        "out": "0"
+      }
+    ]
+  },
+  {
+    "code": "273",
+    "name": "273. Tính toán khoảng thời gian giữa hai giờ",
+    "group": "01. Nhập môn",
+    "types": [
+      "11. Ngày/Giờ (Date/Time)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "14:00:00  \n16:45:03",
+        "out": "2 gio, 45 phut, 3 giay"
+      },
+      {
+        "in": "23:55:00  \n00:02:30",
+        "out": "0 gio, 7 phut, 30 giay"
+      }
+    ]
+  },
+  {
+    "code": "274",
+    "name": "274. Sử dụng timedelta để tính toán thời gian sau một khoảng thời gian nhất định",
+    "group": "01. Nhập môn",
+    "types": [
+      "11. Ngày/Giờ (Date/Time)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "06:05  \n03:30",
+        "out": "09:35"
+      },
+      {
+        "in": "22:45  \n02:20",
+        "out": "01:05"
+      }
+    ]
+  },
+  {
+    "code": "275",
+    "name": "275. Tính toán thời gian còn lại đến một mốc thời gian",
+    "group": "01. Nhập môn",
+    "types": [
+      "11. Ngày/Giờ (Date/Time)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "31/12/2024 20:00:00  \n10/02/2025 00:00:00",
+        "out": "40 ngay 4 gio 0 phut 0 giay"
+      },
+      {
+        "in": "31/12/2023 20:00:00  \n01/01/2024 00:00:00",
+        "out": "0 ngay 4 gio 0 phut 0 giay"
+      }
+    ]
+  },
+  {
+    "code": "276",
+    "name": "276. Tính khoảng cách giữa 2 điểm trong mặt phẳng tọa độ Oxy",
+    "group": "01. Nhập môn",
+    "types": [
+      "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "0 1 0 3",
+        "out": "2.00"
+      }
+    ]
+  },
+  {
+    "code": "277",
+    "name": "277. Tính chu vi và diện tích tam giác trong mặt phẳng tọa độ Oxy",
+    "group": "01. Nhập môn",
+    "types": [
+      "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "0 1 0 3 0 4",
+        "out": "-1"
+      },
+      {
+        "in": "-1 0.5 0 3 1.5 0",
+        "out": "8.6 3.38"
+      }
+    ]
+  },
+  {
+    "code": "278",
+    "name": "278. Cộng, trừ, nhân, chia hai phân số",
+    "group": "01. Nhập môn",
+    "types": [
+      "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "4 8\n6 9",
+        "out": "1 2  \n2 3  \n7 6  \n-1 6  \n1 3  \n3 4"
+      }
+    ]
+  },
+  {
+    "code": "279",
+    "name": "279. Tìm học sinh nhỏ tuổi nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3\nTran Phi Binh An|9.1|14|9\nTran Phi An Binh|9.2|11|10\nLe Teo|9.4|13|8.5",
+        "out": "Tran Phi An Binh"
+      }
+    ]
+  },
+  {
+    "code": "280",
+    "name": "280. Sắp xếp danh sách học sinh",
+    "group": "01. Nhập môn",
+    "types": [
+      "12. Kiểu dữ liệu tự định nghĩa (Struct)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "5\nHS01|Nguyen An|2005|Nu|7|8|6\nHS02|Tran An|2007|Nu|6|8|7\nHS03|Le An|2004|Nam|8|7|8\nHS04|Tran Phi Binh An|2003|Nam|7|8|7\nHS05|Tran An|2006|Nam|6|9|7",
+        "out": "HS03|Le An|2004|Nam|8|7|8\nHS01|Nguyen An|2005|Nu|7|8|6\nHS05|Tran An|2006|Nam|6|9|7\nHS02|Tran An|2007|Nu|6|8|7\nHS04|Tran Phi Binh An|2003|Nam|7|8|7"
+      }
+    ]
+  },
+  {
+    "code": "281",
+    "name": "281. In bảng điểm",
+    "group": "01. Nhập môn",
+    "types": [
+      "13. Cặp giá trị (Pair/Tuple)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3  \nTran Phi Binh An 9.2  \nTran Phi An Binh 9.7  \nLe Teo 8.6",
+        "out": "Tran Phi Binh An 9.2  \nTran Phi An Binh 9.7  \nLe Teo 8.6"
+      }
+    ]
+  },
+  {
+    "code": "282",
+    "name": "282. Tính trung bình điểm của tất cả học sinh",
+    "group": "01. Nhập môn",
+    "types": [
+      "13. Cặp giá trị (Pair/Tuple)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3  \nTran Phi Binh An 9.2  \nTran Phi An Binh 9.7  \nLe Teo 8.6",
+        "out": "9.17"
+      }
+    ]
+  },
+  {
+    "code": "283",
+    "name": "283. Tìm học sinh có điểm lớn nhất",
+    "group": "01. Nhập môn",
+    "types": [
+      "13. Cặp giá trị (Pair/Tuple)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3  \nTran Phi Binh An 9.2  \nTran Phi An Binh 9.7  \nLe Teo 8.6",
+        "out": "9.7"
+      }
+    ]
+  },
+  {
+    "code": "284",
+    "name": "284. Cộng cho mỗi bạn 1 điểm và in bảng điểm mới",
+    "group": "01. Nhập môn",
+    "types": [
+      "13. Cặp giá trị (Pair/Tuple)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3  \nTran Phi Binh An 8.2  \nTran Phi An Binh 7.8  \nLe Teo 8.6",
+        "out": "Tran Phi Binh An 9.2  \nTran Phi An Binh 8.8  \nLe Teo 9.6"
+      }
+    ]
+  },
+  {
+    "code": "285",
+    "name": "285. Sắp xếp danh sách theo thứ tự tăng dần của điểm",
+    "group": "01. Nhập môn",
+    "types": [
+      "13. Cặp giá trị (Pair/Tuple)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "3  \nTran Phi Binh An 9.2  \nTran Phi An Binh 7.8  \nLe Teo 8.6",
+        "out": "Tran Phi An Binh 7.8  \nLe Teo 8.6  \nTran Phi Binh An 9.2"
+      }
+    ]
+  },
+  {
+    "code": "286",
+    "name": "286. Tạo một tập hợp s chứa các ký tự xuất hiện trong chuỗi str",
+    "group": "01. Nhập môn",
+    "types": [
+      "14. Tập hợp (Set)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "abc124abad421cd23",
+        "out": "1234abcd"
+      }
+    ]
+  },
+  {
+    "code": "287",
+    "name": "287. Mảng có bao nhiêu số nguyên đôi một khác nhau",
+    "group": "01. Nhập môn",
+    "types": [
+      "14. Tập hợp (Set)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "6  \n1 2 2 3 1 4",
+        "out": "4"
+      }
+    ]
+  },
+  {
+    "code": "288",
+    "name": "288. Kiểm tra số nguyên x có trong tập hợp s hay không",
+    "group": "01. Nhập môn",
+    "types": [
+      "14. Tập hợp (Set)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5  \n1 2 3 4 5  \n3",
+        "out": "YES"
+      },
+      {
+        "in": "4  \n1 5 3 4  \n6",
+        "out": "NO"
+      }
+    ]
+  },
+  {
+    "code": "289",
+    "name": "289. Xoá số có giá trị x ra khỏi s",
+    "group": "01. Nhập môn",
+    "types": [
+      "14. Tập hợp (Set)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 3,
+    "samples": [
+      {
+        "in": "5  \n1 2 3 4 5  \n3",
+        "out": "1 2 4 5"
+      },
+      {
+        "in": "4  \n1 2 3 4  \n6",
+        "out": "NO CHANGE"
+      },
+      {
+        "in": "1  \n1  \n1",
+        "out": "EMPTY"
+      }
+    ]
+  },
+  {
+    "code": "290",
+    "name": "290. In ra các số có trong tập hợp s1 mà không có trong tập hợp s2",
+    "group": "01. Nhập môn",
+    "types": [
+      "14. Tập hợp (Set)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 2,
+    "samples": [
+      {
+        "in": "5  \n1 2 3 4 5  \n3  \n1 3 5",
+        "out": "2 4"
+      },
+      {
+        "in": "4  \n1 2 3 4  \n5  \n1 2 3 4 5",
+        "out": "EMPTY"
+      }
+    ]
+  },
+  {
+    "code": "291",
+    "name": "291. In từng ký tự và số lần xuất hiện trong chuỗi",
+    "group": "01. Nhập môn",
+    "types": [
+      "15. Map-Dict"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "banana",
+        "out": "a 3  \nb 1  \nn 2"
+      }
+    ]
+  },
+  {
+    "code": "292",
+    "name": "292. Tìm ký tự xuất hiện nhiều lần nhất trong chuỗi s",
+    "group": "01. Nhập môn",
+    "types": [
+      "15. Map-Dict"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "banana",
+        "out": "a 3"
+      }
+    ]
+  },
+  {
+    "code": "293",
+    "name": "293. Sắp xếp từ điển theo key giảm dần",
+    "group": "01. Nhập môn",
+    "types": [
+      "15. Map-Dict"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "banana",
+        "out": "n 2\nb 1\na 3"
+      }
+    ]
+  },
+  {
+    "code": "294",
+    "name": "294. Sắp xếp từ điển theo value tăng dần",
+    "group": "01. Nhập môn",
+    "types": [
+      "15. Map-Dict"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "banana321",
+        "out": "1 1\n2 1\n3 1\nb 1  \nn 2  \na 3"
+      }
+    ]
+  },
+  {
+    "code": "295",
+    "name": "295. Xoá key x trong từ điển b",
+    "group": "01. Nhập môn",
+    "types": [
+      "15. Map-Dict"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "banana\nn",
+        "out": "a 3  \nb 1"
+      }
+    ]
+  },
+  {
+    "code": "296",
+    "name": "296. Thêm phần tử vào stack và in stack",
+    "group": "01. Nhập môn",
+    "types": [
+      "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "2 5 7 3 6",
+        "out": "6 3 7 5 2"
+      }
+    ]
+  },
+  {
+    "code": "297",
+    "name": "297. Thêm và xóa phần tử trong stack",
+    "group": "01. Nhập môn",
+    "types": [
+      "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "2 5 7 3 6\n2",
+        "out": "7 5 2"
+      }
+    ]
+  },
+  {
+    "code": "298",
+    "name": "298. Đọc dữ liệu từ file và lưu vào Queue",
+    "group": "01. Nhập môn",
+    "types": [
+      "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "5 7 4 3 1",
+        "out": "5 7 4 3 1"
+      }
+    ]
+  },
+  {
+    "code": "299",
+    "name": "299. Thêm giá trị x vào Queue",
+    "group": "01. Nhập môn",
+    "types": [
+      "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "5 7 4 3 1\n2 1",
+        "out": "5 2 7 4 3 1"
+      }
+    ]
+  },
+  {
+    "code": "300",
+    "name": "300. Xoá giá trị x trong Queue",
+    "group": "01. Nhập môn",
+    "types": [
+      "16. Ngăn xếp/Hàng đợi (Stack/Queue)"
+    ],
+    "time_limit": 1.0,
+    "memory_limit": 262144,
+    "sample_count": 1,
+    "samples": [
+      {
+        "in": "5 7 4 3 1\n4",
+        "out": "5 7 3 1"
+      }
+    ]
+  }
+]

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Điều Khiển Quản Trị Tổ Chức | CodeProOJ</title>
+  <link rel="icon" type="image/svg+xml" href="/frontend/assets/icons/favicon.svg">
+  <link rel="stylesheet" href="/frontend/css/global/reset.css">
+  <link rel="stylesheet" href="/frontend/css/global/variables.css">
+  <link rel="stylesheet" href="/frontend/css/global/typography.css">
+  <link rel="stylesheet" href="/frontend/css/global/common.css">
+  <link rel="stylesheet" href="/frontend/css/global/icons.css">
+  <link rel="stylesheet" href="/frontend/css/components/navbar.css">
+  <link rel="stylesheet" href="/frontend/css/components/card.css">
+  <link rel="stylesheet" href="/frontend/css/responsive/mobile.css">
+  <link rel="stylesheet" href="/frontend/css/organization/organization.css">
+  <link rel="stylesheet" href="/frontend/css/organization/admin.css">
+  <link rel="stylesheet" href="/frontend/css/global/theme.css">
+  <script src="/frontend/js/core/icons.js"></script>
+  <link rel="stylesheet" href="/frontend/css/global/site-refresh.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-container"></div>
+  </header>
+
+  <main class="org-container">
+    <div class="org-admin-layout">
+      <!-- Admin Sidebar -->
+      <aside id="orgAdminSidebar"></aside>
+
+      <!-- Admin Content -->
+      <section class="org-admin-content">
+        <div class="org-admin-header">
+          <div>
+            <h2 style="font-size:1.45rem;font-weight:800;color:var(--color-text);margin:0;">
+              ⚙️ Quản Trị Tổ Chức: <span id="orgAdminTitle" style="color:#8b5cf6;">...</span>
+            </h2>
+            <p style="font-size:.84rem;color:var(--color-text-muted);margin-top:2px;">
+              Tổng quan chỉ số hoạt động, quản lý thành viên, cuộc thi và nội dung tổ chức.
+            </p>
+          </div>
+          <div>
+            <a href="/admin/menu" class="btn-org-outline" style="font-size:.84rem;margin-right:8px;border-color:rgba(239,68,68,0.4);color:#fca5a5;">
+              ⊞ Menu Admin
+            </a>
+            <a id="btnPublicView" href="#" class="btn-org-outline" style="font-size:.84rem;">
+              Trang công khai &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:1rem;margin-bottom:1.75rem;">
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;text-align:center;">
+            <div id="statM" style="font-size:1.85rem;font-weight:800;color:#3b82f6;">0</div>
+            <div style="font-size:.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-top:4px;">Thành viên</div>
+          </div>
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;text-align:center;">
+            <div id="statC" style="font-size:1.85rem;font-weight:800;color:#10b981;">0</div>
+            <div style="font-size:.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-top:4px;">Cuộc thi</div>
+          </div>
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;text-align:center;">
+            <div id="statP" style="font-size:1.85rem;font-weight:800;color:#f59e0b;">0</div>
+            <div style="font-size:.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-top:4px;">Bài tập</div>
+          </div>
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;text-align:center;">
+            <div id="statB" style="font-size:1.85rem;font-weight:800;color:#8b5cf6;">0</div>
+            <div style="font-size:.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-top:4px;">Bài viết</div>
+          </div>
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;text-align:center;">
+            <div id="statA" style="font-size:1.85rem;font-weight:800;color:#06b6d4;">0</div>
+            <div style="font-size:.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-top:4px;">Thông báo</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Panel -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem;">
+          <div style="background:#0b0f19;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;">
+            <h4 style="font-size:1.05rem;font-weight:700;color:#f8fafc;margin-bottom:.75rem;">⚡ Thao Tác Nhanh</h4>
+            <div style="display:flex;flex-direction:column;gap:.5rem;">
+              <a id="btnActMember" href="#" class="btn-org-outline" style="justify-content:flex-start;">
+                <cp-icon name="plus" size="sm"></cp-icon> Thêm &amp; Mời thành viên mới
+              </a>
+              <a id="btnActContest" href="#" class="btn-org-outline" style="justify-content:flex-start;">
+                <cp-icon name="trophy" size="sm"></cp-icon> Gán kỳ thi vào tổ chức
+              </a>
+              <a id="btnActProblem" href="#" class="btn-org-outline" style="justify-content:flex-start;">
+                <cp-icon name="code" size="sm"></cp-icon> Thêm bài tập chuyên đề
+              </a>
+              <a id="btnActPost" href="#" class="btn-org-outline" style="justify-content:flex-start;">
+                <cp-icon name="file-text" size="sm"></cp-icon> Viết bài đăng mới
+              </a>
+            </div>
+          </div>
+
+          <div style="background:#0b0f19;border:1px solid #1e293b;border-radius:10px;padding:1.25rem;">
+            <h4 style="font-size:1.05rem;font-weight:700;color:#f8fafc;margin-bottom:.75rem;">🔒 Kiểm Toán &amp; Bảo Mật</h4>
+            <div id="adminRecentAudit" style="font-size:.82rem;color:#94a3b8;display:flex;flex-direction:column;gap:.5rem;">
+              Đang tải nhật ký kiểm toán...
+            </div>
+            <div style="margin-top:1rem;">
+              <a id="linkAuditAll" href="#" style="font-size:.82rem;color:#8b5cf6;font-weight:600;">Xem toàn bộ Audit Log &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/frontend/js/core/config.js"></script>
+  <script src="/frontend/js/core/auth.js"></script>
+  <script src="/frontend/js/components/navbar.js"></script>
+  <script src="/frontend/js/organization/organization-api.js"></script>
+  <script src="/frontend/js/organization/admin.js"></script>
+  <script>
+    (async () => {
+      // Permission Guard: Only Admin or Authorized Staff
+      let userObj = null;
+      try {
+        userObj = JSON.parse(localStorage.getItem('user') || 'null');
+      } catch(e) {}
+      const rawRole = localStorage.getItem('role');
+      const rawUsername = localStorage.getItem('username');
+      const isGlobalAdmin = (userObj && (userObj.role === 'admin' || userObj.is_staff || userObj.is_superuser || userObj.username === 'admin')) || rawRole === 'admin' || rawUsername === 'admin';
+
+      const slug = OrgAPI.getOrgSlugFromUrl();
+      const orgRes = await OrgAPI.getOrg(slug);
+      const org = orgRes.data || {};
+      const isOrgAdmin = ['Owner', 'Administrator'].includes(org.user_role);
+
+      if (!isGlobalAdmin && !isOrgAdmin) {
+        alert('Chỉ Quản trị viên hệ thống hoặc Quản trị viên Tổ chức mới có quyền truy cập khu vực này.');
+        window.location.href = `/organizations/${slug}`;
+        return;
+      }
+
+      OrgAdmin.renderSidebar(slug, 'dashboard');
+
+      document.getElementById('orgAdminTitle').textContent = (org.short_name || slug).toUpperCase();
+      document.getElementById('btnPublicView').href = `/organizations/${slug}`;
+      document.getElementById('btnActMember').href = `/organizations/${slug}/admin/members`;
+      document.getElementById('btnActContest').href = `/organizations/${slug}/admin/contests`;
+      document.getElementById('btnActProblem').href = `/organizations/${slug}/admin/problems`;
+      document.getElementById('btnActPost').href = `/organizations/${slug}/admin/blog`;
+      document.getElementById('linkAuditAll').href = `/organizations/${slug}/admin/audit-log`;
+
+      const statsRes = await OrgAPI.getAdminStats(slug);
+      if (statsRes.data) {
+        const d = statsRes.data;
+        document.getElementById('statM').textContent = d.members_count || 0;
+        document.getElementById('statC').textContent = d.contests_count || 0;
+        document.getElementById('statP').textContent = d.problems_count || 0;
+        document.getElementById('statB').textContent = d.posts_count || 0;
+        document.getElementById('statA').textContent = d.announcements_count || 0;
+      }
+
+      const auditRes = await OrgAPI.getAdminAuditLog(slug);
+      const auditBox = document.getElementById('adminRecentAudit');
+      if (auditRes.data && auditRes.data.length > 0) {
+        auditBox.innerHTML = auditRes.data.slice(0, 3).map(l => `
+          <div style="padding:.4rem 0;border-bottom:1px solid #1e293b;">
+            <div style="color:#f8fafc;font-weight:600;">${l.action}: ${l.target}</div>
+            <div style="font-size:.74rem;color:#64748b;">${l.actor_username} • ${new Date(l.created_at).toLocaleDateString('vi-VN')}</div>
+          </div>
+        `).join('');
+      } else {
+        auditBox.innerHTML = '<div>Chưa có bản ghi kiểm toán nào.</div>';
+      }
+    })();
+  </script>
+</body>
+</html>

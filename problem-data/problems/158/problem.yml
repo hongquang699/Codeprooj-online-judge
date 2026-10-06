@@ -1,0 +1,9 @@
+code: "158"
+name: "158. Lọc các số chẵn từ mảng a sang mảng b"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

@@ -1,0 +1,9 @@
+code: "151"
+name: "151. Chèn thêm số có giá trị x vào cuối mảng"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

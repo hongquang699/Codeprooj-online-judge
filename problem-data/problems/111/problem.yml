@@ -1,0 +1,9 @@
+code: "111"
+name: "111. Kiểm tra một số nguyên có là số kỳ ảo (Magic)"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

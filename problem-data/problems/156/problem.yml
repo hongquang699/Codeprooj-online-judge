@@ -1,0 +1,9 @@
+code: "156"
+name: "156. Kiểm tra xem tất cả các số là số nguyên dương"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

@@ -1,0 +1,9 @@
+code: "132"
+name: "132. Tính trung bình cộng các số chẵn trong mảng"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

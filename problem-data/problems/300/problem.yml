@@ -1,0 +1,9 @@
+code: "300"
+name: "300. Xoá giá trị x trong Queue"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

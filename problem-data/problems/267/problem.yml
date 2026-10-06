@@ -1,0 +1,9 @@
+code: "267"
+name: "267. Viết hàm tìm Max, Min và vị trí tương ứng của Max, Min trong mảng"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

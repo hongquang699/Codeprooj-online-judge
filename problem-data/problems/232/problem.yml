@@ -1,0 +1,9 @@
+code: "232"
+name: "232. Tìm số lớn nhất trong ma trận"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

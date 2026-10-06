@@ -1,0 +1,9 @@
+code: MAXSUM
+name: "Tìm số lớn nhất"
+time_limit: 1.0
+memory_limit: 256
+points: 100.0
+difficulty: easy
+status: draft
+checker: standard
+validator: standard

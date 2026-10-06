@@ -1,0 +1,9 @@
+code: "160"
+name: "160. Tạo mảng b chứa tổng chữ số của các số trong mảng a"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

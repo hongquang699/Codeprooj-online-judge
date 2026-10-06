@@ -1,0 +1,9 @@
+code: "281"
+name: "281. In bảng điểm"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

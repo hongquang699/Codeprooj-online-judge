@@ -1,0 +1,197 @@
+@import url('/frontend/css/global/theme.css');
+
+/* Submissions List / History Page Styling */
+
+.list-container {
+  max-width: 1300px;
+  margin: 32px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.list-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text, #f8fafc);
+  margin: 0;
+}
+
+.list-title i {
+  color: var(--color-primary, #3b82f6);
+}
+
+.filter-card {
+  background: var(--color-surface, #1e293b);
+  border: 1px solid var(--color-border, #334155);
+  border-radius: var(--radius-lg, 12px);
+  padding: 18px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.2));
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+  flex: 1;
+}
+
+.filter-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-input {
+  background: var(--input-bg, #0f172a);
+  border: 1px solid var(--input-border, #334155);
+  border-radius: var(--radius-md, 8px);
+  padding: 8px 12px;
+  color: var(--color-text, #f8fafc);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.filter-input:focus {
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.btn-filter {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: var(--radius-md, 8px);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-filter:hover {
+  background: #1d4ed8;
+}
+
+.btn-reset {
+  background: transparent;
+  color: var(--color-text-muted, #94a3b8);
+  border: 1px solid var(--color-border, #334155);
+  padding: 9px 16px;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reset:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+/* Submissions Table */
+.submissions-card {
+  background: var(--color-surface, #1e293b);
+  border: 1px solid var(--color-border, #334155);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.3));
+  overflow: hidden;
+}
+
+.submissions-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.submissions-table th {
+  padding: 14px 18px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted, #94a3b8);
+  background: var(--table-header-bg, #090e17);
+  border-bottom: 1px solid var(--color-border, #334155);
+}
+
+.submissions-table td {
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+  color: var(--color-text, #f8fafc);
+}
+
+.submissions-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sub-link {
+  color: var(--color-primary, #3b82f6);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.sub-link:hover {
+  text-decoration: none !important;
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(15, 23, 42, 0.4);
+  border-top: 1px solid var(--color-border, #334155);
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 8px;
+}
+
+.page-btn {
+  background: #0f172a;
+  border: 1px solid var(--color-border, #334155);
+  color: var(--color-text, #f8fafc);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: all 0.2s;
+}
+
+.page-btn.active {
+  background: var(--color-primary, #3b82f6);
+  border-color: var(--color-primary, #3b82f6);
+  font-weight: 700;
+}
+
+.page-btn:hover:not(.active):not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

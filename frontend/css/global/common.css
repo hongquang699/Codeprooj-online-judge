@@ -1,0 +1,68 @@
+@import url('/frontend/css/global/theme.css');
+@import url('/frontend/css/global/icons.css');
+
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main, .container-main, .page-wrapper, .ranking-container {
+  flex: 1 0 auto;
+}
+
+footer, .app-footer {
+  margin-top: auto !important;
+  flex-shrink: 0;
+}
+
+.container {
+  max-width: 1720px;
+  width: 98%;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none !important;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.25;
+  box-sizing: border-box;
+}
+
+.btn-primary { background: var(--color-primary); color: #fff; }
+.btn-primary:hover { background: var(--color-primary-hover); }
+
+.btn-secondary { background: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+.btn-secondary:hover { background: var(--color-surface-hover); }
+
+.btn-success { background: var(--color-success); color: #fff; }
+.btn-danger { background: var(--color-danger); color: #fff; }
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.badge-ac { background: #052e16; color: #4ade80; border: 1px solid #166534; }
+.badge-wa { background: #450a0a; color: #f87171; border: 1px solid #991b1b; }
+.badge-tle { background: #451a03; color: #fbbf24; border: 1px solid #b45309; }
+.badge-pending { background: #172554; color: #60a5fa; border: 1px solid #1e40af; }

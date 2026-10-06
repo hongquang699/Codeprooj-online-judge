@@ -1,0 +1,9 @@
+code: "188"
+name: "188. Kiểm tra chuỗi s1 có kết thúc bằng chuỗi s2"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

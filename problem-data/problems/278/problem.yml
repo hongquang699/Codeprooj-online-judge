@@ -1,0 +1,9 @@
+code: "278"
+name: "278. Cộng, trừ, nhân, chia hai phân số"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

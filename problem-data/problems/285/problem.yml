@@ -1,0 +1,9 @@
+code: "285"
+name: "285. Sắp xếp danh sách theo thứ tự tăng dần của điểm"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

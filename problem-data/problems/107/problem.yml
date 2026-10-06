@@ -1,0 +1,9 @@
+code: "107"
+name: "107. Kiểm tra một số nguyên có là số hoàn hảo (Perfect)"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

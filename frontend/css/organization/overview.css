@@ -1,0 +1,86 @@
+/* Organization Overview CSS */
+
+.org-overview-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .org-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.org-stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.org-stat-box {
+  background: var(--color-surface, #111827);
+  border: 1px solid var(--color-card-border, #1e293b);
+  border-radius: var(--radius-md, 10px);
+  padding: 1.25rem;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+
+.org-stat-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.org-stat-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-primary, #3b82f6);
+  line-height: 1.2;
+}
+
+.org-stat-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted, #94a3b8);
+  font-weight: 600;
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.org-about-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary, #cbd5e1);
+  white-space: pre-line;
+}
+
+.org-item-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--color-card-border, #1e293b);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.15s;
+}
+
+.org-item-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: #3b82f6;
+}
+
+.announcement-banner {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}

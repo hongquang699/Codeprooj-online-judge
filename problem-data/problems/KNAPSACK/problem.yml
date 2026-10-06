@@ -1,0 +1,6 @@
+code: KNAPSACK
+title: 0/1 Knapsack Problem
+time_limit: 2.0
+memory_limit: 256
+points: 100
+tags: [dp, classic]

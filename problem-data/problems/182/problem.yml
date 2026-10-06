@@ -1,0 +1,9 @@
+code: "182"
+name: "182. Kiểm tra tất cả ký tự trong chuỗi có phải là chữ số"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

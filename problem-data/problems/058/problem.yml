@@ -1,0 +1,9 @@
+code: "058"
+name: "058. In ra các chữ số lẻ của một số có 8 chữ số"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

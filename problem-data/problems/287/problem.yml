@@ -1,0 +1,9 @@
+code: "287"
+name: "287. Mảng có bao nhiêu số nguyên đôi một khác nhau"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

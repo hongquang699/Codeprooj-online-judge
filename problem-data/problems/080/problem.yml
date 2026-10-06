@@ -1,0 +1,9 @@
+code: "080"
+name: "080. Đếm số nguyên chia hết cho 5 và in những số nguyên chia hết cho 5 từ m đến n"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

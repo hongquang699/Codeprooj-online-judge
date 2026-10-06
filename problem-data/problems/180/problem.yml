@@ -1,0 +1,9 @@
+code: "180"
+name: "180. Chuyển ký tự đầu tiên của từng từ sang ký tự viết hoa"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

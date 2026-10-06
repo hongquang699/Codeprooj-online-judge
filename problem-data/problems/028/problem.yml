@@ -1,0 +1,9 @@
+code: "028"
+name: "028. Tính điểm trung bình"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "easy"
+status: "published"
+checker: "standard"
+validator: "standard"

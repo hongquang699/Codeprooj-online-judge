@@ -1,0 +1,9 @@
+code: "024"
+name: "024. Tính diện tích tam giác 1"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "easy"
+status: "published"
+checker: "standard"
+validator: "standard"

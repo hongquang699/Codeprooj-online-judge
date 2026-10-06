@@ -1,0 +1,127 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vnoi_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-coding_app}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      POSTGRES_DB: ${DB_NAME:-coding_platform}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schemas:/docker-entrypoint-initdb.d
+    networks:
+      - vnoi_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: vnoi_redis
+    restart: always
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    networks:
+      - vnoi_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/backend/Dockerfile
+    container_name: vnoi_backend
+    restart: always
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?Set DJANGO_SECRET_KEY in .env}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      JUDGE_SECRET_TOKEN: ${JUDGE_SECRET_TOKEN:?Set JUDGE_SECRET_TOKEN in .env}
+      ALLOWED_HOSTS: localhost,127.0.0.1,backend,codeprooj.com,www.codeprooj.com
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-coding_app}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      DB_NAME: ${DB_NAME:-coding_platform}
+      REDIS_URL: redis://redis:6379/0
+      JUDGE_SERVER_URL: http://judge-server:9999
+      JUDGE_AUTH_TOKEN: ${JUDGE_AUTH_TOKEN:?Set JUDGE_AUTH_TOKEN in .env}
+      DMOJ_PROBLEM_DATA_ROOT: /var/coding-platform/problem-data/problems
+      DMOJ_CONTEST_DATA_ROOT: /var/coding-platform/contest-data/contests
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./problem-data:/var/coding-platform/problem-data
+      - ./contest-data:/var/coding-platform/contest-data
+      - ./storage:/var/coding-platform/storage
+    networks:
+      - vnoi_network
+
+  judge-server:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/judge/Dockerfile
+    container_name: vnoi_judge_server
+    restart: always
+    environment:
+      JUDGE_NAME: vnoj-judge-01
+      BACKEND_HOST: backend
+      BACKEND_PORT: 8000
+      JUDGE_AUTH_TOKEN: ${JUDGE_AUTH_TOKEN:?Set JUDGE_AUTH_TOKEN in .env}
+      JUDGE_PROBLEM_DATA_DIR: /var/coding-platform/problem-data/problems
+      JUDGE_STORAGE_DIR: /var/coding-platform/storage
+      JUDGE_LOG_DIR: /app/judge-system/logs
+    depends_on:
+      - backend
+      - redis
+    volumes:
+      - ./problem-data:/var/coding-platform/problem-data:ro
+      - ./storage:/var/coding-platform/storage
+      - ./judge-system/logs:/app/judge-system/logs
+    networks:
+      - vnoi_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/frontend/Dockerfile
+    container_name: vnoi_frontend
+    restart: always
+    environment:
+      DJANGO_BACKEND_HOST: backend
+      DJANGO_BACKEND_PORT: 8000
+    depends_on:
+      - backend
+    ports:
+      - "8888:8888"
+    networks:
+      - vnoi_network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/nginx/Dockerfile
+    container_name: vnoi_gateway
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - vnoi_network
+
+volumes:
+  pgdata:
+  redisdata:
+
+networks:
+  vnoi_network:
+    driver: bridge

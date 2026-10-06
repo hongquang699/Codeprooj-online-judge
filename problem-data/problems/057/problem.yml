@@ -1,0 +1,9 @@
+code: "057"
+name: "057. Kiểm tra 2 số a, b có là 2 kích thước của hình chữ nhật và tính chu vi, diện tích"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "medium"
+status: "published"
+checker: "standard"
+validator: "standard"

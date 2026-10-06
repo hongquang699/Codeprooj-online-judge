@@ -1,0 +1,9 @@
+code: "286"
+name: "286. Tạo một tập hợp s chứa các ký tự xuất hiện trong chuỗi str"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

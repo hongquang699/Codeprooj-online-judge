@@ -1,0 +1,9 @@
+code: "266"
+name: "266. Viết hàm đếm xem chuỗi s1 xuất hiện trong chuỗi s2 bao nhiêu lần"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"

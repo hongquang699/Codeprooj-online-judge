@@ -1,0 +1,9 @@
+code: "284"
+name: "284. Cộng cho mỗi bạn 1 điểm và in bảng điểm mới"
+time_limit: 1.0
+memory_limit: 262144
+points: 100.0
+difficulty: "hard"
+status: "published"
+checker: "standard"
+validator: "standard"
