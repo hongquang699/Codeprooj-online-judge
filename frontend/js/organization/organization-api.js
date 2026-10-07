@@ -3,7 +3,7 @@
  */
 
 const OrgAPI = {
-  BASE_URL: (typeof window !== 'undefined' && window.location.port === '8888') ? '/api/v1/organizations' : ((typeof window !== 'undefined' && window.API_BASE) || 'http://localhost:8000') + '/api/v1/organizations',
+  BASE_URL: (window.API_BASE || window.location.origin) + '/api/v1/organizations',
 
   getCurrentUser() {
     return localStorage.getItem('username') || '';
@@ -22,11 +22,9 @@ const OrgAPI = {
   },
 
   async request(endpoint, options = {}) {
-    const user = this.getCurrentUser();
     const token = localStorage.getItem('token');
     const headers = {
       'Content-Type': 'application/json',
-      'X-Username': user,
       ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...(options.headers || {})
     };
@@ -221,9 +219,7 @@ const OrgAPI = {
     try {
       userObj = JSON.parse(localStorage.getItem('user') || 'null');
     } catch(e) {}
-    const rawRole = localStorage.getItem('role');
-    const rawUsername = localStorage.getItem('username');
-    const isGlobalAdmin = (userObj && (userObj.role === 'admin' || userObj.is_staff || userObj.is_superuser || userObj.username === 'admin')) || rawRole === 'admin' || rawUsername === 'admin';
+    const isGlobalAdmin = Boolean(userObj && (userObj.is_staff || userObj.is_superuser));
     const isMember = Boolean(org.user_role);
     const isOrgAdmin = ['Owner', 'Administrator'].includes(org.user_role);
     const canAccessAdmin = isGlobalAdmin || isOrgAdmin;

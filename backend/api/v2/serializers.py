@@ -43,7 +43,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             return 'teacher'
         if obj.role == 'setter' or obj.user.is_staff:
             return 'setter'
-        return obj.role or 'user'
+        return obj.role if obj.role in ('user', 'teacher', 'setter') else 'user'
 
     def get_display_name(self, obj):
         full = obj.user.get_full_name()

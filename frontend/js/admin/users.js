@@ -62,7 +62,7 @@
                   <a href="/frontend/html/user/profile.html?u=${u.username}" target="_blank" style="color:${color};font-weight:700;text-decoration:none;font-size:.92rem;">
                     ${u.username}
                   </a>
-                  ${u.username === 'admin' ? '<span style="font-size:.65rem;background:#dc2626;color:#fff;padding:.1rem .35rem;border-radius:3px;margin-left:4px;">ADMIN</span>' : ''}
+                  ${u.is_staff || u.is_superuser ? '<span style="font-size:.65rem;background:#dc2626;color:#fff;padding:.1rem .35rem;border-radius:3px;margin-left:4px;">STAFF</span>' : ''}
                 </div>
               </div>
             </td>

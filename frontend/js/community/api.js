@@ -2,7 +2,7 @@
  * CodeProOJ Community Platform - Client API Service
  */
 const CommunityAPI = (() => {
-  const BASE = (window.API_BASE || 'http://localhost:8000') + '/api/v1/community';
+  const BASE = (window.API_BASE || window.location.origin) + '/api/v1/community';
 
   async function request(endpoint, options = {}) {
     const url = `${BASE}/${endpoint.replace(/^\//, '')}`;

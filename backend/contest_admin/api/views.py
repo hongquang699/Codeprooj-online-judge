@@ -4,6 +4,8 @@ import csv
 import io
 import time
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -18,6 +20,7 @@ from backend.judge.models import (
     Submission, SubmissionTestCase, Language, Profile, Clarification
 )
 from backend.judge.bridge import grade_submission, _judge_server_online, JUDGE_SERVER_URL
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from ..models.models import ContestAuditLog, ContestAdminRole, ContestAnnouncement, ContestBan
 from ..permissions.permissions import resolve_admin_user, has_contest_permission, get_user_contest_role
 from ..services.audit_service import log_contest_audit
@@ -31,14 +34,25 @@ def get_contest(contest_id):
     return get_object_or_404(Contest, key=contest_id)
 
 
+class ContestAdminAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+
 # ── 1. CONTESTS PORTAL LIST ──────────────────────────────────────────────────
-class ContestAdminListView(APIView):
+class ContestAdminListView(ContestAdminAPIView):
     def get(self, request):
         user = resolve_admin_user(request)
         if not user:
             return Response({'status': 401, 'error': 'Vui lòng đăng nhập.'}, status=401)
 
-        contests = Contest.objects.all().order_by('-start_time')
+        contests = Contest.objects.all()
+        if not (user.is_staff or user.is_superuser):
+            from backend.organizations.models import OrganizationContest
+            assigned = ContestAdminRole.objects.filter(user=user).values('contest_id')
+            owned = OrganizationContest.objects.filter(organization__owner_id=user.id).values('contest_id')
+            contests = contests.filter(Q(id__in=assigned) | Q(id__in=owned))
+        contests = contests.order_by('-start_time')
         now = timezone.now()
         data = []
         for c in contests:
@@ -101,7 +115,7 @@ class ContestAdminListView(APIView):
 
 
 # ── 2. DASHBOARD ─────────────────────────────────────────────────────────────
-class ContestAdminDashboardView(APIView):
+class ContestAdminDashboardView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -168,7 +182,7 @@ class ContestAdminDashboardView(APIView):
 
 
 # ── 3. SETTINGS & SCOREBOARD FREEZE ──────────────────────────────────────────
-class ContestAdminSettingsView(APIView):
+class ContestAdminSettingsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -224,7 +238,7 @@ class ContestAdminSettingsView(APIView):
         return Response({'status': 200, 'message': 'Cập nhật cấu hình kỳ thi thành công!'})
 
 
-class ContestAdminFreezeScoreboardView(APIView):
+class ContestAdminFreezeScoreboardView(ContestAdminAPIView):
     def post(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -247,7 +261,7 @@ class ContestAdminFreezeScoreboardView(APIView):
 
 
 # ── 4. PROBLEMS MANAGEMENT ───────────────────────────────────────────────────
-class ContestAdminProblemsView(APIView):
+class ContestAdminProblemsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -357,7 +371,7 @@ class ContestAdminProblemsView(APIView):
         return Response({'status': 200, 'message': f'Đã gỡ bài tập {prob_code} khỏi kỳ thi.'})
 
 
-class ContestAdminProblemStatementView(APIView):
+class ContestAdminProblemStatementView(ContestAdminAPIView):
     def get(self, request, contest_id, problem_code):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -399,7 +413,7 @@ class ContestAdminProblemStatementView(APIView):
         return Response({'status': 200, 'message': 'Lưu đề bài thành công!'})
 
 
-class ContestAdminProblemTestcasesView(APIView):
+class ContestAdminProblemTestcasesView(ContestAdminAPIView):
     def get(self, request, contest_id, problem_code):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -474,7 +488,7 @@ class ContestAdminProblemTestcasesView(APIView):
 
 
 # ── 5. PARTICIPANTS MANAGEMENT ───────────────────────────────────────────────
-class ContestAdminParticipantsView(APIView):
+class ContestAdminParticipantsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -546,7 +560,7 @@ class ContestAdminParticipantsView(APIView):
 
 
 # ── 6. SUBMISSIONS & REJUDGE ─────────────────────────────────────────────────
-class ContestAdminSubmissionsView(APIView):
+class ContestAdminSubmissionsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -584,7 +598,7 @@ class ContestAdminSubmissionsView(APIView):
         return Response({'status': 200, 'data': data, 'count': len(data)})
 
 
-class ContestAdminSubmissionDetailView(APIView):
+class ContestAdminSubmissionDetailView(ContestAdminAPIView):
     def get(self, request, contest_id, submission_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -621,7 +635,7 @@ class ContestAdminSubmissionDetailView(APIView):
         })
 
 
-class ContestAdminRejudgeView(APIView):
+class ContestAdminRejudgeView(ContestAdminAPIView):
     def post(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -649,7 +663,7 @@ class ContestAdminRejudgeView(APIView):
 
 
 # ── 7. RANKING & EXPORT ──────────────────────────────────────────────────────
-class ContestAdminRankingView(APIView):
+class ContestAdminRankingView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -698,7 +712,7 @@ class ContestAdminRankingView(APIView):
 
 
 # ── 8. ANNOUNCEMENTS & CLARIFICATIONS ────────────────────────────────────────
-class ContestAdminAnnouncementsView(APIView):
+class ContestAdminAnnouncementsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -748,7 +762,7 @@ class ContestAdminAnnouncementsView(APIView):
         return Response({'status': 200, 'message': f'Đã xóa thông báo "{t}".'})
 
 
-class ContestAdminClarificationsView(APIView):
+class ContestAdminClarificationsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -793,7 +807,7 @@ class ContestAdminClarificationsView(APIView):
 
 
 # ── 9. JURY & CLUSTER HEALTH ─────────────────────────────────────────────────
-class ContestAdminJuryView(APIView):
+class ContestAdminJuryView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -828,7 +842,7 @@ class ContestAdminJuryView(APIView):
 
 
 # ── 10. REPORTS & STATISTICS ─────────────────────────────────────────────────
-class ContestAdminReportsView(APIView):
+class ContestAdminReportsView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)
@@ -880,7 +894,7 @@ class ContestAdminReportsView(APIView):
 
 
 # ── 11. AUDIT LOG ────────────────────────────────────────────────────────────
-class ContestAdminAuditLogView(APIView):
+class ContestAdminAuditLogView(ContestAdminAPIView):
     def get(self, request, contest_id):
         c = get_contest(contest_id)
         user = resolve_admin_user(request)

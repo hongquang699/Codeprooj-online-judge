@@ -1,5 +1,7 @@
 import json
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -8,6 +10,7 @@ from django.utils import timezone
 from django.db.models import Q
 
 from backend.judge.models import Organization, Contest, Problem, Profile, Submission
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from .models import (
     OrganizationRole, OrganizationPermission, OrganizationMember,
     OrganizationContest, OrganizationProblem, OrganizationPost,
@@ -22,13 +25,15 @@ from .serializers import (
 )
 from .permissions import user_has_org_permission, get_user_org_role
 
+
+class OrganizationAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 def resolve_user(request):
-    """Helper to get user from session or query param (for dev ease)."""
-    if hasattr(request, 'user') and request.user.is_authenticated:
+    """Resolve the active account authenticated by DRF."""
+    if hasattr(request, 'user') and request.user.is_authenticated and request.user.is_active:
         return request.user
-    username = request.headers.get('X-Username') or request.GET.get('user') or request.GET.get('username')
-    if username:
-        return User.objects.filter(username=username).first()
     return None
 
 def log_audit(org, actor, action, target, ip='127.0.0.1', details=''):
@@ -49,7 +54,7 @@ def log_activity(org, user, action, target_type='', target_id='', target_title='
         pass
 
 # ── 1. ORGANIZATIONS ROOT LIST & CREATE ────────────────────────────────────────
-class OrganizationListCreateAPIView(APIView):
+class OrganizationListCreateAPIView(OrganizationAPIView):
     def get(self, request):
         search = request.GET.get('search', '').strip()
         qs = Organization.objects.all().order_by('-member_count', 'name')
@@ -93,7 +98,7 @@ class OrganizationListCreateAPIView(APIView):
             cover=data.get('cover', ''),
             is_open=data.get('is_open', True),
             owner_id=user.id,
-            verified=data.get('verified', False)
+            verified=bool(data.get('verified', False)) if (user.is_staff or user.is_superuser) else False
         )
 
         # Create default roles
@@ -117,7 +122,7 @@ class OrganizationListCreateAPIView(APIView):
         return Response({'status': 201, 'message': 'Tạo tổ chức thành công', 'data': serializer.data}, status=201)
 
 # ── 2. ORGANIZATION DETAIL & UPDATE ──────────────────────────────────────────
-class OrganizationDetailAPIView(APIView):
+class OrganizationDetailAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         serializer = OrganizationDetailSerializer(org, context={'request': request})
@@ -151,7 +156,7 @@ class OrganizationDetailAPIView(APIView):
         return Response({'status': 200, 'message': f'Đã xóa tổ chức "{org_name}" thành công!'})
 
 # ── 3. JOIN & LEAVE ORGANIZATION ─────────────────────────────────────────────
-class OrganizationJoinAPIView(APIView):
+class OrganizationJoinAPIView(OrganizationAPIView):
     def post(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         user = resolve_user(request)
@@ -180,7 +185,7 @@ class OrganizationJoinAPIView(APIView):
         msg = 'Tham gia tổ chức thành công!' if status_val == 'active' else 'Yêu cầu tham gia đã gửi, vui lòng chờ duyệt.'
         return Response({'status': 200, 'message': msg, 'membership_status': status_val})
 
-class OrganizationLeaveAPIView(APIView):
+class OrganizationLeaveAPIView(OrganizationAPIView):
     def post(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         user = resolve_user(request)
@@ -201,7 +206,7 @@ class OrganizationLeaveAPIView(APIView):
         return Response({'status': 200, 'message': 'Đã rời khỏi tổ chức thành công.'})
 
 # ── 4. MEMBERS LIST & MANAGEMENT ─────────────────────────────────────────────
-class OrganizationMembersAPIView(APIView):
+class OrganizationMembersAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         search = request.GET.get('search', '').strip()
@@ -251,7 +256,7 @@ class OrganizationMembersAPIView(APIView):
 
         return Response({'status': 200, 'message': f'Đã thêm thành viên {username} thành công!'})
 
-class OrganizationMemberDetailAPIView(APIView):
+class OrganizationMemberDetailAPIView(OrganizationAPIView):
     def patch(self, request, slug, username):
         """Change member role or ban/unban status."""
         org = get_object_or_404(Organization, slug=slug)
@@ -296,7 +301,7 @@ class OrganizationMemberDetailAPIView(APIView):
         return Response({'status': 200, 'message': f'Đã xóa {username} khỏi tổ chức.'})
 
 # ── 5. CONTESTS ──────────────────────────────────────────────────────────────
-class OrganizationContestsAPIView(APIView):
+class OrganizationContestsAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         user = resolve_user(request)
@@ -441,7 +446,7 @@ class OrganizationContestsAPIView(APIView):
         return Response({'status': 200, 'message': f'Đã gỡ cuộc thi "{name}" khỏi tổ chức thành công.'})
 
 # ── 6. PROBLEMS ──────────────────────────────────────────────────────────────
-class OrganizationProblemsAPIView(APIView):
+class OrganizationProblemsAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
 
@@ -574,7 +579,7 @@ class OrganizationProblemsAPIView(APIView):
         return Response({'status': 200, 'message': f'Đã gỡ bài tập "{code} - {prob_name}" khỏi tổ chức thành công!'})
 
 # ── 7. RANKING ───────────────────────────────────────────────────────────────
-class OrganizationRankingAPIView(APIView):
+class OrganizationRankingAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         members = OrganizationMember.objects.filter(
@@ -602,7 +607,7 @@ class OrganizationRankingAPIView(APIView):
         return Response({'status': 200, 'data': {'objects': objects, 'total': len(objects)}})
 
 # ── 8. BLOG / POSTS ──────────────────────────────────────────────────────────
-class OrganizationBlogAPIView(APIView):
+class OrganizationBlogAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         posts = OrganizationPost.objects.filter(organization=org).select_related('author')
@@ -630,7 +635,7 @@ class OrganizationBlogAPIView(APIView):
         serializer = OrganizationPostSerializer(post)
         return Response({'status': 201, 'message': 'Đăng bài viết thành công!', 'data': serializer.data}, status=201)
 
-class OrganizationBlogDetailAPIView(APIView):
+class OrganizationBlogDetailAPIView(OrganizationAPIView):
     def get(self, request, slug, post_id):
         org = get_object_or_404(Organization, slug=slug)
         post = get_object_or_404(OrganizationPost, organization=org, id=post_id)
@@ -648,7 +653,7 @@ class OrganizationBlogDetailAPIView(APIView):
         return Response({'status': 200, 'message': 'Đã xóa bài viết.'})
 
 # ── 9. ANNOUNCEMENTS ─────────────────────────────────────────────────────────
-class OrganizationAnnouncementsAPIView(APIView):
+class OrganizationAnnouncementsAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         ann = OrganizationAnnouncement.objects.filter(organization=org, is_active=True).select_related('author')
@@ -690,7 +695,7 @@ class OrganizationAnnouncementsAPIView(APIView):
         return Response({'status': 200, 'message': f'Đã xóa thông báo "{ann_title}" thành công!'})
 
 # ── 10. ACTIVITY STREAM ──────────────────────────────────────────────────────
-class OrganizationActivityAPIView(APIView):
+class OrganizationActivityAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         acts = OrganizationActivity.objects.filter(organization=org).select_related('user')[:50]
@@ -698,7 +703,7 @@ class OrganizationActivityAPIView(APIView):
         return Response({'status': 200, 'data': serializer.data})
 
 # ── 11. ADMIN APIS: STATS, ROLES, PERMISSIONS, INVITATIONS, AUDIT-LOG ────────
-class OrganizationAdminStatsAPIView(APIView):
+class OrganizationAdminStatsAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         actor = resolve_user(request)
@@ -717,14 +722,14 @@ class OrganizationAdminStatsAPIView(APIView):
             }
         })
 
-class OrganizationAdminRolesAPIView(APIView):
+class OrganizationAdminRolesAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         roles = OrganizationRole.objects.filter(organization=org).prefetch_related('permissions')
         serializer = OrganizationRoleSerializer(roles, many=True)
         return Response({'status': 200, 'data': serializer.data})
 
-class OrganizationAdminInvitationsAPIView(APIView):
+class OrganizationAdminInvitationsAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         invs = OrganizationInvitation.objects.filter(organization=org).select_related('inviter', 'role')
@@ -748,7 +753,7 @@ class OrganizationAdminInvitationsAPIView(APIView):
         log_audit(org, actor, 'SEND_INVITATION', invitee, details=f"Mời tham gia vai trò {role.name}")
         return Response({'status': 201, 'message': f'Đã gửi lời mời tới {invitee}!'})
 
-class OrganizationAdminAuditLogAPIView(APIView):
+class OrganizationAdminAuditLogAPIView(OrganizationAPIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         actor = resolve_user(request)

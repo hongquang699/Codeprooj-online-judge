@@ -262,7 +262,7 @@
     }
 
     function getEffectiveRole(u) {
-      if ((u.is_staff && (u.username === 'admin' || u.is_superuser)) || u.role === 'admin') return 'admin';
+      if (u.is_superuser || (u.is_staff && u.role === 'admin')) return 'admin';
       if (u.role === 'teacher') return 'teacher';
       if (u.role === 'setter' || (u.is_staff && !u.is_superuser)) return 'setter';
       return u.role || 'user';

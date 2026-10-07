@@ -271,22 +271,11 @@
               <!-- Custom Test Section (Collapsible Accordion) -->
               <div class="custom-test-card">
                 <div class="custom-test-header" onclick="toggleCustomTest()">
-                  <span>🧪 Chạy thử với dữ liệu tùy chỉnh (Custom Testcase)</span>
+                  <span>🧪 Chạy thử với dữ liệu tùy chỉnh</span>
                   <span id="customTestToggleIcon">▼</span>
                 </div>
                 <div class="custom-test-body" id="customTestBody">
-                  <label class="form-label" style="margin-bottom:0.4rem;">DỮ LIỆU ĐẦU VÀO (STDIN):</label>
-                  <textarea id="customStdin" rows="4" class="custom-textarea" placeholder="Nhập dữ liệu test vào đây..."></textarea>
-                  
-                  <div style="margin-top:0.75rem;display:flex;gap:0.75rem;align-items:center;">
-                    <button type="button" class="btn-tmath-test" id="btnRunCustomTest" onclick="runCustomTest()">
-                      ▶ Chạy thử nghiệm
-                    </button>
-                    <span id="customTestStatus" style="font-size:0.8rem;color:#94a3b8;"></span>
-                  </div>
-
-                  <label class="form-label" style="margin-top:0.85rem;margin-bottom:0.4rem;">KẾT QUẢ ĐẦU RA (STDOUT):</label>
-                  <div id="customStdout" class="custom-test-out">Chưa chạy thử nghiệm.</div>
+                  <p>Chạy thử với đầu vào tùy chỉnh chưa được hỗ trợ. Nút nộp bài bên dưới sẽ chấm mã nguồn bằng bộ testcase của đề.</p>
                 </div>
               </div>
 
@@ -697,52 +686,6 @@ end.`
       } else {
         body.style.display = 'block';
         if (icon) icon.textContent = '▲';
-      }
-    }
-
-    // Run Custom Test
-    async function runCustomTest() {
-      let code = '';
-      if (window.CodeIDE && typeof window.CodeIDE.getValue === 'function') {
-        try { code = window.CodeIDE.getValue(); } catch(e) {}
-      }
-      if (!code) {
-        const ta = document.getElementById('sourceCodeArea');
-        if (ta) code = ta.value;
-      }
-      code = (code || '').trim();
-
-      const stdin = document.getElementById('customStdin')?.value || '';
-      const lang = selectLanguage ? selectLanguage.value : 'CPP17';
-      const statusEl = document.getElementById('customTestStatus');
-      const stdoutEl = document.getElementById('customStdout');
-
-      if (!code) {
-        alert('Vui lòng nhập mã nguồn trước khi chạy thử.');
-        return;
-      }
-
-      if (statusEl) statusEl.textContent = 'Đang biên dịch & thực thi...';
-      if (stdoutEl) stdoutEl.textContent = 'Chờ máy chấm trả về kết quả...';
-
-      try {
-        const resp = await fetch('/api/v2/submit', {
-          method: 'POST',
-          headers: getSubmitHeaders(),
-          body: JSON.stringify({
-            problem: problemCode,
-            language: lang,
-            source: code,
-            custom_test: true,
-            stdin: stdin
-          })
-        });
-        const json = await resp.json();
-        if (statusEl) statusEl.textContent = 'Hoàn tất!';
-        if (stdoutEl) stdoutEl.textContent = json?.data?.stdout || json?.data?.result || 'Chạy xong, không có dữ liệu ra.';
-      } catch (err) {
-        if (statusEl) statusEl.textContent = 'Lỗi kết nối';
-        if (stdoutEl) stdoutEl.textContent = 'Lỗi thực thi: ' + err.message;
       }
     }
 

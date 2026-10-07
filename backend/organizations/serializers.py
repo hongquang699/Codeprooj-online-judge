@@ -45,7 +45,7 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
             u = User.objects.filter(id=owner_id).first()
             if u:
                 return {'id': u.id, 'username': u.username, 'display_name': u.get_full_name() or u.username}
-        return {'id': 1, 'username': 'admin', 'display_name': 'CodePro Admin'}
+        return None
 
     def get_member_count(self, obj):
         count = obj.org_members.filter(status='active').count()
@@ -61,11 +61,8 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
         req = self.context.get('request')
         if not req:
             return None
-        if hasattr(req, 'user') and req.user and req.user.is_authenticated:
+        if hasattr(req, 'user') and req.user and req.user.is_authenticated and req.user.is_active:
             return req.user
-        username = req.headers.get('X-Username') or req.GET.get('user') or req.GET.get('username')
-        if username:
-            return User.objects.filter(username=username).first()
         return None
 
     def get_user_status(self, obj):

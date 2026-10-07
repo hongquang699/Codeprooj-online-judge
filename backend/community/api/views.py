@@ -1,11 +1,14 @@
 from rest_framework.views import APIView
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, F
 from django.utils import timezone
 
-from backend.judge.models import Profile, User
+from backend.judge.models import Profile
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from backend.community.models import (
     Post, Comment, ForumCategory, Thread, ThreadPost,
     Reaction, Follow, Group, GroupMember, Conversation, Message,
@@ -26,39 +29,39 @@ from .serializers import (
     MessageSerializer, ReportSerializer
 )
 
+
+class CommunityAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 def api_response(data=None, error=None, status_code=200):
     if error:
         return Response({'status': status_code, 'error': error}, status=status_code)
     return Response({'status': status_code, 'data': data}, status=status_code)
 
 def get_current_profile(request):
-    username = request.data.get('user') or request.GET.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
-    prof = Profile.objects.filter(user__username=username).first()
-    if not prof:
-        user = User.objects.filter(username=username).first()
-        if user:
-            prof, _ = Profile.objects.get_or_create(user=user)
-        else:
-            admin_u = User.objects.first()
-            prof = admin_u.profile if admin_u else None
-    return prof
+    user = request.user
+    if not user or not user.is_authenticated or not user.is_active:
+        return None
+    profile, _ = Profile.objects.get_or_create(user=user)
+    return profile
 
 
 # ── 1. FEED ─────────────────────────────────────────────────────────────────
-class FeedView(APIView):
+class FeedView(CommunityAPIView):
     def get(self, request):
         feed_data = FeedService.get_community_feed()
-        from backend.api.v2.serializers import ContestListSerializer, UserProfileSerializer
+        from backend.api.v2.serializers import ContestListSerializer, PublicUserProfileSerializer
         return api_response({
             'posts': PostSerializer(feed_data['posts'], many=True).data,
             'trending_threads': ThreadListSerializer(feed_data['trending_threads'], many=True).data,
             'upcoming_contests': ContestListSerializer(feed_data['upcoming_contests'], many=True).data,
-            'top_coders': UserProfileSerializer(feed_data['top_coders'], many=True).data
+            'top_coders': PublicUserProfileSerializer(feed_data['top_coders'], many=True).data
         })
 
 
 # ── 2. POSTS ────────────────────────────────────────────────────────────────
-class PostListView(APIView):
+class PostListView(CommunityAPIView):
     def get(self, request):
         tag = request.GET.get('tag')
         search = request.GET.get('q')
@@ -105,7 +108,7 @@ class PostListView(APIView):
         )
         return api_response(PostSerializer(post).data, status_code=201)
 
-class PostDetailView(APIView):
+class PostDetailView(CommunityAPIView):
     def get(self, request, pk):
         post = get_object_or_404(Post.objects.select_related('author__user'), id=pk, is_hidden=False)
         Post.objects.filter(id=post.id).update(view_count=F('view_count') + 1)
@@ -133,7 +136,7 @@ class PostDetailView(APIView):
         post.save(update_fields=['is_hidden'])
         return api_response({'message': 'Đã xóa bài viết thành công'})
 
-class PostPinView(APIView):
+class PostPinView(CommunityAPIView):
     def post(self, request, pk):
         post = get_object_or_404(Post, id=pk)
         author = get_current_profile(request)
@@ -143,7 +146,7 @@ class PostPinView(APIView):
         post.save(update_fields=['is_pinned'])
         return api_response({'message': f'Bài viết đã {"ghim" if post.is_pinned else "bỏ ghim"}', 'is_pinned': post.is_pinned})
 
-class PostCommentsView(APIView):
+class PostCommentsView(CommunityAPIView):
     def get(self, request, pk):
         comments = CommentRepository.get_by_post(pk)
         return api_response({'objects': CommentSerializer(comments, many=True).data})
@@ -173,7 +176,7 @@ class PostCommentsView(APIView):
 
 
 # ── 3. REACTIONS ────────────────────────────────────────────────────────────
-class ReactionView(APIView):
+class ReactionView(CommunityAPIView):
     def post(self, request):
         target_type = request.data.get('target_type', 'post')
         target_id = int(request.data.get('target_id', 0))
@@ -185,12 +188,12 @@ class ReactionView(APIView):
 
 
 # ── 4. FORUM ────────────────────────────────────────────────────────────────
-class ForumCategoriesView(APIView):
+class ForumCategoriesView(CommunityAPIView):
     def get(self, request):
         cats = ForumCategory.objects.filter(is_active=True).order_by('order')
         return api_response({'objects': ForumCategorySerializer(cats, many=True).data})
 
-class ForumCategoryThreadsView(APIView):
+class ForumCategoryThreadsView(CommunityAPIView):
     def get(self, request, slug):
         cat = get_object_or_404(ForumCategory, slug=slug, is_active=True)
         search = request.GET.get('q')
@@ -200,7 +203,7 @@ class ForumCategoryThreadsView(APIView):
             'threads': ThreadListSerializer(threads, many=True).data
         })
 
-class ForumThreadListView(APIView):
+class ForumThreadListView(CommunityAPIView):
     def get(self, request):
         search = request.GET.get('q')
         cat_slug = request.GET.get('category')
@@ -227,7 +230,7 @@ class ForumThreadListView(APIView):
         )
         return api_response(ThreadDetailSerializer(thread).data, status_code=201)
 
-class ForumThreadDetailView(APIView):
+class ForumThreadDetailView(CommunityAPIView):
     def get(self, request, pk):
         thread = get_object_or_404(Thread.objects.select_related('author__user', 'category'), id=pk, is_hidden=False)
         Thread.objects.filter(id=thread.id).update(view_count=F('view_count') + 1)
@@ -254,7 +257,7 @@ class ForumThreadDetailView(APIView):
         thread.save(update_fields=['is_hidden'])
         return api_response({'message': 'Đã xóa chủ đề thành công'})
 
-class ForumThreadReplyView(APIView):
+class ForumThreadReplyView(CommunityAPIView):
     def post(self, request, pk):
         thread = get_object_or_404(Thread, id=pk, is_hidden=False)
         if thread.is_locked:
@@ -278,7 +281,7 @@ class ForumThreadReplyView(APIView):
         )
         return api_response(ThreadPostSerializer(reply).data, status_code=201)
 
-class ForumThreadLockView(APIView):
+class ForumThreadLockView(CommunityAPIView):
     def post(self, request, pk):
         thread = get_object_or_404(Thread, id=pk)
         author = get_current_profile(request)
@@ -288,7 +291,7 @@ class ForumThreadLockView(APIView):
         thread.save(update_fields=['is_locked'])
         return api_response({'message': f'Chủ đề đã {"khóa" if thread.is_locked else "mở khóa"}', 'is_locked': thread.is_locked})
 
-class ForumThreadPinView(APIView):
+class ForumThreadPinView(CommunityAPIView):
     def post(self, request, pk):
         thread = get_object_or_404(Thread, id=pk)
         author = get_current_profile(request)
@@ -300,7 +303,7 @@ class ForumThreadPinView(APIView):
 
 
 # ── 5. GROUPS ───────────────────────────────────────────────────────────────
-class GroupListView(APIView):
+class GroupListView(CommunityAPIView):
     def get(self, request):
         qs = Group.objects.all().select_related('owner__user').order_by('-member_count')
         return api_response({'objects': GroupSerializer(qs, many=True).data})
@@ -318,7 +321,7 @@ class GroupListView(APIView):
         GroupMember.objects.create(group=group, user=author, role='owner')
         return api_response(GroupSerializer(group).data, status_code=201)
 
-class GroupJoinView(APIView):
+class GroupJoinView(CommunityAPIView):
     def post(self, request, pk):
         group = get_object_or_404(Group, id=pk)
         user = get_current_profile(request)
@@ -328,7 +331,7 @@ class GroupJoinView(APIView):
             group.save(update_fields=['member_count'])
         return api_response({'message': f'Đã gia nhập nhóm {group.name}', 'is_member': True})
 
-class GroupLeaveView(APIView):
+class GroupLeaveView(CommunityAPIView):
     def post(self, request, pk):
         group = get_object_or_404(Group, id=pk)
         user = get_current_profile(request)
@@ -339,13 +342,17 @@ class GroupLeaveView(APIView):
 
 
 # ── 6. DIRECT MESSAGES ──────────────────────────────────────────────────────
-class ConversationsView(APIView):
+class ConversationsView(CommunityAPIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = get_current_profile(request)
         convs = Conversation.objects.filter(Q(participant_1=user) | Q(participant_2=user)).select_related('participant_1__user', 'participant_2__user')
         return api_response({'objects': ConversationSerializer(convs, many=True).data})
 
-class MessagesView(APIView):
+class MessagesView(CommunityAPIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, conversation_id):
         conv = get_object_or_404(Conversation, id=conversation_id)
         user = get_current_profile(request)
@@ -359,6 +366,8 @@ class MessagesView(APIView):
     def post(self, request, conversation_id):
         conv = get_object_or_404(Conversation, id=conversation_id)
         user = get_current_profile(request)
+        if user not in (conv.participant_1, conv.participant_2):
+            return api_response(error={'message': 'Không có quyền gửi tin nhắn vào cuộc trò chuyện này'}, status_code=403)
         content = request.data.get('content', '').strip()
         if not content:
             return api_response(error={'message': 'Nội dung tin nhắn không được để trống'}, status_code=400)
@@ -379,7 +388,7 @@ class MessagesView(APIView):
         )
         return api_response(MessageSerializer(msg).data, status_code=201)
 
-class StartConversationView(APIView):
+class StartConversationView(CommunityAPIView):
     def post(self, request):
         user = get_current_profile(request)
         target_username = request.data.get('target_user')
@@ -399,7 +408,9 @@ class StartConversationView(APIView):
 
 
 # ── 7. NOTIFICATIONS ────────────────────────────────────────────────────────
-class NotificationsView(APIView):
+class NotificationsView(CommunityAPIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = get_current_profile(request)
         unread_only = request.GET.get('unread') == 'true'
@@ -409,13 +420,13 @@ class NotificationsView(APIView):
             'objects': NotificationSerializer(notifs[:30], many=True).data
         })
 
-class NotificationReadView(APIView):
+class NotificationReadView(CommunityAPIView):
     def post(self, request, pk):
         user = get_current_profile(request)
         Notification.objects.filter(id=pk, recipient=user).update(is_read=True)
         return api_response({'message': 'Đã đánh dấu đã đọc'})
 
-class NotificationReadAllView(APIView):
+class NotificationReadAllView(CommunityAPIView):
     def post(self, request):
         user = get_current_profile(request)
         NotificationService.mark_all_read(user)
@@ -423,7 +434,7 @@ class NotificationReadAllView(APIView):
 
 
 # ── 8. SEARCH ───────────────────────────────────────────────────────────────
-class SearchView(APIView):
+class SearchView(CommunityAPIView):
     def get(self, request):
         q = request.GET.get('q', '').strip()
         if not q:
@@ -433,16 +444,16 @@ class SearchView(APIView):
         threads = Thread.objects.filter(Q(title__icontains=q) | Q(content__icontains=q), is_hidden=False)[:10]
         users = Profile.objects.filter(Q(user__username__icontains=q) | Q(about__icontains=q))[:10]
 
-        from backend.api.v2.serializers import UserProfileSerializer
+        from backend.api.v2.serializers import PublicUserProfileSerializer
         return api_response({
             'posts': PostSerializer(posts, many=True).data,
             'threads': ThreadListSerializer(threads, many=True).data,
-            'users': UserProfileSerializer(users, many=True).data
+            'users': PublicUserProfileSerializer(users, many=True).data
         })
 
 
 # ── 9. REPORTS & MODERATION ─────────────────────────────────────────────────
-class ReportsView(APIView):
+class ReportsView(CommunityAPIView):
     def get(self, request):
         author = get_current_profile(request)
         if not (author and author.user.is_staff):
@@ -463,7 +474,7 @@ class ReportsView(APIView):
         rep = ModerationService.create_report(reporter, target_type, target_id, reason, details)
         return api_response(ReportSerializer(rep).data, status_code=201)
 
-class ModerationActionView(APIView):
+class ModerationActionView(CommunityAPIView):
     def post(self, request):
         author = get_current_profile(request)
         if not (author and author.user.is_staff):
@@ -479,11 +490,11 @@ class ModerationActionView(APIView):
 
 
 # ── 10. USER SOCIAL ─────────────────────────────────────────────────────────
-class UserCommunityProfileView(APIView):
+class UserCommunityProfileView(CommunityAPIView):
     def get(self, request, username):
         user_prof = get_object_or_404(Profile.objects.select_related('user'), user__username=username)
-        from backend.api.v2.serializers import UserProfileSerializer
-        data = UserProfileSerializer(user_prof).data
+        from backend.api.v2.serializers import PublicUserProfileSerializer
+        data = PublicUserProfileSerializer(user_prof).data
 
         data['posts_count'] = Post.objects.filter(author=user_prof, is_hidden=False).count()
         data['threads_count'] = Thread.objects.filter(author=user_prof, is_hidden=False).count()
@@ -498,7 +509,7 @@ class UserCommunityProfileView(APIView):
 
         return api_response({'object': data})
 
-class UserFollowView(APIView):
+class UserFollowView(CommunityAPIView):
     def post(self, request, username):
         target_prof = get_object_or_404(Profile, user__username=username)
         current = get_current_profile(request)

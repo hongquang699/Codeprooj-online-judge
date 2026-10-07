@@ -120,9 +120,7 @@
       try {
         userObj = JSON.parse(localStorage.getItem('user') || 'null');
       } catch(e) {}
-      const rawRole = localStorage.getItem('role');
-      const rawUsername = localStorage.getItem('username');
-      const isGlobalAdmin = (userObj && (userObj.role === 'admin' || userObj.is_staff || userObj.is_superuser || userObj.username === 'admin')) || rawRole === 'admin' || rawUsername === 'admin';
+      const isGlobalAdmin = Boolean(userObj && (userObj.is_staff || userObj.is_superuser));
 
       const slug = OrgAPI.getOrgSlugFromUrl();
       const orgRes = await OrgAPI.getOrg(slug);

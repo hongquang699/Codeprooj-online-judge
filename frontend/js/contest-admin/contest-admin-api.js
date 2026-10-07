@@ -27,11 +27,6 @@ const ContestAdminAPI = {
     if (token) {
       headers['Authorization'] = `Token ${token}`;
     }
-    const username = localStorage.getItem('username');
-    if (username) {
-      headers['X-Username'] = username;
-    }
-
     try {
       const resp = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,

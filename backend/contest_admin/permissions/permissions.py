@@ -1,5 +1,4 @@
 from backend.judge.models import Contest
-from django.contrib.auth.models import User
 
 # Role capability mapping
 ROLE_PERMISSIONS = {
@@ -28,22 +27,19 @@ ROLE_PERMISSIONS = {
 }
 
 def resolve_admin_user(request):
-    """Helper to extract user from session, token, X-Username header or query."""
-    if hasattr(request, 'user') and request.user.is_authenticated:
+    """Use only the account authenticated by DRF for contest administration."""
+    if hasattr(request, 'user') and request.user.is_authenticated and request.user.is_active:
         return request.user
-    username = request.headers.get('X-Username') or request.GET.get('user') or request.GET.get('username')
-    if username:
-        return User.objects.filter(username=username).first()
     return None
 
 def has_contest_permission(user, contest, permission_name):
     """
     Check if user has specific permission in this contest.
-    Superusers, staff, admin username, and contest authors/owners have full rights.
+    Active superusers, staff, and organization owners have full rights.
     """
-    if not user:
+    if not user or not user.is_authenticated or not user.is_active:
         return False
-    if getattr(user, 'is_superuser', False) or getattr(user, 'is_staff', False) or getattr(user, 'username', '') == 'admin':
+    if user.is_superuser or user.is_staff:
         return True
 
     # Check if contest was created by user or linked through organization owned by user
@@ -55,10 +51,6 @@ def has_contest_permission(user, contest, permission_name):
     from ..models.models import ContestAdminRole
     role_obj = ContestAdminRole.objects.filter(contest=contest, user=user).first()
     if not role_obj:
-        # Check if user has teacher role
-        profile = getattr(user, 'profile', None)
-        if profile and profile.role in ['teacher', 'setter']:
-            return True
         return False
 
     role = role_obj.role
@@ -74,9 +66,9 @@ def has_contest_permission(user, contest, permission_name):
 
 def get_user_contest_role(user, contest):
     """Return user's assigned role name or 'Admin' for superusers."""
-    if not user:
+    if not user or not user.is_authenticated or not user.is_active:
         return None
-    if getattr(user, 'is_superuser', False) or getattr(user, 'is_staff', False) or getattr(user, 'username', '') == 'admin':
+    if user.is_superuser or user.is_staff:
         return 'Contest Administrator'
     
     from backend.organizations.models import OrganizationContest
@@ -89,10 +81,4 @@ def get_user_contest_role(user, contest):
     if role_obj:
         return role_obj.get_role_display()
     
-    profile = getattr(user, 'profile', None)
-    if profile and profile.role == 'teacher':
-        return 'Teacher / Manager'
-    if profile and profile.role == 'setter':
-        return 'Problem Setter'
-
     return None
