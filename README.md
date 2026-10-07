@@ -97,6 +97,8 @@ Mỗi `id` khớp tên file `.in`/`.out` trong `cases/`. API soạn đề tự g
 
 Lời giải mẫu được đưa vào queue của Judge Manager và chạy trên worker/sandbox giống lượt chấm bài. Django chỉ gửi mã nguồn và nhận `job_id`; nó không biên dịch hay thực thi mã lời giải trong web process. Worker phải mount cùng thư mục `problem-data/problems` để đọc testcase và cấu hình mới.
 
+Bài `000` (`A + B - C`) hiện có 15 ca hợp lệ theo giới hạn `-10..10`: hai ví dụ được đánh dấu sample, các ca còn lại tập trung vào dấu âm và giá trị biên; trọng số testcase bí mật cộng thành 100 điểm trong subtask 1.
+
 ---
 
 ## 🛡️ Bảo mật và phạm vi bảo vệ

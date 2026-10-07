@@ -1,0 +1,102 @@
+{
+  "cases": [
+    {
+      "id": "01",
+      "points": 0,
+      "subtask": 1,
+      "sample": true
+    },
+    {
+      "id": "02",
+      "points": 0,
+      "subtask": 1,
+      "sample": true
+    },
+    {
+      "id": "03",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "04",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "05",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "06",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "07",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "08",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "09",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "10",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "11",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "12",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "13",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "14",
+      "points": 8,
+      "subtask": 1,
+      "sample": false
+    },
+    {
+      "id": "15",
+      "points": 4,
+      "subtask": 1,
+      "sample": false
+    }
+  ],
+  "subtasks": [
+    {
+      "id": 1,
+      "points": 100,
+      "scoring_method": "sum",
+      "depends_on": []
+    }
+  ]
+}
