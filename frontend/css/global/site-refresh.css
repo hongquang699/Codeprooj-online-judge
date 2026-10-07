@@ -140,6 +140,18 @@ button:disabled, .btn:disabled, [aria-disabled="true"] { cursor: not-allowed; op
 .navbar :is(.btn-nav-control, .theme-toggle-btn, .lang-toggle-btn) { min-height: 40px; }
 .navbar .nav-actions a[data-i18n="nav.register"] { background: #2b68de !important; color: #fff !important; }
 
+/* Data pages use the available viewport width while keeping readable tables on small screens. */
+:is(.list-container, .ranking-container, .problems-list-container) {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding-inline: clamp(1rem, 2vw, 2.5rem);
+}
+.list-container .table-responsive { overflow-x: auto; }
+.list-container .submissions-table { min-width: 1050px; }
+.ranking-container .ranking-table { min-width: 760px; }
+.problems-list-container .prob-tbl { min-width: 900px; }
+
 /* Shared surfaces and data-heavy pages */
 :is(.card, .home-card, .profile-card, .table-card, .filter-card, .submissions-card, .ranking-card, .sidebar-card, .stat-card-item, .stat-box, .wiki-preview-card, .modal-card, .panel, .auth-card) {
   border-radius: var(--radius-lg);
