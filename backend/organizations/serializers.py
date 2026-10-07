@@ -29,6 +29,7 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
     contest_count = serializers.SerializerMethodField()
     user_status = serializers.SerializerMethodField()
     user_role = serializers.SerializerMethodField()
+    can_manage = serializers.SerializerMethodField()
 
     class Meta:
         model = Organization
@@ -36,7 +37,7 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
             'id', 'slug', 'name', 'short_name', 'about', 'description',
             'logo', 'cover', 'website', 'is_open', 'verified',
             'member_count', 'problem_count', 'contest_count',
-            'owner', 'user_status', 'user_role', 'creation_date'
+            'owner', 'user_status', 'user_role', 'can_manage', 'creation_date'
         ]
 
     def get_owner(self, obj):
@@ -78,6 +79,13 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
             return None
         m = obj.org_members.filter(user=u, status='active').select_related('role').first()
         return m.role.name if m else None
+
+    def get_can_manage(self, obj):
+        user = self._get_request_user()
+        if not user:
+            return False
+        from .permissions import user_has_org_permission
+        return user_has_org_permission(user, obj, 'organization.edit')
 
 class OrganizationMemberSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')

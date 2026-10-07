@@ -116,18 +116,11 @@
   <script>
     (async () => {
       // Permission Guard: Only Admin or Authorized Staff
-      let userObj = null;
-      try {
-        userObj = JSON.parse(localStorage.getItem('user') || 'null');
-      } catch(e) {}
-      const isGlobalAdmin = Boolean(userObj && (userObj.is_staff || userObj.is_superuser));
-
       const slug = OrgAPI.getOrgSlugFromUrl();
       const orgRes = await OrgAPI.getOrg(slug);
       const org = orgRes.data || {};
-      const isOrgAdmin = ['Owner', 'Administrator'].includes(org.user_role);
 
-      if (!isGlobalAdmin && !isOrgAdmin) {
+      if (org.can_manage !== true) {
         alert('Chỉ Quản trị viên hệ thống hoặc Quản trị viên Tổ chức mới có quyền truy cập khu vực này.');
         window.location.href = `/organizations/${slug}`;
         return;

@@ -54,11 +54,9 @@ class Profile(models.Model):
         return self.role == 'teacher' or self.user.groups.filter(name='teacher').exists()
 
     def can_create_organization(self):
-        return (
-            self.user.is_superuser or 
-            self.user.is_staff or 
-            self.role in ['admin', 'teacher'] or 
-            self.is_teacher()
+        return bool(
+            self.user.is_active and
+            (self.user.is_superuser or self.user.is_staff or self.is_teacher())
         )
 
     def __str__(self):

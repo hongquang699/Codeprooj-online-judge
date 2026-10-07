@@ -215,14 +215,8 @@ const OrgAPI = {
     const container = document.getElementById('orgHeaderTarget');
     if (!container) return;
 
-    let userObj = null;
-    try {
-      userObj = JSON.parse(localStorage.getItem('user') || 'null');
-    } catch(e) {}
-    const isGlobalAdmin = Boolean(userObj && (userObj.is_staff || userObj.is_superuser));
     const isMember = Boolean(org.user_role);
-    const isOrgAdmin = ['Owner', 'Administrator'].includes(org.user_role);
-    const canAccessAdmin = isGlobalAdmin || isOrgAdmin;
+    const canAccessAdmin = org.can_manage === true;
 
     // Admin Floating Quick Shortcut (Exclusively rendered for Admins)
     let floatingBtn = document.getElementById('orgAdminFloatingShortcut');

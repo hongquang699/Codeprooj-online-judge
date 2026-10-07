@@ -7,6 +7,18 @@ const OrgAdmin = {
     const target = document.getElementById('orgAdminSidebar');
     if (!target) return;
 
+    if (activeSection !== 'dashboard') {
+      const main = document.querySelector('main');
+      if (main) main.style.visibility = 'hidden';
+      OrgAPI.getOrg(slug).then(response => {
+        if (response.data?.can_manage === true) {
+          if (main) main.style.visibility = '';
+          return;
+        }
+        window.location.href = `/organizations/${encodeURIComponent(slug)}`;
+      });
+    }
+
     const navItems = [
       { id: 'dashboard', label: 'Tổng quan (Dashboard)', icon: 'home', link: `/organizations/${slug}/admin` },
       { id: 'settings', label: 'Cài đặt Tổ chức', icon: 'settings', link: `/organizations/${slug}/admin/settings` },
