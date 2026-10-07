@@ -23,19 +23,23 @@ const OrgAPI = {
 
   async request(endpoint, options = {}) {
     const token = localStorage.getItem('token');
+    const isRead = !options.method || options.method.toUpperCase() === 'GET';
+    const csrf = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
     const headers = {
       'Content-Type': 'application/json',
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(!isRead && token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(!isRead && csrf ? { 'X-CSRFToken': decodeURIComponent(csrf[1]) } : {}),
       ...(options.headers || {})
     };
 
     try {
       const url = `${this.BASE_URL}${endpoint}`;
       let res = await fetch(url, { credentials: 'include', ...options, headers });
-      if (res.status === 401 && token && (!options.method || options.method === 'GET')) {
-        const cookieHeaders = { ...headers };
-        delete cookieHeaders.Authorization;
-        res = await fetch(url, { credentials: 'include', ...options, headers: cookieHeaders });
+      if (res.status === 401 && token && isRead) {
+        res = await fetch(url, {
+          credentials: 'include', ...options,
+          headers: { ...headers, Authorization: `Bearer ${token}` }
+        });
       }
       const json = await res.json();
       if (json && typeof json === 'object' && typeof json.status !== 'number') {

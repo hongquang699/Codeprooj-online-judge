@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.middleware.csrf import get_token
 from django.views.decorators.http import require_GET
 from backend.auth.security.auth_required import get_authenticated_user_from_request
 from backend.users.models.profile import UserProfile
@@ -17,6 +18,8 @@ def me_view(request):
             'authenticated': False,
             'user': None
         }, status=401)
+
+    get_token(request)
 
     profile = UserProfile.objects.filter(user=user).first()
     rating_obj = UserRating.objects.filter(user=user).first()

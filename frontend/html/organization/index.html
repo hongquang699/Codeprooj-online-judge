@@ -112,11 +112,20 @@
         .replace(/'/g, '&#039;');
     }
 
-    // Show Create Org button if user has role Teacher or Admin
-    if (typeof Auth !== 'undefined' && Auth.canCreateOrganization()) {
-      const btn = document.getElementById('btnCreateOrg');
-      if (btn) btn.style.display = 'inline-flex';
-    }
+    // Use the current server session for system administrators; retain the teacher role for the same account.
+    fetch('/api/v1/auth/me', { credentials: 'include', headers: { Accept: 'application/json' } })
+      .then(response => response.ok ? response.json() : null)
+      .then(result => {
+        const current = result?.user;
+        if (!result?.authenticated || !current) return;
+        window.__cpVerifiedUser = current;
+        if (typeof window.initNavbar === 'function') window.initNavbar();
+        const cached = typeof Auth !== 'undefined' ? Auth.getUser() : null;
+        const isTeacher = cached?.id === current.id && cached.role === 'teacher';
+        if (current.is_staff === true || current.is_superuser === true || isTeacher) {
+          document.getElementById('btnCreateOrg').style.display = 'inline-flex';
+        }
+      }).catch(() => {});
 
     function openCreateOrgModal() {
       const modal = document.getElementById('createOrgModal');

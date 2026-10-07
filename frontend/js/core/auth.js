@@ -54,11 +54,8 @@ const Auth = {
   },
   canCreateOrganization() {
     const u = this.getUser();
-    if (!u) {
-      const r = localStorage.getItem('role');
-      return r === 'admin' || r === 'teacher';
-    }
-    return u.role === 'admin' || u.role === 'teacher' || u.is_staff;
+    if (!u) return false;
+    return u.is_staff === true || u.is_superuser === true || u.role === 'teacher';
   },
   requireAuth() {
     if (!this.isAuthenticated()) {

@@ -29,6 +29,7 @@ function initNavbar() {
   } catch (e) {
     user = null;
   }
+  user = window.__cpVerifiedUser || user;
 
   const token = localStorage.getItem('token');
   const rawRole = localStorage.getItem('role');
@@ -36,7 +37,7 @@ function initNavbar() {
   if (!user && rawUsername) {
     user = { username: rawUsername, role: rawRole || 'user' };
   }
-  const isAuth = !!token && !!user;
+  const isAuth = !!user && !!(token || window.__cpVerifiedUser);
   const isAdmin = Boolean(user && (
     user.role === 'admin' ||
     user.is_staff === true ||

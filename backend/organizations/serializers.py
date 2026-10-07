@@ -70,6 +70,8 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
         u = self._get_request_user()
         if not u:
             return None
+        if u.is_staff or u.is_superuser:
+            return 'active'
         m = obj.org_members.filter(user=u).first()
         return m.status if m else 'none'
 
@@ -77,6 +79,8 @@ class OrganizationDetailSerializer(serializers.ModelSerializer):
         u = self._get_request_user()
         if not u:
             return None
+        if u.is_staff or u.is_superuser:
+            return 'System Administrator'
         m = obj.org_members.filter(user=u, status='active').select_related('role').first()
         return m.role.name if m else None
 

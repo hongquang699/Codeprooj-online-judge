@@ -1,6 +1,6 @@
 /**
  * CodeProOJ - Admin Route Guard
- * Checks account authentication and admin role (is_staff, is_superuser, admin/teacher/setter).
+ * Checks the current server session for system administrator privileges.
  * Does NOT require re-entering credentials if already logged in as admin.
  */
 (() => {
@@ -15,14 +15,7 @@
 
   function checkAdminPrivileges(u) {
     if (!u) return false;
-    return Boolean(
-      u.is_staff === true ||
-      u.is_superuser === true ||
-      u.is_admin === true ||
-      u.role === 'admin' ||
-      u.role === 'teacher' ||
-      u.role === 'setter'
-    );
+    return u.is_staff === true || u.is_superuser === true;
   }
 
   function showForbiddenModal(username) {
@@ -45,7 +38,7 @@
         </div>
         <h2 style="color: #ffffff; font-size: 1.35rem; margin: 0 0 0.5rem 0;">Từ chối truy cập Quản trị</h2>
         <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin: 0 0 1.5rem 0;">
-          Tài khoản <strong>@${username || 'hiện tại'}</strong> là tài khoản thí sinh / người dùng thông thường và không có quyền truy cập Control Center.
+          Tài khoản <strong id="adminForbiddenUsername"></strong> chưa có quyền quản trị hệ thống.
         </p>
         <div style="display: flex; gap: 0.75rem; justify-content: center;">
           <a href="/" style="flex: 1; padding: 0.75rem 1rem; border-radius: 8px; background: #334155; color: #fff; text-decoration: none; font-weight: 500; font-size: 0.9rem;">
@@ -58,6 +51,8 @@
       </div>
     `;
 
+    overlay.querySelector('#adminForbiddenUsername').textContent = `@${username || 'hiện tại'}`;
+
     document.body.appendChild(overlay);
   }
 
@@ -66,35 +61,7 @@
     window.location.replace(`/login?next=${nextUrl}`);
   }
 
-  function ensureAdminCookies() {
-    document.cookie = 'role=admin; path=/; max-age=86400; SameSite=Lax';
-    document.cookie = 'is_admin=true; path=/; max-age=86400; SameSite=Lax';
-  }
-
-  // 1. Fast local verification
-  let localUser = null;
-  try {
-    const raw = localStorage.getItem('user');
-    localUser = raw ? JSON.parse(raw) : null;
-  } catch (e) {
-    localUser = null;
-  }
-
-  if (localUser) {
-    if (checkAdminPrivileges(localUser)) {
-      // User is authenticated and has admin role: grant immediate access!
-      ensureAdminCookies();
-      return;
-    } else {
-      // User is logged in but not an admin: show forbidden
-      document.addEventListener('DOMContentLoaded', () => {
-        showForbiddenModal(localUser.username);
-      });
-      return;
-    }
-  }
-
-  // 2. If no local user object, check active session via /api/v1/auth/me
+  // Cached browser data can belong to an older account. Always check the current session.
   fetch('/api/v1/auth/me', {
     credentials: 'include',
     headers: { 'Accept': 'application/json' }
@@ -113,17 +80,25 @@
     }
 
     const u = data.user;
+    try {
+      const cached = JSON.parse(localStorage.getItem('user') || 'null');
+      if (cached && cached.id !== u.id) localStorage.removeItem('token');
+    } catch (e) {
+      localStorage.removeItem('token');
+    }
     localStorage.setItem('user', JSON.stringify(u));
+    localStorage.setItem('username', u.username);
+    localStorage.setItem('role', checkAdminPrivileges(u) ? 'admin' : (u.role || 'user'));
+    window.__cpVerifiedUser = u;
+    if (typeof window.initNavbar === 'function') window.initNavbar();
 
-    if (checkAdminPrivileges(u)) {
-      ensureAdminCookies();
-    } else {
+    if (!checkAdminPrivileges(u)) {
       showForbiddenModal(u.username);
     }
   })
   .catch(err => {
     console.warn('[AdminGuard] Could not verify session with server:', err);
-    // If network fails and no cached user, redirect to login
+    // A failed server check must not be replaced with cached privileges.
     redirectToLogin();
   });
 })();
