@@ -30,8 +30,17 @@ const OrgAPI = {
     };
 
     try {
-      const res = await fetch(`${this.BASE_URL}${endpoint}`, { ...options, headers });
+      const url = `${this.BASE_URL}${endpoint}`;
+      let res = await fetch(url, { credentials: 'include', ...options, headers });
+      if (res.status === 401 && token && (!options.method || options.method === 'GET')) {
+        const cookieHeaders = { ...headers };
+        delete cookieHeaders.Authorization;
+        res = await fetch(url, { credentials: 'include', ...options, headers: cookieHeaders });
+      }
       const json = await res.json();
+      if (json && typeof json === 'object' && typeof json.status !== 'number') {
+        json.status = res.status;
+      }
       return json;
     } catch (err) {
       console.error(`OrgAPI Error [${endpoint}]:`, err);

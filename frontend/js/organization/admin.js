@@ -15,7 +15,9 @@ const OrgAdmin = {
           if (main) main.style.visibility = '';
           return;
         }
-        window.location.href = `/organizations/${encodeURIComponent(slug)}`;
+        window.location.href = response.status === 404
+          ? '/admin/menu'
+          : `/organizations/${encodeURIComponent(slug)}`;
       });
     }
 

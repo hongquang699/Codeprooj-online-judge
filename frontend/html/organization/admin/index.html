@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <script>
+    if (window.location.protocol === 'file:') {
+      window.location.replace('http://localhost:8888/frontend/html/organization/admin/index.html' + window.location.search);
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bảng Điều Khiển Quản Trị Tổ Chức | CodeProOJ</title>
@@ -25,7 +30,8 @@
   </header>
 
   <main class="org-container">
-    <div class="org-admin-layout">
+    <div id="orgAdminError" role="alert" hidden style="margin:1.5rem auto;padding:1.25rem;border:1px solid #ef4444;border-radius:12px;background:#1f1722;color:#f8fafc;"></div>
+    <div class="org-admin-layout" style="visibility:hidden;">
       <!-- Admin Sidebar -->
       <aside id="orgAdminSidebar"></aside>
 
@@ -118,13 +124,34 @@
       // Permission Guard: Only Admin or Authorized Staff
       const slug = OrgAPI.getOrgSlugFromUrl();
       const orgRes = await OrgAPI.getOrg(slug);
-      const org = orgRes.data || {};
+      const errorBox = document.getElementById('orgAdminError');
+      const layout = document.querySelector('.org-admin-layout');
+      const showError = (message, href, label) => {
+        errorBox.hidden = false;
+        errorBox.textContent = message;
+        const link = document.createElement('a');
+        link.href = href;
+        link.textContent = label;
+        link.style.cssText = 'display:block;margin-top:.75rem;color:#93c5fd;';
+        errorBox.appendChild(link);
+      };
 
-      if (org.can_manage !== true) {
-        alert('Chỉ Quản trị viên hệ thống hoặc Quản trị viên Tổ chức mới có quyền truy cập khu vực này.');
-        window.location.href = `/organizations/${slug}`;
+      if (orgRes.status === 404) {
+        showError(`Tổ chức "${slug}" không tồn tại. Hãy chọn một tổ chức trong Menu Admin.`, '/admin/menu', 'Quay về Menu Admin');
         return;
       }
+      if (orgRes.status !== 200 || !orgRes.data) {
+        showError('Không tải được tổ chức hoặc phiên đăng nhập đã hết hạn.', '/login', 'Đăng nhập lại');
+        return;
+      }
+
+      const org = orgRes.data;
+      if (org.can_manage !== true) {
+        showError('Tài khoản hiện tại chưa được xác nhận quyền quản trị tổ chức này.', `/organizations/${encodeURIComponent(slug)}`, 'Xem trang tổ chức');
+        return;
+      }
+
+      layout.style.visibility = '';
 
       OrgAdmin.renderSidebar(slug, 'dashboard');
 

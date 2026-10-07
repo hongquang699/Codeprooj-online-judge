@@ -545,9 +545,9 @@
         </div>
         <div class="hub-pulse-status">
           <div class="status-item">
-            <span class="status-badge-online" id="judgeIndicator"></span>
+            <span class="status-badge-online" id="judgeIndicator" style="background:#64748b;"></span>
             <span style="color:#94a3b8;">Judge Server:</span>
-            <strong style="color:#34d399;" id="judgeStatusText">ONLINE</strong>
+            <strong style="color:#94a3b8;" id="judgeStatusText">ĐANG KIỂM TRA</strong>
           </div>
           <div class="status-item" style="border-left: 1px solid #334155; padding-left: 1rem;">
             <span style="color:#94a3b8;">Chế độ:</span>
@@ -687,7 +687,7 @@
 
       <div class="hub-grid">
         <!-- Card: Org Admin Control Panel -->
-        <div class="admin-card featured-purple" data-keywords="to chuc organization vnoi clb truong hoc admin settings thanh vien role cuoc thi">
+        <div class="admin-card featured-purple" data-keywords="to chuc organization clb truong hoc admin settings thanh vien role cuoc thi">
           <div class="card-top">
             <div class="card-icon" style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -701,14 +701,14 @@
             </div>
           </div>
           <div class="card-sublinks">
-            <a href="/frontend/html/organization/admin/index.html?org=vnoi" class="sublink-pill">⚙️ Quản trị VNOI</a>
-            <a href="/frontend/html/organization/admin/members.html?org=vnoi" class="sublink-pill">👥 Thành viên</a>
-            <a href="/frontend/html/organization/admin/contests.html?org=vnoi" class="sublink-pill">🏆 Cuộc thi nội bộ</a>
-            <a href="/frontend/html/organization/admin/roles.html?org=vnoi" class="sublink-pill">🛡️ Phân vai trò</a>
+            <select id="orgAdminOrgSelect" aria-label="Chọn tổ chức để quản trị" style="width:100%;padding:.55rem .7rem;border:1px solid #475569;border-radius:8px;background:#111827;color:#f8fafc;"></select>
+            <a id="orgAdminMembersLink" href="/admin/organizations" class="sublink-pill">👥 Thành viên</a>
+            <a id="orgAdminContestsLink" href="/admin/organizations" class="sublink-pill">🏆 Cuộc thi nội bộ</a>
+            <a id="orgAdminRolesLink" href="/admin/organizations" class="sublink-pill">🛡️ Phân vai trò</a>
           </div>
           <div class="card-footer">
-            <span>Slug: vnoi</span>
-            <a href="/frontend/html/organization/admin/index.html?org=vnoi" class="card-link-arrow">Vào Quản Trị Tổ Chức &rarr;</a>
+            <span id="orgAdminSelectedSlug">Đang tải tổ chức...</span>
+            <a id="orgAdminPrimaryLink" href="/admin/organizations" class="card-link-arrow">Vào Quản Trị Tổ Chức &rarr;</a>
           </div>
         </div>
 
@@ -1059,6 +1059,47 @@
       const sections = document.querySelectorAll('.hub-section');
       const noResultsMsg = document.getElementById('noResultsMsg');
 
+      const organizationSelect = document.getElementById('orgAdminOrgSelect');
+      const organizationToken = localStorage.getItem('token');
+      const getAuthenticated = async (url) => {
+        let response = await fetch(url, {
+          credentials: 'include',
+          headers: organizationToken ? { Authorization: `Token ${organizationToken}` } : {}
+        });
+        if (response.status === 401 && organizationToken) {
+          response = await fetch(url, { credentials: 'include' });
+        }
+        return response;
+      };
+      getAuthenticated('/api/v1/organizations/').then(response => {
+        if (!response.ok) throw new Error('Không tải được tổ chức');
+        return response.json();
+      }).then(result => {
+        const organizations = Array.isArray(result.data) ? result.data.filter(org => org.can_manage === true) : [];
+        organizationSelect.replaceChildren();
+        if (!organizations.length) {
+          organizationSelect.add(new Option('Chưa có tổ chức có thể quản trị', ''));
+          organizationSelect.disabled = true;
+          document.getElementById('orgAdminSelectedSlug').textContent = 'Xem danh sách tổ chức';
+          return;
+        }
+        organizations.forEach(org => organizationSelect.add(new Option(org.name, org.slug)));
+        const selectOrganization = () => {
+          const slug = encodeURIComponent(organizationSelect.value);
+          document.getElementById('orgAdminSelectedSlug').textContent = `Slug: ${organizationSelect.value}`;
+          document.getElementById('orgAdminPrimaryLink').href = `/frontend/html/organization/admin/index.html?org=${slug}`;
+          document.getElementById('orgAdminMembersLink').href = `/frontend/html/organization/admin/members.html?org=${slug}`;
+          document.getElementById('orgAdminContestsLink').href = `/frontend/html/organization/admin/contests.html?org=${slug}`;
+          document.getElementById('orgAdminRolesLink').href = `/frontend/html/organization/admin/roles.html?org=${slug}`;
+        };
+        organizationSelect.addEventListener('change', selectOrganization);
+        selectOrganization();
+      }).catch(() => {
+        organizationSelect.replaceChildren(new Option('Không tải được danh sách tổ chức', ''));
+        organizationSelect.disabled = true;
+        document.getElementById('orgAdminSelectedSlug').textContent = 'Vui lòng thử lại';
+      });
+
       // Live Instant Search Filter
       if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -1097,23 +1138,25 @@
         });
       }
 
-      // Check Judge Server Health in Background
-      fetch('http://localhost:8000/api/v1/contest-admin/contests/HSG_TIN_2026/jury?user=admin', {
-        headers: { 'X-Username': 'admin' }
-      })
-      .then(res => res.json())
-      .then(res => {
-        if (res.data && res.data.overall_health === 'HEALTHY') {
-          const ind = document.getElementById('judgeIndicator');
-          const txt = document.getElementById('judgeStatusText');
-          if (ind) ind.style.background = '#10b981';
-          if (txt) {
-            txt.textContent = 'ONLINE';
-            txt.style.color = '#34d399';
-          }
+      // The Judge Admin health endpoint checks the manager without a demo contest.
+      getAuthenticated('/api/v1/admin/judge/health').then(response => {
+        const indicator = document.getElementById('judgeIndicator');
+        const label = document.getElementById('judgeStatusText');
+        if (response.ok) {
+          indicator.style.background = '#10b981';
+          label.textContent = 'ONLINE';
+          label.style.color = '#34d399';
+        } else {
+          indicator.style.background = '#ef4444';
+          label.textContent = 'KHÔNG SẴN SÀNG';
+          label.style.color = '#f87171';
         }
-      })
-      .catch(() => {});
+      }).catch(() => {
+        document.getElementById('judgeIndicator').style.background = '#ef4444';
+        const label = document.getElementById('judgeStatusText');
+        label.textContent = 'MẤT KẾT NỐI';
+        label.style.color = '#f87171';
+      });
     });
   </script>
 </body>
