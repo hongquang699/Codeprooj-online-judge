@@ -271,22 +271,11 @@
               <!-- Custom Test Section (Collapsible Accordion) -->
               <div class="custom-test-card">
                 <div class="custom-test-header" onclick="toggleCustomTest()">
-                  <span>🧪 Chạy thử với dữ liệu tùy chỉnh (Custom Testcase)</span>
+                  <span>🧪 Chạy thử với dữ liệu tùy chỉnh</span>
                   <span id="customTestToggleIcon">▼</span>
                 </div>
                 <div class="custom-test-body" id="customTestBody">
-                  <label class="form-label" style="margin-bottom:0.4rem;">DỮ LIỆU ĐẦU VÀO (STDIN):</label>
-                  <textarea id="customStdin" rows="4" class="custom-textarea" placeholder="Nhập dữ liệu test vào đây..."></textarea>
-                  
-                  <div style="margin-top:0.75rem;display:flex;gap:0.75rem;align-items:center;">
-                    <button type="button" class="btn-tmath-test" id="btnRunCustomTest" onclick="runCustomTest()">
-                      ▶ Chạy thử nghiệm
-                    </button>
-                    <span id="customTestStatus" style="font-size:0.8rem;color:#94a3b8;"></span>
-                  </div>
-
-                  <label class="form-label" style="margin-top:0.85rem;margin-bottom:0.4rem;">KẾT QUẢ ĐẦU RA (STDOUT):</label>
-                  <div id="customStdout" class="custom-test-out">Chưa chạy thử nghiệm.</div>
+                  <p>Chạy thử với đầu vào tùy chỉnh chưa được hỗ trợ. Nút nộp bài bên dưới sẽ chấm mã nguồn bằng bộ testcase của đề.</p>
                 </div>
               </div>
 
@@ -663,43 +652,6 @@ end.`
       }
     }
 
-    // Run Custom Test
-    async function runCustomTest() {
-      const code = (window.CodeIDE ? window.CodeIDE.getValue() : sourceCodeArea.value).trim();
-      const stdin = document.getElementById('customStdin').value;
-      const lang = selectLanguage.value;
-      const statusEl = document.getElementById('customTestStatus');
-      const stdoutEl = document.getElementById('customStdout');
-
-      if (!code) {
-        alert('Vui lòng nhập mã nguồn trước khi chạy thử.');
-        return;
-      }
-
-      statusEl.textContent = 'Đang biên dịch & thực thi...';
-      stdoutEl.textContent = 'Chờ máy chấm trả về kết quả...';
-
-      try {
-        const resp = await fetch('/api/v2/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            problem: problemCode,
-            language: lang,
-            source: code,
-            custom_test: true,
-            stdin: stdin
-          })
-        });
-        const json = await resp.json();
-        statusEl.textContent = 'Hoàn tất!';
-        stdoutEl.textContent = json?.data?.stdout || json?.data?.result || 'Chạy xong, không có dữ liệu ra.';
-      } catch (err) {
-        statusEl.textContent = 'Lỗi kết nối';
-        stdoutEl.textContent = 'Lỗi thực thi: ' + err.message;
-      }
-    }
-
     // Form Submission
     document.getElementById('submissionForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -730,17 +682,20 @@ end.`
       btn.innerHTML = `<span class="btn-spin"></span> Đang gửi máy chấm...`;
 
       try {
+        const token = localStorage.getItem('token');
         const payload = {
           problem: problemCode,
           language: lang,
-          source: code,
-          user: user
+          source: code
         };
         if (contestCode) payload.contest = contestCode;
 
         const resp = await fetch('/api/v2/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Token ${token}` } : {})
+          },
           body: JSON.stringify(payload)
         });
 

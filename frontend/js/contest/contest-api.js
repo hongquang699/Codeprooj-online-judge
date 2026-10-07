@@ -2,7 +2,7 @@
  * CodeProOJ - Contest API Client & WebSocket/Polling Engine
  */
 const ContestAPI = (() => {
-  const API_BASE = window.API_BASE || 'http://localhost:8000';
+  const API_BASE = window.API_BASE || window.location.origin;
 
   function getHeaders() {
     const headers = { 'Content-Type': 'application/json' };

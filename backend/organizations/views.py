@@ -316,7 +316,7 @@ class OrganizationContestsAPIView(APIView):
         is_admin = False
         member_role = None
         if user:
-            is_admin = user.is_staff or user.is_superuser or (user.username == 'admin')
+            is_admin = user.is_active and (user.is_staff or user.is_superuser)
             mem = OrganizationMember.objects.filter(organization=org, user=user, status='active').select_related('role').first()
             if mem:
                 is_member = True

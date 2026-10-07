@@ -12,10 +12,8 @@ class CreateSubmissionService:
         Validates all inputs and creates a new Submission in QUEUED state.
         """
         # 1. Validate User
-        if not user or not user.is_authenticated:
-            # Fallback to demo/first user if anonymous in development/testing
-            from django.contrib.auth.models import User as AuthUser
-            user = AuthUser.objects.first()
+        if not user or not user.is_authenticated or not user.is_active:
+            return None, "Vui lòng đăng nhập bằng tài khoản đang hoạt động để nộp bài."
         
         profile, _ = Profile.objects.get_or_create(user=user)
 
@@ -30,12 +28,12 @@ class CreateSubmissionService:
             return None, err
 
         # 4. Validate Problem
-        ok, err, problem = ProblemValidator.validate(problem_id, user=user)
+        ok, err, problem = ProblemValidator.validate(problem_id, user=user, contest_id=contest_id)
         if not ok:
             return None, err
 
         # 5. Validate Contest
-        ok, err, contest = ContestValidator.validate(contest_id, user=user)
+        ok, err, contest = ContestValidator.validate(contest_id, user=user, problem=problem)
         if not ok:
             return None, err
 

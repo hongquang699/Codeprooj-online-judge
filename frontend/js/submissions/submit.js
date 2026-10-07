@@ -263,7 +263,8 @@ end.`
         const res = await fetch('/api/v1/submissions/submit/', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...(localStorage.getItem('token') ? { 'Authorization': `Token ${localStorage.getItem('token')}` } : {})
           },
           body: JSON.stringify(payload)
         });
@@ -329,55 +330,12 @@ end.`
     });
   }
 
-  // Run Custom Test
+  // A public custom-input runner is not available yet; do not create a real
+  // submission and present its verdict as if it used the supplied stdin.
   if (btnRunTest) {
-    btnRunTest.addEventListener('click', async () => {
-      const source = codeArea ? codeArea.value.trim() : '';
-      const stdin = customStdin ? customStdin.value : '';
-      const lang = languageSelect ? languageSelect.value : 'JAVA';
-      const prob = (problemSelect ? problemSelect.value : 'SUMA').trim().toUpperCase();
-
-      if (!source) {
-        alert('Vui lòng nhập mã nguồn trước khi chạy thử!');
-        return;
-      }
-
-      btnRunTest.disabled = true;
-      btnRunTest.textContent = '⏳ Đang chạy thử...';
-      if (customStdout) customStdout.textContent = 'Đang gửi mã nguồn lên máy chấm sandbox...';
-
-      try {
-        let runUser = '';
-        try {
-          const uObj = JSON.parse(localStorage.getItem('user') || '{}');
-          if (uObj.username) runUser = uObj.username;
-        } catch (e) {}
-        if (!runUser) runUser = localStorage.getItem('username') || 'guest';
-
-        const resp = await fetch('/api/v2/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            problem: prob,
-            language: lang,
-            source: source,
-            user: runUser
-          })
-        });
-
-        const json = await resp.json();
-        const d = json?.data || {};
-        if (customStdout) {
-          const timeStr = d.time != null ? Math.round(d.time * 1000) + ' ms' : '15 ms';
-          const memStr = d.memory != null ? parseFloat(d.memory).toFixed(1) + ' MB' : '4.2 MB';
-          customStdout.textContent = `Kết quả thực thi (Sandbox Port 9999):\n─────────────────────────────────────\nPhán quyết: ${d.result || 'AC'}\nĐiểm số   : ${d.points || 100}\nThời gian : ${timeStr}\nBộ nhớ    : ${memStr}\nĐầu ra    : Thành công (Exit code 0)`;
-        }
-      } catch (err) {
-        if (customStdout) customStdout.textContent = 'Lỗi thực thi: ' + err.message;
-      } finally {
-        btnRunTest.disabled = false;
-        btnRunTest.textContent = '▶ Chạy thử nghiệm';
-      }
-    });
+    btnRunTest.disabled = true;
+    btnRunTest.textContent = 'Chưa hỗ trợ';
+    if (customStdin) customStdin.disabled = true;
+    if (customStdout) customStdout.textContent = 'Chạy thử với đầu vào tùy chỉnh chưa được hỗ trợ.';
   }
 });

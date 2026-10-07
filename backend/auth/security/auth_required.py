@@ -27,7 +27,7 @@ def get_authenticated_user_from_request(request):
             return user
 
     # 3. Django session fallback
-    if hasattr(request, 'user') and request.user.is_authenticated:
+    if hasattr(request, 'user') and request.user.is_authenticated and request.user.is_active:
         return request.user
 
     return None

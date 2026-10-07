@@ -17,8 +17,8 @@ def authenticate_user(
     Authenticate user credentials with brute-force protection and Admin IP Whitelist.
     Returns (success, message, user, requires_2fa).
     """
-    identifier = (username_or_email or '').strip()
-    if not identifier or not password:
+    identifier = username_or_email.strip() if isinstance(username_or_email, str) else ''
+    if not identifier or not isinstance(password, str) or not password:
         return False, "Vui lòng nhập tên đăng nhập/email và mật khẩu.", None, False
 
     # Check brute force lock

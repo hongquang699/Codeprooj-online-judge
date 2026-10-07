@@ -1,9 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from ..services.result import ResultService
 
 class SubmissionDetailAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+
     def get(self, request, submission_id):
         data = ResultService.get_detail(submission_id, requesting_user=request.user)
         if not data:

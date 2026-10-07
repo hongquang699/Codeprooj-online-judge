@@ -57,7 +57,6 @@ class Profile(models.Model):
         return (
             self.user.is_superuser or 
             self.user.is_staff or 
-            self.user.username == 'admin' or 
             self.role in ['admin', 'teacher'] or 
             self.is_teacher()
         )

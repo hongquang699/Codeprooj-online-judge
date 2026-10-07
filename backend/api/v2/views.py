@@ -10,7 +10,6 @@ from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.utils import timezone
@@ -25,6 +24,10 @@ from backend.judge.models import (
 from backend.judge.bridge import grade_submission
 from backend.judge.api.admin_views import JudgeAdminView
 from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
+from backend.submissions.validators.source import SourceCodeValidator
+from backend.auth.security.device import get_client_ip, get_user_agent
+from backend.auth.services.authentication import authenticate_user
+from backend.auth.services.registration import initiate_registration
 from .serializers import (
     UserProfileSerializer, PublicUserProfileSerializer, OrganizationSerializer,
     LanguageSerializer, ProblemListSerializer, ProblemDetailSerializer,
@@ -500,6 +503,12 @@ class APISubmitView(V2APIView):
         if not problem_code or not lang_key or not source:
             return dmoj_response(error={'message': 'Missing problem, language or source'}, status_code=400)
 
+        valid_source, source_error = SourceCodeValidator.validate(source)
+        if not valid_source:
+            return dmoj_response(error={'message': source_error}, status_code=400)
+        if not isinstance(lang_key, str):
+            return dmoj_response(error={'message': 'Ngôn ngữ lập trình không hợp lệ'}, status_code=400)
+
         prob = get_object_or_404(Problem, code=problem_code)
         if prob.is_organization_private:
             from backend.organizations.models import OrganizationMember
@@ -522,7 +531,8 @@ class APISubmitView(V2APIView):
         }
         clean_key = lang_key.strip().upper()
         resolved_key = lang_alias_map.get(clean_key, clean_key)
-        lang = Language.objects.filter(key__iexact=resolved_key).first() or get_object_or_404(Language, key__iexact=lang_key)
+        lang = Language.objects.filter(key__iexact=resolved_key, is_active=True).first() or get_object_or_404(
+            Language, key__iexact=lang_key, is_active=True)
         prof = Profile.objects.filter(user__username=username).first()
         if not prof:
             return dmoj_response(error={'message': f'Không tìm thấy hồ sơ người dùng: {username}'}, status_code=404)
@@ -534,8 +544,17 @@ class APISubmitView(V2APIView):
             if (not contest_obj or not contest_obj.is_visible or
                     not contest_obj.start_time <= now <= contest_obj.end_time or
                     not ContestProblem.objects.filter(contest=contest_obj, problem=prob).exists() or
-                    not ContestParticipation.objects.filter(contest=contest_obj, user=prof).exists()):
+                    not ContestParticipation.objects.filter(contest=contest_obj, user=prof,
+                                                            is_disqualified=False).exists()):
                 return dmoj_response(error={'message': 'Bạn không thể nộp bài cho kỳ thi này'}, status_code=403)
+            from backend.organizations.models import OrganizationContest, OrganizationMember
+            org_contest = OrganizationContest.objects.filter(contest=contest_obj).select_related('organization').first()
+            if org_contest and not IsPlatformAdmin().has_permission(request, self):
+                org = org_contest.organization
+                if org.owner_id != request.user.id and not OrganizationMember.objects.filter(
+                        organization=org, user=request.user, status='active').exists():
+                    return dmoj_response(error={'message': 'Bạn không có quyền nộp bài cho kỳ thi nội bộ này'},
+                                         status_code=403)
         elif not prob.is_public:
             if not prob.is_organization_private:
                 return dmoj_response(error={'message': 'Bài tập chưa công khai'}, status_code=403)
@@ -562,11 +581,11 @@ class APISubmitView(V2APIView):
             'status': sub.status
         }, status_code=201)
 
-class APIRejudgeView(V2APIView):
-    permission_classes = [IsPlatformAdmin]
+class APIRejudgeView(JudgeAdminView):
 
     def post(self, request, submission_id):
         sub = get_object_or_404(Submission, id=submission_id)
+        self.audit(request, 'submission.rejudge', str(submission_id))
         sub.is_rejudged = True
         sub.save()
         grade_submission(sub.id)
@@ -1036,23 +1055,24 @@ class APILoginView(V2APIView):
     permission_classes = []
 
     def post(self, request):
-        username_or_email = (request.data.get('username') or '').strip()
+        raw_identifier = request.data.get('username') or ''
+        username_or_email = raw_identifier.strip() if isinstance(raw_identifier, str) else ''
         password = request.data.get('password') or ''
 
-        # 1. Try standard Django authenticate
-        user = authenticate(username=username_or_email, password=password)
+        success, message, user, requires_2fa = authenticate_user(
+            username_or_email, password, get_client_ip(request), get_user_agent(request)
+        )
+        if not success:
+            return dmoj_response(error={'message': message}, status_code=401)
+        if requires_2fa or user.is_staff or user.is_superuser:
+            return dmoj_response(
+                error={'message': 'Tài khoản này cần đăng nhập qua /api/v1/auth/login để hoàn tất bảo vệ quản trị hoặc 2FA.'},
+                status_code=403,
+            )
 
-        # 2. Try by email or case-insensitive username if authenticate didn't match
-        if not user:
-            user_obj = User.objects.filter(email__iexact=username_or_email).first() or \
-                       User.objects.filter(username__iexact=username_or_email).first()
-            if user_obj and user_obj.is_active and user_obj.check_password(password):
-                user = user_obj
-
-        if user and user.is_active:
+        if user.is_active:
             token, _ = Token.objects.get_or_create(user=user)
             prof, _ = Profile.objects.get_or_create(user=user)
-            is_adm = user.is_staff or user.is_superuser or user.username == 'admin'
             
             # Also log in to Django session if session is available
             try:
@@ -1062,13 +1082,13 @@ class APILoginView(V2APIView):
             except Exception:
                 pass
 
-            eff_role = 'admin' if is_adm else (prof.role if prof.role in ['teacher', 'setter', 'admin'] else ('teacher' if user.groups.filter(name='teacher').exists() else 'user'))
+            eff_role = prof.role if prof.role in ['teacher', 'setter'] else ('teacher' if user.groups.filter(name='teacher').exists() else 'user')
             return dmoj_response({
                 'token': token.key,
                 'user': {
                     'username': user.username,
                     'email': user.email,
-                    'is_staff': is_adm,
+                    'is_staff': False,
                     'role': eff_role,
                     'rating': prof.rating if prof.rating is not None else 0,
                     'rank': prof.display_rank or ('Unrated' if (prof.rating is None or prof.rating == 0) else 'Newbie')
@@ -1081,46 +1101,10 @@ class APIRegisterView(V2APIView):
     permission_classes = []
 
     def post(self, request):
-        username = request.data.get('username', '').strip()
-        email = request.data.get('email', '').strip()
-        password = request.data.get('password', '')
-
-        if not username or not password:
-            return dmoj_response(error={'message': 'Tên đăng nhập và mật khẩu không được để trống'}, status_code=400)
-
-        if User.objects.filter(username=username).exists():
-            return dmoj_response(error={'message': f'Tài khoản {username} đã tồn tại'}, status_code=400)
-
-        user = User.objects.create_user(username=username, email=email, password=password)
-        prof, _ = Profile.objects.get_or_create(user=user, defaults={'rating': 0, 'display_rank': 'Unrated'})
-        token, _ = Token.objects.get_or_create(user=user)
-
-        # Initialize UserProfile and ratings with 0
-        try:
-            from backend.users.models.profile import UserProfile
-            from backend.users.models.user_rating import UserRating as AppUserRating
-            from backend.ranking.models.rating import UserRating as RankingUserRating
-            from backend.users.models.user_settings import UserSettings
-            from backend.users.models.user_statistics import UserStatistics
-
-            UserProfile.objects.get_or_create(user=user, defaults={'display_name': username, 'country': 'Vietnam'})
-            AppUserRating.objects.get_or_create(user=user, defaults={'current_rating': 0, 'max_rating': 0, 'rank': 'Unrated', 'contest_count': 0})
-            RankingUserRating.objects.get_or_create(user=user, defaults={'current_rating': 0, 'max_rating': 0, 'rank_tier': 'Unrated', 'contests_participated': 0})
-            UserSettings.objects.get_or_create(user=user)
-            UserStatistics.objects.get_or_create(user=user)
-        except Exception:
-            pass
-
-        return dmoj_response({
-            'token': token.key,
-            'user': {
-                'username': user.username,
-                'email': user.email,
-                'is_staff': user.is_staff,
-                'rating': prof.rating if prof.rating is not None else 0,
-                'rank': prof.display_rank
-            }
-        }, status_code=201)
+        success, message, extra = initiate_registration(request.data, ip_address=get_client_ip(request))
+        if not success:
+            return dmoj_response(error={'message': message, 'details': extra}, status_code=400)
+        return dmoj_response({'message': message, 'verification_required': True, **extra}, status_code=201)
 
 class APIAuthProfileView(V2APIView):
     permission_classes = [IsAuthenticated]

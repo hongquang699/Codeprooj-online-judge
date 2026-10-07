@@ -21,7 +21,7 @@ def me_view(request):
     profile = UserProfile.objects.filter(user=user).first()
     rating_obj = UserRating.objects.filter(user=user).first()
 
-    is_admin = bool(user.is_staff or user.is_superuser or user.username.lower() in ['admin', 'root'])
+    is_admin = bool(user.is_active and (user.is_staff or user.is_superuser))
     user_role = 'admin' if is_admin else 'user'
 
     return JsonResponse({

@@ -2,9 +2,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.core import signing
 from backend.auth.security.device import get_client_ip, get_user_agent
 from backend.auth.security.auth_required import parse_json_body
 from backend.auth.security.ip_whitelist import is_user_admin, is_admin_ip_allowed
+from backend.auth.security.brute_force import is_ip_or_user_locked, record_login_attempt
 from backend.auth.services.authentication import authenticate_user
 from backend.auth.services.session import create_auth_session
 from backend.auth.services.two_factor import verify_totp_code
@@ -43,7 +46,7 @@ def login_view(request):
         }, status=status_code)
 
     if requires_2fa:
-        return JsonResponse({
+        response = JsonResponse({
             'success': True,
             'authenticated': False,
             'requires_2fa': True,
@@ -51,11 +54,17 @@ def login_view(request):
             'username': user.username,
             'message': message
         }, status=200)
+        challenge = signing.dumps(
+            {'user_id': user.id, 'ip': ip, 'remember_me': remember_me}, salt='cp-login-2fa'
+        )
+        response.set_cookie('cp_2fa_challenge', challenge, max_age=300, httponly=True,
+                            secure=settings.SESSION_COOKIE_SECURE, samesite='Lax')
+        return response
 
     # Establish session
     raw_token, session = create_auth_session(user, request, remember_me=remember_me)
 
-    is_admin = bool(user.is_staff or user.is_superuser or user.username.lower() in ['admin', 'root'])
+    is_admin = bool(user.is_active and (user.is_staff or user.is_superuser))
     user_role = 'admin' if is_admin else 'user'
 
     drf_token_key = raw_token
@@ -102,7 +111,7 @@ def login_view(request):
         value=raw_token,
         httponly=True,
         samesite='Lax',
-        secure=False,
+        secure=settings.SESSION_COOKIE_SECURE,
         max_age=max_age
     )
     if is_admin:
@@ -114,6 +123,7 @@ def login_view(request):
         response.delete_cookie(key='is_admin')
         response.delete_cookie(key='admin_token')
 
+    response.delete_cookie('cp_2fa_challenge')
     return response
 
 
@@ -126,14 +136,25 @@ def verify_2fa_login_view(request):
     """
     data = parse_json_body(request)
     user_id = data.get('user_id')
-    code = (data.get('code') or '').strip()
-    remember_me = bool(data.get('remember_me', False))
+    raw_code = data.get('code') or ''
+    code = raw_code.strip() if isinstance(raw_code, str) else ''
 
     if not user_id or not code:
         return JsonResponse({
             'success': False,
             'message': 'Thiếu mã xác thực hoặc thông tin người dùng.'
         }, status=400)
+
+    ip = get_client_ip(request)
+    try:
+        challenge = signing.loads(request.COOKIES.get('cp_2fa_challenge', ''),
+                                  salt='cp-login-2fa', max_age=300)
+    except signing.BadSignature:
+        challenge = None
+    if not challenge or str(challenge.get('user_id')) != str(user_id) or challenge.get('ip') != ip:
+        return JsonResponse({'success': False, 'message': 'Phiên xác thực 2 bước đã hết hạn. Vui lòng đăng nhập lại.'},
+                            status=401)
+    remember_me = bool(challenge.get('remember_me', False))
 
     user = User.objects.filter(id=user_id, is_active=True).first()
     if not user:
@@ -142,7 +163,6 @@ def verify_2fa_login_view(request):
             'message': 'Người dùng không tồn tại.'
         }, status=404)
 
-    ip = get_client_ip(request)
     if is_user_admin(user) and not is_admin_ip_allowed(ip):
         return JsonResponse({
             'success': False,
@@ -158,6 +178,10 @@ def verify_2fa_login_view(request):
             'message': 'Xác thực 2 bước chưa được bật.'
         }, status=400)
 
+    locked, _ = is_ip_or_user_locked(ip, user.username)
+    if locked:
+        return JsonResponse({'success': False, 'message': 'Quá nhiều lần thử. Vui lòng đăng nhập lại sau.'}, status=429)
+
     # Check TOTP or backup code
     is_valid = verify_totp_code(two_factor.secret_key, code)
     if not is_valid and two_factor.backup_codes:
@@ -168,14 +192,17 @@ def verify_2fa_login_view(request):
             two_factor.save(update_fields=['backup_codes'])
 
     if not is_valid:
+        record_login_attempt(ip, user.username, is_success=False, user_agent=get_user_agent(request))
         return JsonResponse({
             'success': False,
             'message': 'Mã xác thực 2 bước không chính xác.'
         }, status=401)
 
+    record_login_attempt(ip, user.username, is_success=True, user_agent=get_user_agent(request))
+
     raw_token, session = create_auth_session(user, request, remember_me=remember_me)
 
-    is_admin = bool(user.is_staff or user.is_superuser or user.username.lower() in ['admin', 'root'])
+    is_admin = bool(user.is_active and (user.is_staff or user.is_superuser))
     user_role = 'admin' if is_admin else 'user'
 
     drf_token_key = raw_token
@@ -221,7 +248,7 @@ def verify_2fa_login_view(request):
         value=raw_token,
         httponly=True,
         samesite='Lax',
-        secure=False,
+        secure=settings.SESSION_COOKIE_SECURE,
         max_age=max_age
     )
     if is_admin:
@@ -233,4 +260,5 @@ def verify_2fa_login_view(request):
         response.delete_cookie(key='is_admin')
         response.delete_cookie(key='admin_token')
 
+    response.delete_cookie('cp_2fa_challenge')
     return response

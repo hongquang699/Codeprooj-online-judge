@@ -21,8 +21,7 @@
       u.is_admin === true ||
       u.role === 'admin' ||
       u.role === 'teacher' ||
-      u.role === 'setter' ||
-      (u.username && u.username.toLowerCase() === 'admin')
+      u.role === 'setter'
     );
   }
 

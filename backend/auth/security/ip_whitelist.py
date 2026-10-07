@@ -112,13 +112,4 @@ def is_admin_ip_allowed(client_ip: str) -> bool:
 
 def is_user_admin(user) -> bool:
     """Determine if a user has admin privileges."""
-    if not user:
-        return False
-    if getattr(user, 'is_staff', False) or getattr(user, 'is_superuser', False):
-        return True
-    username = getattr(user, 'username', '') or ''
-    if username.lower() in ['admin', 'root', 'administrator']:
-        return True
-    if getattr(user, 'role', '') in ['admin', 'superadmin']:
-        return True
-    return False
+    return bool(user and user.is_active and (user.is_staff or user.is_superuser))

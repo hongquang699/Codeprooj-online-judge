@@ -49,7 +49,7 @@ async function loadSubmissions() {
     }
 
     const currentUser = (typeof Auth !== 'undefined' && Auth.getUser) ? Auth.getUser() : null;
-    const isAdmin = currentUser && (currentUser.is_staff || currentUser.is_superuser || currentUser.username === 'admin');
+    const isAdmin = currentUser && (currentUser.is_staff || currentUser.is_superuser);
 
     container.innerHTML = subs.map(s => {
       const v = s.result || s.status || 'QU';

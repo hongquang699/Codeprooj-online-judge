@@ -6,6 +6,7 @@ from backend.judge.models import (
     Submission, SubmissionTestCase, Judge, RatingHistory,
     Clarification, BlogPost, Comment
 )
+from backend.judge.permissions.submissions import can_view_submission_details
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +37,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         ]
 
     def get_role(self, obj):
-        if obj.user.is_superuser or obj.user.username == 'admin':
+        if obj.user.is_superuser or (obj.user.is_staff and obj.role == 'admin'):
             return 'admin'
         if obj.role == 'teacher' or obj.user.groups.filter(name='teacher').exists():
             return 'teacher'
@@ -114,36 +115,25 @@ class SubmissionDetailSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.user.username')
     language = serializers.CharField(source='language.name')
     source = serializers.SerializerMethodField()
-    test_cases = SubmissionTestCaseSerializer(many=True, read_only=True)
+    error = serializers.SerializerMethodField()
+    test_cases = serializers.SerializerMethodField()
+
+    def _can_view_private(self, obj):
+        request = self.context.get('request')
+        return can_view_submission_details(getattr(request, 'user', None), obj)
 
     def get_source(self, obj):
-        request = self.context.get('request')
-        if not request:
-            return ""
-        
-        # Determine caller
-        user = getattr(request, 'auth_user', None)
-        if not user:
-            try:
-                from backend.auth.security.auth_required import get_authenticated_user_from_request
-                user = get_authenticated_user_from_request(request)
-            except Exception:
-                user = getattr(request, 'user', None)
-                if user and not user.is_authenticated:
-                    user = None
-
-        can_view = False
-        if user:
-            if getattr(user, 'is_staff', False) or getattr(user, 'is_superuser', False) or getattr(user, 'username', '').lower() in ('admin', 'root'):
-                can_view = True
-            elif obj.user and hasattr(obj.user, 'user') and obj.user.user == user:
-                can_view = True
-            elif hasattr(user, 'username') and obj.user and hasattr(obj.user, 'user') and obj.user.user.username == user.username:
-                can_view = True
-
-        if can_view:
+        if self._can_view_private(obj):
             return obj.source or ""
         return "[Mã nguồn được bảo mật theo quy chế cuộc thi]"
+
+    def get_error(self, obj):
+        return obj.error if self._can_view_private(obj) else ''
+
+    def get_test_cases(self, obj):
+        if not self._can_view_private(obj):
+            return []
+        return SubmissionTestCaseSerializer(obj.test_cases.all(), many=True).data
 
     class Meta:
         model = Submission

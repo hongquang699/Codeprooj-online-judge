@@ -57,7 +57,7 @@ def validate_auth_session(raw_token: str) -> User | None:
     if not session:
         return None
 
-    if session.is_expired:
+    if session.is_expired or not session.user.is_active:
         session.is_active = False
         session.save(update_fields=['is_active'])
         return None

@@ -1,4 +1,5 @@
 from backend.judge.models import Submission, SubmissionTestCase
+from backend.judge.permissions.submissions import can_view_submission_details
 from ..models.submission_result import SubmissionResult
 
 class ResultService:
@@ -12,12 +13,7 @@ class ResultService:
             return None
 
         # Determine if source code can be viewed: Only Admin or the Submission Author
-        can_view_source = False
-        if requesting_user and requesting_user.is_authenticated:
-            if requesting_user.is_staff or requesting_user.is_superuser or requesting_user.username == 'admin':
-                can_view_source = True
-            elif sub.user and hasattr(sub.user, 'user') and sub.user.user == requesting_user:
-                can_view_source = True
+        can_view_source = can_view_submission_details(requesting_user, sub)
 
         status_display = {
             'QU': 'QUEUED',
@@ -57,9 +53,9 @@ class ResultService:
             'score': sub.points or 0.0,
             'execution_time': round((sub.time or 0.0) * 1000, 1), # in ms
             'memory_used': round((sub.memory or 0.0) / 1024, 2), # in MB
-            'compile_time': 0.12,
+            'compile_time': None,
             'source_code': sub.source if can_view_source else None,
-            'error': sub.error or '',
+            'error': (sub.error or '') if can_view_source else '',
             'created_at': sub.date.strftime('%Y-%m-%d %H:%M:%S'),
             'is_rejudged': sub.is_rejudged
         }

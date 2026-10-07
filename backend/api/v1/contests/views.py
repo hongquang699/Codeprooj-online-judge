@@ -14,6 +14,9 @@ from backend.judge.models import (
     Submission, Language, Profile, Clarification
 )
 from backend.judge.bridge import grade_submission
+from backend.judge.permissions.submissions import can_view_submission_details
+from backend.submissions.validators.source import SourceCodeValidator
+from backend.submissions.validators.language import LanguageValidator
 from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 
 def get_current_user(request):
@@ -37,7 +40,7 @@ def check_org_contest_access(contest, user):
     org_info = {'slug': org.slug, 'name': org.short_name or org.name}
     if not user:
         return False, f'Cuộc thi này là kỳ thi nội bộ của tổ chức "{org_info["name"]}". Vui lòng đăng nhập và tham gia tổ chức để xem.', org_info
-    if user.is_staff or user.is_superuser or user.username == 'admin':
+    if user.is_staff or user.is_superuser:
         return True, '', org_info
     if hasattr(org, 'owner_id') and org.owner_id == user.id:
         return True, '', org_info
@@ -455,7 +458,7 @@ class ContestProblemSubmitAPIView(ContestAPIView):
     def post(self, request, contest_id, problem_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
-        if not user:
+        if not user or not user.is_active:
             return Response({'status': 401, 'error': {'message': 'Vui lòng đăng nhập để nộp bài.'}}, status=401)
 
         now = timezone.now()
@@ -470,27 +473,22 @@ class ContestProblemSubmitAPIView(ContestAPIView):
             return Response({'status': 404, 'error': {'message': f'Bài tập {problem_id} không thuộc cuộc thi.'}}, status=404)
 
         prob = cp.problem
-        lang_key = request.data.get('language', 'CPP17').strip()
+        lang_key = request.data.get('language', 'CPP17')
         source_code = request.data.get('source_code') or request.data.get('source') or ''
 
-        if not source_code.strip():
-            return Response({'status': 400, 'error': {'message': 'Mã nguồn không được để trống.'}}, status=400)
+        valid_source, source_error = SourceCodeValidator.validate(source_code)
+        if not valid_source:
+            return Response({'status': 400, 'error': {'message': source_error}}, status=400)
 
-        # Lookup language
-        lang = Language.objects.filter(key__iexact=lang_key).first()
-        if not lang:
-            lang = Language.objects.filter(name__icontains=lang_key).first()
-        if not lang:
-            lang, _ = Language.objects.get_or_create(key='CPP17', defaults={'name': 'C++17 (GNU G++)', 'extension': 'cpp'})
+        valid_lang, lang_error, lang = LanguageValidator.validate(lang_key)
+        if not valid_lang:
+            return Response({'status': 400, 'error': {'message': lang_error}}, status=400)
 
         prof, _ = Profile.objects.get_or_create(user=user)
 
-        # Auto register participation if not already
-        part, _ = ContestParticipation.objects.get_or_create(
-            contest=c,
-            user=prof,
-            defaults={'real_start': timezone.now()}
-        )
+        if not ContestParticipation.objects.filter(contest=c, user=prof, is_disqualified=False).exists():
+            return Response({'status': 403, 'error': {'message': 'Bạn chưa đăng ký hoặc đã bị loại khỏi kỳ thi này.'}},
+                            status=403)
 
         sub = Submission.objects.create(
             problem=prob,
@@ -574,9 +572,7 @@ class SubmissionUnifiedDetailAPIView(ContestAPIView):
         user = get_current_user(request)
 
         # Source code visibility check
-        can_view = False
-        if user:
-            can_view = user.is_staff or user.is_superuser or user.username == 'admin' or user == sub.user.user
+        can_view = can_view_submission_details(user, sub)
 
         # Get problem letter in contest if present
         letter = 'A'
@@ -587,7 +583,7 @@ class SubmissionUnifiedDetailAPIView(ContestAPIView):
 
         # Testcase details
         cases = []
-        for tc in sub.test_cases.all().order_by('case'):
+        for tc in (sub.test_cases.all().order_by('case') if can_view else []):
             cases.append({
                 'case': tc.case,
                 'status': tc.status,

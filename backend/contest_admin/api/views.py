@@ -68,7 +68,7 @@ class ContestAdminListView(APIView):
 
     def post(self, request):
         user = resolve_admin_user(request)
-        if not user or not (user.is_staff or user.is_superuser or user.username == 'admin' or getattr(user.profile, 'role', '') in ['teacher', 'admin']):
+        if not user or not user.is_active or not (user.is_staff or user.is_superuser or getattr(user.profile, 'role', '') == 'teacher'):
             return Response({'status': 403, 'error': 'Không có quyền tạo kỳ thi mới.'}, status=403)
 
         d = request.data

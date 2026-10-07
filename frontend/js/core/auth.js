@@ -56,10 +56,9 @@ const Auth = {
     const u = this.getUser();
     if (!u) {
       const r = localStorage.getItem('role');
-      const un = localStorage.getItem('username');
-      return r === 'admin' || r === 'teacher' || un === 'admin';
+      return r === 'admin' || r === 'teacher';
     }
-    return u.role === 'admin' || u.role === 'teacher' || u.is_staff || u.username === 'admin';
+    return u.role === 'admin' || u.role === 'teacher' || u.is_staff;
   },
   requireAuth() {
     if (!this.isAuthenticated()) {

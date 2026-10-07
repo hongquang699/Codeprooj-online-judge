@@ -1,9 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from ..services.submit import SubmitService
 
 class SubmitAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         data = request.data or {}
         problem_id = data.get('problem_id') or data.get('problem')

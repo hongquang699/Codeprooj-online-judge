@@ -428,9 +428,9 @@ const server = http.createServer(async (req, res) => {
   // Reverse proxy for Django backend API calls
   if (reqUrl.startsWith('/api/')) {
     const clientIp = getClientIp(req);
-    const forwardedFor = req.headers['x-forwarded-for'] 
-      ? `${req.headers['x-forwarded-for']}, ${clientIp}`
-      : clientIp;
+    // The gateway has already resolved the trusted client IP. Do not pass
+    // caller supplied forwarding headers to Django's authentication endpoints.
+    const forwardedFor = clientIp;
 
     const proxyReq = http.request({
       hostname: BACKEND_HOST,
