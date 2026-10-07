@@ -132,7 +132,7 @@ button:disabled, .btn:disabled, [aria-disabled="true"] { cursor: not-allowed; op
 
 /* Site navigation */
 .navbar { box-shadow: 0 8px 28px rgba(2, 8, 20, .12); }
-.navbar .nav-container, .nav-container { max-width: 1440px !important; margin-inline: auto; padding-inline: clamp(1rem, 3vw, 2rem) !important; }
+.navbar .nav-container { max-width: none !important; margin-inline: 0; padding-inline: clamp(1rem, 2vw, 2.5rem) !important; }
 .navbar .nav-brand { letter-spacing: -.025em; font-weight: 800; }
 .navbar .brand-badge-code { background: linear-gradient(145deg, #3475ef, #1c4ba8); box-shadow: 0 4px 14px rgba(45, 105, 222, .24); }
 .navbar .nav-links a { min-height: 42px; border-radius: 10px; }
