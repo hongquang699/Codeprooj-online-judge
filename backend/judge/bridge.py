@@ -38,7 +38,7 @@ def _judge_server_online() -> bool:
 
 def _submit_to_judge_server(job_id: str, problem_code: str, language: str,
                               source: str, time_limit: float, memory_limit: int,
-                              checker_type: str = 'standard') -> bool:
+                              checker_type: str = 'standard', subtask_mode: bool = False) -> bool:
     """Enqueues a grading job to the external judge server."""
     payload = json.dumps({
         'submission_id': job_id,
@@ -48,6 +48,7 @@ def _submit_to_judge_server(job_id: str, problem_code: str, language: str,
         'time_limit': time_limit,
         'memory_limit': memory_limit,
         'checker_type': checker_type,
+        'subtask_mode': subtask_mode,
         'priority': 1
     }).encode('utf-8')
 
@@ -154,6 +155,7 @@ def grade_submission(submission_id):
         time_limit = float(getattr(prob, 'time_limit', 1.0) or 1.0)
         memory_limit = min(1024, max(16, (int(getattr(prob, 'memory_limit', 262144) or 262144) + 1023) // 1024))
         checker_type = getattr(prob, 'checker_type', 'standard') or 'standard'
+        from . import problem_package
 
         queued = _submit_to_judge_server(
             job_id=job_id,
@@ -162,7 +164,8 @@ def grade_submission(submission_id):
             source=sub.source,
             time_limit=time_limit,
             memory_limit=memory_limit,
-            checker_type=checker_type
+            checker_type=checker_type,
+            subtask_mode=problem_package.has_subtasks(prob.code)
         )
 
         if queued:
@@ -220,7 +223,7 @@ def _apply_judge_result(sub: Submission, prob, result: dict):
     sub.test_cases.all().delete()
 
     testcases = result.get('testcases', [])
-    case_weight = prob.points / max(1, len(testcases)) if testcases else 0.0
+    fallback_weight = prob.points / max(1, len(testcases)) if testcases else 0.0
 
     for tc in testcases:
         raw_verdict = tc.get('verdict', 'AC')
@@ -230,7 +233,7 @@ def _apply_judge_result(sub: Submission, prob, result: dict):
             'OLE': 'OLE', 'RE': 'RTE', 'CE': 'CE', 'SE': 'IE', 'OK': 'AC'
         }
         db_verdict = verdict_map.get(raw_verdict, 'WA')
-        is_ac = (db_verdict == 'AC')
+        case_weight = float(tc.get('max_points', fallback_weight) or 0.0)
 
         SubmissionTestCase.objects.create(
             submission=sub,
@@ -238,7 +241,7 @@ def _apply_judge_result(sub: Submission, prob, result: dict):
             status=db_verdict,
             time=round(tc.get('time_ms', 0) / 1000.0, 4),
             memory=round(tc.get('memory_kb', 0) / 1024.0, 2),
-            points=case_weight if is_ac else 0.0,
+            points=float(tc.get('score', case_weight if db_verdict == 'AC' else 0.0) or 0.0),
             total_points=case_weight,
             feedback=tc.get('message', '')[:250]
         )
@@ -253,7 +256,8 @@ def _apply_judge_result(sub: Submission, prob, result: dict):
     sub.error = result.get('compiler_output') or result.get('error_message', '')
     sub.time = round(result.get('time_ms', 0) / 1000.0, 4)
     sub.memory = round(result.get('memory_kb', 0), 1)
-    sub.points = round(result.get('points_earned', 0.0), 1) if final_verdict == 'AC' or getattr(prob, 'partial', False) else 0.0
+    has_subtask_scores = bool(result.get('subtasks'))
+    sub.points = round(result.get('points_earned', 0.0), 1) if final_verdict == 'AC' or has_subtask_scores or getattr(prob, 'partial', False) else 0.0
     sub.save()
 
     # Update author profile stats

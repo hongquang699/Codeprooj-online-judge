@@ -35,9 +35,15 @@ class Scorer:
         max_time_ms = max(r.get("time_ms", 0) for r in testcase_results)
         max_mem_kb = max(r.get("memory_kb", 0) for r in testcase_results)
 
-        # Points proportional to passed tests if no subtasks
-        pts_earned = round((passed_cases / total_cases) * total_problem_points, 2)
-        score_percent = round((pts_earned / total_problem_points) * 100.0, 1)
+        # Testcase weights come from the problem package manifest. Old packages
+        # without weights retain equal weighting across their testcases.
+        configured_points = sum(max(0.0, float(r.get("max_points", r.get("score", 0.0)))) for r in testcase_results)
+        max_points = configured_points or float(total_problem_points)
+        if configured_points:
+            pts_earned = round(sum(max(0.0, float(r.get("score", 0.0))) for r in testcase_results), 2)
+        else:
+            pts_earned = round((passed_cases / total_cases) * total_problem_points, 2)
+        score_percent = round((pts_earned / max(1.0, max_points)) * 100.0, 1)
 
         # Overall verdict
         all_verdicts = [r.get("verdict", Verdict.SE) for r in testcase_results]
@@ -50,7 +56,7 @@ class Scorer:
             "verdict": final_verdict,
             "score": score_percent,
             "points_earned": pts_earned,
-            "max_points": total_problem_points,
+            "max_points": max_points,
             "passed_count": passed_cases,
             "total_count": total_cases,
             "time_ms": max_time_ms,

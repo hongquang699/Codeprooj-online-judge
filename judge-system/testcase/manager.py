@@ -18,12 +18,9 @@ class TestcaseManager:
         """
         Returns all testcases for a problem, utilizing caching where possible.
         """
-        cached = self.cache.get(problem_code)
-        if cached is not None:
-            return cached
-
         problem_dir = os.path.join(self.problem_base_dir, problem_code)
-        testcases = TestcaseLoader.load_from_directory(problem_dir)
+        manifest = TestcaseLoader.load_manifest(problem_dir)
+        testcases = TestcaseLoader.load_from_directory(problem_dir, manifest)
         
         # Also check storage/testcases/{problem_code} if empty
         if not testcases:
@@ -34,7 +31,6 @@ class TestcaseManager:
             if os.path.exists(storage_cases):
                 testcases = TestcaseLoader.load_from_directory(storage_cases)
 
-        self.cache.put(problem_code, testcases)
         return testcases
 
     def get_subtasks(self, problem_code: str, total_points: float = 100.0) -> List[SubtaskInfo]:
@@ -51,16 +47,19 @@ class TestcaseManager:
             grouped.setdefault(tc.subtask_id, []).append(tc)
 
         subtask_list: List[SubtaskInfo] = []
-        num_subtasks = len(grouped)
-        pts_per_subtask = round(total_points / max(1, num_subtasks), 2)
-
+        problem_dir = os.path.join(self.problem_base_dir, problem_code)
+        manifest = TestcaseLoader.load_manifest(problem_dir)
+        configured = {int(item['id']): item for item in manifest.get('subtasks', [])
+                      if isinstance(item, dict) and str(item.get('id', '')).isdigit()}
         for st_id in sorted(grouped.keys()):
             cases = grouped[st_id]
+            settings = configured.get(st_id, {})
+            depends_on = settings.get('depends_on', [st_id - 1] if st_id > 1 else [])
             subtask_list.append(SubtaskInfo(
                 subtask_id=st_id,
-                points=pts_per_subtask,
-                scoring_method="all_or_nothing",
-                depends_on=[st_id - 1] if st_id > 1 else [],
+                points=max(0.0, float(settings.get('points', sum(tc.points for tc in cases)))),
+                scoring_method=settings.get('scoring_method', 'all_or_nothing'),
+                depends_on=[int(value) for value in depends_on],
                 testcases=cases
             ))
 

@@ -6,12 +6,22 @@ Loads input and expected output testcases from disk or problem package directory
 import os
 import glob
 import re
+import json
 from typing import List
 from .subtask import TestCaseInfo
 
 class TestcaseLoader:
     @staticmethod
-    def load_from_directory(problem_dir: str) -> List[TestCaseInfo]:
+    def load_manifest(problem_dir: str) -> dict:
+        try:
+            with open(os.path.join(problem_dir, 'testcases.json'), 'r', encoding='utf-8') as handle:
+                data = json.load(handle)
+            return data if isinstance(data, dict) else {}
+        except (OSError, ValueError):
+            return {}
+
+    @staticmethod
+    def load_from_directory(problem_dir: str, manifest: dict = None) -> List[TestCaseInfo]:
         """
         Loads testcases from a directory containing .in and .out / .ans files.
         Looks in 'cases/', 'testcases/', or directly in problem_dir.
@@ -34,9 +44,16 @@ class TestcaseLoader:
             return [int(c) if c.isdigit() else c for c in re.split(r'(\d+)', text)]
 
         in_files.sort(key=natural_keys)
+        configured = {str(item.get('id')): item for item in (manifest or {}).get('cases', [])
+                      if isinstance(item, dict) and item.get('id') is not None}
+        in_files_by_name = {os.path.splitext(os.path.basename(path))[0]: path for path in in_files}
+        configured_order = [str(item.get('id')) for item in (manifest or {}).get('cases', [])
+                            if isinstance(item, dict) and str(item.get('id')) in in_files_by_name]
+        ordered_names = configured_order + [name for name in in_files_by_name if name not in configured_order]
 
         testcases: List[TestCaseInfo] = []
-        for idx, in_path in enumerate(in_files, start=1):
+        for idx, case_name in enumerate(ordered_names, start=1):
+            in_path = in_files_by_name[case_name]
             base_name = os.path.splitext(in_path)[0]
             
             # Check for matching .out or .ans
@@ -62,6 +79,17 @@ class TestcaseLoader:
             m = re.search(r'(?:subtask|s|st)[_-]?(\d+)', case_name, re.IGNORECASE)
             if m:
                 subtask_id = int(m.group(1))
+            case_meta = configured.get(case_name, {})
+            try:
+                subtask_id = int(case_meta.get('subtask', subtask_id))
+            except (TypeError, ValueError):
+                subtask_id = 1
+            try:
+                points = float(case_meta.get('points', 10.0))
+                if points < 0 or points != points or points == float('inf'):
+                    points = 10.0
+            except (TypeError, ValueError):
+                points = 10.0
 
             testcases.append(TestCaseInfo(
                 id=idx,
@@ -69,7 +97,7 @@ class TestcaseLoader:
                 input_data=in_data,
                 expected_output=out_data,
                 subtask_id=subtask_id,
-                points=10.0
+                points=points
             ))
 
         return testcases

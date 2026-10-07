@@ -5,13 +5,10 @@ Handles problem.yml, statements, testcases, checkers, validators, and solution t
 """
 
 import os
-import sys
-import shutil
 import zipfile
 import io
-import time
-import subprocess
 import re
+import json
 from django.conf import settings
 
 def _safe_component(value):
@@ -128,13 +125,18 @@ def get_testcases(code):
         return []
 
     tests = []
+    manifest = _read_testcase_manifest(base_dir)
+    configured = {str(item.get('id')): item for item in manifest.get('cases', []) if isinstance(item, dict)}
     seen = set()
     for f in sorted(os.listdir(cases_dir)):
         if f.endswith('.in'):
             tid = f[:-3]
             seen.add(tid)
 
-    for tid in sorted(seen):
+    ordered_ids = [str(item.get('id')) for item in manifest.get('cases', [])
+                   if isinstance(item, dict) and str(item.get('id')) in seen]
+    ordered_ids.extend(tid for tid in sorted(seen) if tid not in ordered_ids)
+    for tid in ordered_ids:
         in_f = os.path.join(cases_dir, f"{tid}.in")
         out_f = os.path.join(cases_dir, f"{tid}.out")
 
@@ -162,12 +164,35 @@ def get_testcases(code):
             'out_size': out_size,
             'in_preview': in_preview,
             'out_preview': out_preview,
-            'points': 10
+            'points': float(configured.get(tid, {}).get('points', 10)),
+            'subtask': configured.get(tid, {}).get('subtask', 1),
+            'sample': bool(configured.get(tid, {}).get('sample', False)),
         })
 
     return tests
 
-def save_testcase(code, tid, input_data, output_data, points=10):
+def _read_testcase_manifest(base_dir):
+    path = os.path.join(base_dir, 'testcases.json')
+    try:
+        with open(path, 'r', encoding='utf-8') as handle:
+            data = json.load(handle)
+        return data if isinstance(data, dict) else {'cases': []}
+    except (OSError, ValueError):
+        return {'cases': []}
+
+def _write_testcase_manifest(base_dir, manifest):
+    path = os.path.join(base_dir, 'testcases.json')
+    with open(path, 'w', encoding='utf-8') as handle:
+        json.dump(manifest, handle, ensure_ascii=False, indent=2)
+
+def has_subtasks(code):
+    manifest = _read_testcase_manifest(get_problem_dir(code))
+    if manifest.get('subtasks'):
+        return True
+    groups = {str(item.get('subtask', 1)) for item in manifest.get('cases', []) if isinstance(item, dict)}
+    return len(groups) > 1
+
+def save_testcase(code, tid, input_data, output_data, points=10, subtask=1, sample=False):
     tid = _safe_component(str(tid))
     base_dir = get_problem_dir(code)
     cases_dir = os.path.join(base_dir, 'cases')
@@ -180,6 +205,12 @@ def save_testcase(code, tid, input_data, output_data, points=10):
         f.write(input_data)
     with open(out_path, 'w', encoding='utf-8', newline='\n') as f:
         f.write(output_data)
+
+    manifest = _read_testcase_manifest(base_dir)
+    cases = [item for item in manifest.get('cases', []) if str(item.get('id')) != tid]
+    cases.append({'id': tid, 'points': float(points), 'subtask': int(subtask), 'sample': bool(sample)})
+    manifest['cases'] = cases
+    _write_testcase_manifest(base_dir, manifest)
 
     return True
 
@@ -198,6 +229,10 @@ def delete_testcase(code, tid):
         os.remove(out_path)
         deleted = True
 
+    manifest = _read_testcase_manifest(base_dir)
+    manifest['cases'] = [item for item in manifest.get('cases', []) if str(item.get('id')) != tid]
+    _write_testcase_manifest(base_dir, manifest)
+
     return deleted
 
 def import_zip_testcases(code, zip_file_bytes):
@@ -206,6 +241,7 @@ def import_zip_testcases(code, zip_file_bytes):
     os.makedirs(cases_dir, exist_ok=True)
 
     imported_count = 0
+    imported_ids = set()
     with zipfile.ZipFile(io.BytesIO(zip_file_bytes)) as zf:
         members = zf.infolist()
         if len(members) > 1000 or sum(item.file_size for item in members) > 100 * 1024 * 1024:
@@ -219,6 +255,14 @@ def import_zip_testcases(code, zip_file_bytes):
             with open(target_path, 'wb') as f:
                 f.write(zf.read(item))
             imported_count += 1
+            imported_ids.add(os.path.splitext(target_name)[0])
+
+    manifest = _read_testcase_manifest(base_dir)
+    existing = {str(item.get('id')): item for item in manifest.get('cases', []) if isinstance(item, dict)}
+    for tid in sorted(imported_ids):
+        existing.setdefault(tid, {'id': tid, 'points': 10, 'subtask': 1, 'sample': False})
+    manifest['cases'] = sorted(existing.values(), key=lambda item: str(item.get('id')))
+    _write_testcase_manifest(base_dir, manifest)
 
     return imported_count
 
@@ -297,7 +341,7 @@ def save_solution(code, content, filename='official.py'):
         f.write(content)
     return True
 
-def test_solution(code, filename='official.py'):
+def get_solution(code, filename='official.py'):
     filename = _safe_component(filename)
     base_dir = get_problem_dir(code)
     sol_path = os.path.join(base_dir, 'solutions', filename)
@@ -311,84 +355,9 @@ def test_solution(code, filename='official.py'):
                 break
 
     if not os.path.exists(sol_path):
-        return {'success': False, 'message': f'Chưa có file solution nào trong thư mục solutions/'}
+        return None, None
 
-    cases = get_testcases(code)
-    if not cases:
-        return {'success': False, 'message': 'Chưa có testcase nào trong thư mục cases/ để kiểm thử!'}
-
-    cases_dir = os.path.join(base_dir, 'cases')
-    results = []
-    all_ac = True
-
-    # Compile or prepare run command
-    is_python = filename.endswith('.py')
-    is_cpp = filename.endswith('.cpp')
-    run_cmd = None
-    tmp_exe = None
-
-    if is_python:
-        run_cmd = [sys.executable, sol_path]
-    elif is_cpp:
-        gpp = shutil.which('g++')
-        if not gpp:
-            return {'success': False, 'message': 'Không tìm thấy g++ trên máy chủ!'}
-        tmp_dir = os.path.join(settings.BASE_DIR, 'judge', 'tmp')
-        os.makedirs(tmp_dir, exist_ok=True)
-        tmp_exe = os.path.abspath(os.path.join(tmp_dir, f"sol_test_{code}_{int(time.time())}.exe"))
-
-        comp = subprocess.run([gpp, '-O2', '-std=c++17', sol_path, '-o', tmp_exe], capture_output=True, text=True, timeout=15)
-        if comp.returncode != 0:
-            return {'success': False, 'message': f'Lỗi biên dịch Solution: {comp.stderr}'}
-        run_cmd = [tmp_exe]
-
-    try:
-        for c in cases:
-            tid = c['id']
-            in_file = os.path.join(cases_dir, f"{tid}.in")
-            out_file = os.path.join(cases_dir, f"{tid}.out")
-
-            if not os.path.exists(out_file):
-                results.append({'case': tid, 'status': 'SKIPPED', 'feedback': 'Missing .out file'})
-                all_ac = False
-                continue
-
-            with open(in_file, 'r', encoding='utf-8', errors='ignore') as fi:
-                input_data = fi.read()
-            with open(out_file, 'r', encoding='utf-8', errors='ignore') as fo:
-                expected_data = fo.read().strip()
-
-            start_t = time.perf_counter()
-            proc = subprocess.run(run_cmd, input=input_data, capture_output=True, text=True, timeout=2.0)
-            elapsed = time.perf_counter() - start_t
-            actual_data = proc.stdout.strip()
-
-            if proc.returncode != 0:
-                results.append({'case': tid, 'status': 'RTE', 'time': elapsed, 'feedback': proc.stderr[:100]})
-                all_ac = False
-            elif actual_data == expected_data or actual_data.split() == expected_data.split():
-                results.append({'case': tid, 'status': 'AC', 'time': elapsed, 'feedback': 'Accepted'})
-            else:
-                results.append({'case': tid, 'status': 'WA', 'time': elapsed, 'feedback': f'Expected {expected_data[:30]}, got {actual_data[:30]}'})
-                all_ac = False
-
-    except subprocess.TimeoutExpired:
-        return {'success': False, 'message': 'Solution bị Time Limit Exceeded (> 2.0s)'}
-    finally:
-        if tmp_exe and os.path.exists(tmp_exe):
-            try:
-                os.remove(tmp_exe)
-            except Exception:
-                pass
-
-    return {
-        'success': True,
-        'all_ac': all_ac,
-        'solution': filename,
-        'total': len(cases),
-        'passed': sum(1 for r in results if r['status'] == 'AC'),
-        'details': results
-    }
+    return filename, sol_path
 
 def check_publish_readiness(code):
     stmt = get_statement(code)

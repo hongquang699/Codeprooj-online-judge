@@ -4,6 +4,7 @@
 
 let activeCode = '';
     let currentProblem = null;
+    const escapeCell = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
     // Tab Switching
     function switchTab(tabId) {
@@ -220,18 +221,19 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
           const tests = res.data.testcases || [];
           document.getElementById('testcasesTotalBadge').innerText = `${tests.length} tests`;
           if (tests.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--color-text-muted); padding: 2rem;">Chưa có testcase nào.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--color-text-muted); padding: 2rem;">Chưa có testcase nào.</td></tr>`;
             return;
           }
 
           tbody.innerHTML = tests.map(t => `
             <tr>
-              <td style="font-family: monospace; font-weight: 700;">${t.id}</td>
-              <td><pre style="margin: 0; font-size: 0.8rem; max-height: 50px; overflow: hidden; background: #0f172a; padding: 4px 8px; border-radius: 4px;">${t.in_preview || '(rỗng)'}</pre></td>
-              <td><pre style="margin: 0; font-size: 0.8rem; max-height: 50px; overflow: hidden; background: #0f172a; padding: 4px 8px; border-radius: 4px;">${t.out_preview || '(rỗng)'}</pre></td>
+              <td style="font-family: monospace; font-weight: 700;">${escapeCell(t.id)}</td>
+              <td><pre style="margin: 0; font-size: 0.8rem; max-height: 50px; overflow: hidden; background: #0f172a; padding: 4px 8px; border-radius: 4px;">${escapeCell(t.in_preview || '(rỗng)')}</pre></td>
+              <td><pre style="margin: 0; font-size: 0.8rem; max-height: 50px; overflow: hidden; background: #0f172a; padding: 4px 8px; border-radius: 4px;">${escapeCell(t.out_preview || '(rỗng)')}</pre></td>
               <td style="font-size: 0.8rem; color: var(--color-text-muted);">${t.in_size}B / ${t.out_size}B</td>
+              <td style="font-size: 0.8rem;">${escapeCell(t.points)} điểm · ST ${escapeCell(t.subtask)}${t.sample ? ' · Sample' : ''}</td>
               <td style="text-align: right;">
-                <button onclick="deleteSingleTest('${t.id}')" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; color: #ef4444; border-color: #ef4444;">✕</button>
+                <button onclick="deleteSingleTest('${escapeCell(t.id)}')" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem; color: #ef4444; border-color: #ef4444;">✕</button>
               </td>
             </tr>
           `).join('');
@@ -246,12 +248,15 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
       const id = document.getElementById('manualTestId').value.trim() || undefined;
       const input = document.getElementById('manualTestIn').value;
       const output = document.getElementById('manualTestOut').value;
+      const points = Number(document.getElementById('manualTestPoints').value || 10);
+      const subtask = Number(document.getElementById('manualTestSubtask').value || 1);
+      const sample = document.getElementById('manualTestSample').checked;
 
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/testcases`, {
           method: 'POST',
           headers: window.adminApiHeaders('application/json'),
-          body: JSON.stringify({ id, input, output, points: 10 })
+          body: JSON.stringify({ id, input, output, points, subtask, sample })
         }).then(r => r.json());
 
         if (res.status === 201) {
@@ -454,26 +459,47 @@ if __name__ == '__main__':
       const overallBadge = document.getElementById('solutionOverallBadge');
 
       resultsCard.style.display = 'block';
-      tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: #60a5fa;">Đang biên dịch và thực thi solution...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 1.5rem; color: #60a5fa;">Đang gửi solution tới Judge Manager...</td></tr>`;
 
       try {
         const filename = document.getElementById('solutionFilename').value;
-        const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/solutions/test`, {
+        let res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/solutions/test`, {
           method: 'POST',
           headers: window.adminApiHeaders('application/json'),
           body: JSON.stringify({ filename })
-        }).then(r => r.json());
+        }).then(async response => ({ status: response.status, ...(await response.json()) }));
 
-        btn.disabled = false;
-        btn.innerText = '⚡ Chạy kiểm thử với toàn bộ testcases';
+        if (res.status === 202 && res.data?.job_id) {
+          const jobId = res.data.job_id;
+          let result = null;
+          for (let attempt = 0; attempt < 90; attempt++) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            const poll = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/solutions/test?job_id=${encodeURIComponent(jobId)}`, {
+              headers: window.adminApiHeaders('application/json')
+            }).then(response => response.json());
+            const submission = poll.data?.result;
+            if (submission && ['Completed', 'Failed', 'Cancelled'].includes(submission.status)) {
+              result = submission;
+              break;
+            }
+          }
+          if (!result) throw new Error('Judge Worker chưa trả kết quả sau 90 giây. Có thể kiểm tra trạng thái trong Judge Admin.');
+          const cases = result.testcases || [];
+          const d = {
+            all_ac: result.verdict === 'AC',
+            passed: cases.filter(test => test.verdict === 'AC').length,
+            total: cases.length,
+            details: cases.map(test => ({
+              case: test.name || test.id,
+              status: test.verdict,
+              time: (test.time_ms || 0) / 1000,
+              feedback: test.message || '-'
+            }))
+          };
+          overallBadge.className = d.all_ac ? 'badge badge-ac' : 'badge badge-wa';
+          overallBadge.innerText = d.all_ac ? `100% ACCEPTED (${d.passed}/${d.total} tests)` : `CHƯA ĐẠT (${d.passed}/${d.total} tests)`;
 
-        if (res.status === 200 && res.data && res.data.success) {
-          const d = res.data;
-          const isAllAC = d.all_ac;
-          overallBadge.className = isAllAC ? 'badge badge-ac' : 'badge badge-wa';
-          overallBadge.innerText = isAllAC ? `100% ACCEPTED (${d.passed}/${d.total} tests)` : `CHƯA ĐẠT (${d.passed}/${d.total} tests)`;
-
-          tbody.innerHTML = (d.details || []).map(r => {
+          tbody.innerHTML = d.details.map(r => {
             const isAC = r.status === 'AC';
             const col = isAC ? '#10b981' : '#ef4444';
             return `
@@ -497,6 +523,8 @@ if __name__ == '__main__':
           overallBadge.innerText = 'LỖI THỰC THI';
           tbody.innerHTML = `<tr><td colspan="4" style="color: #ef4444; padding: 1rem;">${res.error?.message || res.data?.message || 'Lỗi kiểm thử solution'}</td></tr>`;
         }
+        btn.disabled = false;
+        btn.innerText = '⚡ Chạy kiểm thử với toàn bộ testcases';
       } catch (e) {
         btn.disabled = false;
         btn.innerText = '⚡ Chạy kiểm thử với toàn bộ testcases';

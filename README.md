@@ -75,6 +75,28 @@ HQ/
 └── requirements.txt              # Danh sách thư viện Python cần thiết
 ```
 
+### Bộ test và chấm điểm theo nhóm
+
+Gói bài trong `problem-data/problems/{CODE}/` có thể khai báo thứ tự, trọng số, nhóm subtask và test ví dụ trong `testcases.json`:
+
+```json
+{
+  "cases": [
+    {"id": "01", "points": 10, "subtask": 1, "sample": true},
+    {"id": "02", "points": 20, "subtask": 1},
+    {"id": "s2_01", "points": 30, "subtask": 2}
+  ],
+  "subtasks": [
+    {"id": 1, "points": 30, "scoring_method": "all_or_nothing", "depends_on": []},
+    {"id": 2, "points": 70, "scoring_method": "all_or_nothing", "depends_on": [1]}
+  ]
+}
+```
+
+Mỗi `id` khớp tên file `.in`/`.out` trong `cases/`. API soạn đề tự ghi manifest khi thêm/xóa test; ZIP cũ vẫn được nhập với điểm mặc định 10 cho mỗi testcase. Bài cũ không có manifest tiếp tục được đọc theo tên file và trọng số mặc định. `scoring_method` hỗ trợ `all_or_nothing`, `sum` và `min`; `depends_on` liệt kê các nhóm phải đạt điểm trước.
+
+Lời giải mẫu được đưa vào queue của Judge Manager và chạy trên worker/sandbox giống lượt chấm bài. Django chỉ gửi mã nguồn và nhận `job_id`; nó không biên dịch hay thực thi mã lời giải trong web process. Worker phải mount cùng thư mục `problem-data/problems` để đọc testcase và cấu hình mới.
+
 ---
 
 ## 🛡️ Bảo mật và phạm vi bảo vệ

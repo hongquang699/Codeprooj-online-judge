@@ -43,6 +43,7 @@ class WorkerRunner:
                 "time_ms": exec_res.time_ms,
                 "memory_kb": exec_res.memory_kb,
                 "score": 0.0,
+                "max_points": testcase.points,
                 "message": exec_res.message,
                 "output_preview": exec_res.user_output[:200]
             }
@@ -67,6 +68,7 @@ class WorkerRunner:
             "time_ms": exec_res.time_ms,
             "memory_kb": exec_res.memory_kb,
             "score": score,
+            "max_points": testcase.points,
             "message": check_msg,
             "output_preview": exec_res.user_output[:200]
         }

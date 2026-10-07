@@ -7,6 +7,8 @@ import os
 import io
 import zipfile
 import re
+import uuid
+import math
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -16,7 +18,7 @@ from backend.judge.permissions.authentication import BearerTokenAuthentication, 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
-from backend.judge.models import Problem, ProblemType, Profile
+from backend.judge.models import Problem, ProblemType, Profile, Language
 from backend.judge import problem_package as pkg
 
 def api_response(data=None, error=None, status_code=200):
@@ -211,12 +213,26 @@ class ProblemTestcasesAPI(ProblemAuthoringAPIView):
 
     def post(self, request, pk):
         p = get_problem_by_id_or_code(pk)
-        tid = request.data.get('id') or f"{len(pkg.get_testcases(p.code)) + 1:02d}"
+        tid = request.data.get('id')
+        if not tid:
+            existing = {str(test['id']) for test in pkg.get_testcases(p.code)}
+            index = 1
+            while f'{index:02d}' in existing:
+                index += 1
+            tid = f'{index:02d}'
         in_data = request.data.get('input', '')
         out_data = request.data.get('output', '')
-        points = float(request.data.get('points') or 10.0)
+        try:
+            points = float(request.data.get('points') or 10.0)
+            subtask = int(request.data.get('subtask') or 1)
+        except (TypeError, ValueError):
+            return api_response(error={'message': 'Điểm và mã subtask phải là số hợp lệ'}, status_code=400)
+        if not math.isfinite(points) or points < 0 or points > 1000000 or not 1 <= subtask <= 10000:
+            return api_response(error={'message': 'Điểm phải từ 0 đến 1.000.000 và subtask từ 1 đến 10.000'}, status_code=400)
+        sample_value = request.data.get('sample', False)
+        sample = sample_value is True or str(sample_value).lower() in ('1', 'true', 'yes')
 
-        pkg.save_testcase(p.code, tid, in_data, out_data, points)
+        pkg.save_testcase(p.code, tid, in_data, out_data, points, subtask, sample)
         return api_response({'message': f'Đã lưu testcase {tid}', 'id': tid}, status_code=201)
 
 class ProblemTestcaseDetailAPI(ProblemAuthoringAPIView):
@@ -292,11 +308,50 @@ class ProblemSolutionsAPI(ProblemAuthoringAPIView):
 class ProblemSolutionsTestAPI(ProblemAuthoringAPIView):
     permission_classes = [IsStaff]
 
+    def get(self, request, pk):
+        job_id = request.query_params.get('job_id', '')
+        if not re.fullmatch(r'admin_test_[a-f0-9]{12}', job_id):
+            return api_response(error={'message': 'Mã lượt chấm không hợp lệ'}, status_code=400)
+        from backend.judge.services.manager import call_manager, ManagerError
+        try:
+            data = call_manager(f'submissions/{job_id}')
+        except ManagerError as exc:
+            return api_response(error={'message': str(exc)}, status_code=exc.status)
+        result = data.get('submission', {})
+        return api_response({'status': result.get('status', 'PENDING'), 'result': result})
+
     def post(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         filename = request.data.get('filename', 'official.py')
-        res = pkg.test_solution(p.code, filename)
-        return api_response(res)
+        filename, path = pkg.get_solution(p.code, filename)
+        if not path:
+            return api_response(error={'message': 'Chưa có file solution nào trong thư mục solutions/'}, status_code=400)
+        extension_to_language = {'.cpp': 'CPP17', '.py': 'PY3', '.java': 'JAVA', '.rs': 'RUST'}
+        extension = os.path.splitext(filename)[1].lower()
+        language_key = extension_to_language.get(extension)
+        language = Language.objects.filter(key__iexact=language_key, is_active=True).first() if language_key else None
+        if not language:
+            return api_response(error={'message': f'Chưa bật ngôn ngữ phù hợp cho {extension}'}, status_code=400)
+        from backend.judge.bridge import _map_language_key
+        from backend.judge.services.manager import call_manager, ManagerError
+        judge_language = _map_language_key(language.key)
+        if not judge_language:
+            return api_response(error={'message': 'Ngôn ngữ chưa được cấu hình trên Judge Manager'}, status_code=400)
+        with open(path, 'r', encoding='utf-8') as source_file:
+            source = source_file.read()
+        job_id = f'admin_test_{uuid.uuid4().hex[:12]}'
+        payload = {
+            'job_id': job_id, 'problem_code': p.code, 'language': judge_language,
+            'source_code': source, 'time_limit': p.time_limit,
+            'memory_limit': min(1024, max(16, (int(p.memory_limit) + 1023) // 1024)),
+            'checker_type': getattr(p, 'checker_type', 'standard') or 'standard',
+            'subtask_mode': True, 'priority': 5,
+        }
+        try:
+            data = call_manager('submissions', 'POST', payload)
+        except ManagerError as exc:
+            return api_response(error={'message': str(exc)}, status_code=exc.status)
+        return api_response({'success': True, 'job_id': data.get('job_id', job_id), 'status': 'QUEUED'}, status_code=202)
 
 class ProblemPreviewAPI(ProblemAuthoringAPIView):
     permission_classes = [IsStaff]
