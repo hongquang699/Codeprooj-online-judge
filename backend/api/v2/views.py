@@ -300,7 +300,6 @@ class APIProblemDetail(V2APIView):
                 request.user.is_authenticated and ContestProblem.objects.filter(
                     problem=prob, contest__is_visible=True,
                     contest__start_time__lte=timezone.now(),
-                    contest__end_time__gte=timezone.now(),
                     contest__participants__user__user=request.user,
                 ).exists()
             )
@@ -492,6 +491,15 @@ class APISubmitView(V2APIView):
             return dmoj_response(error={'message': 'Missing problem, language or source'}, status_code=400)
 
         prob = get_object_or_404(Problem, code=problem_code)
+        if prob.is_organization_private:
+            from backend.organizations.models import OrganizationMember
+            has_org_access = IsPlatformAdmin().has_permission(request, self) or any(
+                org.owner_id == request.user.id or OrganizationMember.objects.filter(
+                    organization=org, user=request.user, status='active').exists()
+                for org in prob.organizations.all()
+            )
+            if not has_org_access:
+                return dmoj_response(error={'message': 'Bạn không có quyền nộp bài này'}, status_code=403)
 
         lang_alias_map = {
             'CPP': 'CPP17', 'C++': 'CPP17', 'CPP17': 'CPP17', 'C++17': 'CPP17', 'CPP20': 'CPP17', 'C++20': 'CPP17',
@@ -512,6 +520,15 @@ class APISubmitView(V2APIView):
         contest_obj = None
         if contest_key:
             contest_obj = Contest.objects.filter(key=contest_key).first()
+            now = timezone.now()
+            if (not contest_obj or not contest_obj.is_visible or
+                    not contest_obj.start_time <= now <= contest_obj.end_time or
+                    not ContestProblem.objects.filter(contest=contest_obj, problem=prob).exists() or
+                    not ContestParticipation.objects.filter(contest=contest_obj, user=prof).exists()):
+                return dmoj_response(error={'message': 'Bạn không thể nộp bài cho kỳ thi này'}, status_code=403)
+        elif not prob.is_public:
+            if not prob.is_organization_private:
+                return dmoj_response(error={'message': 'Bài tập chưa công khai'}, status_code=403)
 
         sub = Submission.objects.create(
             problem=prob,
@@ -700,6 +717,16 @@ class APIContestJoin(V2APIView):
                 'is_registered': False,
                 'left': True
             })
+
+        if not ct.is_visible or ct.end_time < timezone.now():
+            return dmoj_response(error={'message': 'Kỳ thi không mở đăng ký'}, status_code=403)
+        from backend.organizations.models import OrganizationContest, OrganizationMember
+        org_contest = OrganizationContest.objects.filter(contest=ct).select_related('organization').first()
+        if org_contest and not IsPlatformAdmin().has_permission(request, self):
+            org = org_contest.organization
+            if org.owner_id != request.user.id and not OrganizationMember.objects.filter(
+                    organization=org, user=request.user, status='active').exists():
+                return dmoj_response(error={'message': 'Bạn cần là thành viên tổ chức để tham gia kỳ thi'}, status_code=403)
 
         now = timezone.now()
         active_part = ContestParticipation.objects.filter(

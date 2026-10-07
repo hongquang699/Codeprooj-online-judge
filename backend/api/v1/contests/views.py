@@ -194,6 +194,8 @@ class ContestRegisterAPIView(ContestAPIView):
         user = get_current_user(request)
         if not user:
             return Response({'status': 401, 'error': {'message': 'Vui lòng đăng nhập để tham gia cuộc thi.'}}, status=401)
+        if not c.is_visible or c.end_time < timezone.now():
+            return Response({'status': 403, 'error': {'message': 'Kỳ thi không mở đăng ký.'}}, status=403)
 
         has_access, err_msg, org_data = check_org_contest_access(c, user)
         if not has_access:
