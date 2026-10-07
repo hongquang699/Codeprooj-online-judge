@@ -6,9 +6,13 @@ Comprehensive endpoints for Problem Setter and Admin workflows
 import os
 import io
 import zipfile
+import re
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import BasePermission
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
@@ -25,9 +29,27 @@ def get_problem_by_id_or_code(val):
         return get_object_or_404(Problem, id=int(val))
     return get_object_or_404(Problem, code=val)
 
-class ProblemListCreateAPI(APIView):
+class IsStaff(BasePermission):
+    def has_permission(self, request, view):
+        user = request.user
+        return bool(user and user.is_authenticated and user.is_active and (user.is_staff or user.is_superuser))
+
+
+class IsStaffOrReadOnly(IsStaff):
+    def has_permission(self, request, view):
+        return request.method in ('GET', 'HEAD', 'OPTIONS') or super().has_permission(request, view)
+
+
+class ProblemAuthoringAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+    permission_classes = [IsStaffOrReadOnly]
+
+
+class ProblemListCreateAPI(ProblemAuthoringAPIView):
     def get(self, request):
         qs = Problem.objects.all().order_by('-date')
+        if not IsStaff().has_permission(request, self):
+            qs = qs.filter(is_public=True)
         status_filter = request.GET.get('status')
         if status_filter:
             qs = qs.filter(status=status_filter)
@@ -64,6 +86,8 @@ class ProblemListCreateAPI(APIView):
 
         if not code or not title:
             return api_response(error={'message': 'Mã bài và Tiêu đề không được để trống'}, status_code=400)
+        if not re.fullmatch(r'[A-Z0-9][A-Z0-9_-]{0,63}', code):
+            return api_response(error={'message': 'Mã bài chỉ được chứa chữ, số, dấu gạch dưới và gạch ngang'}, status_code=400)
 
         if Problem.objects.filter(code=code).exists():
             return api_response(error={'message': f'Mã bài {code} đã tồn tại'}, status_code=400)
@@ -106,9 +130,11 @@ class ProblemListCreateAPI(APIView):
             'message': f'Tạo bài tập {code} thành công'
         }, status_code=201)
 
-class ProblemDetailAPI(APIView):
+class ProblemDetailAPI(ProblemAuthoringAPIView):
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
+        if not p.is_public and not IsStaff().has_permission(request, self):
+            return api_response(error={'message': 'Bài tập chưa công khai'}, status_code=403)
         stmt = pkg.get_statement(p.code)
         tests = pkg.get_testcases(p.code)
         readiness = pkg.check_publish_readiness(p.code)
@@ -156,9 +182,11 @@ class ProblemDetailAPI(APIView):
         p.delete()
         return api_response({'message': f'Đã xóa bài tập {code} và toàn bộ dữ liệu'})
 
-class ProblemStatementAPI(APIView):
+class ProblemStatementAPI(ProblemAuthoringAPIView):
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
+        if not p.is_public and not IsStaff().has_permission(request, self):
+            return api_response(error={'message': 'Bài tập chưa công khai'}, status_code=403)
         stmt = pkg.get_statement(p.code)
         return api_response(stmt)
 
@@ -173,7 +201,9 @@ class ProblemStatementAPI(APIView):
 
         return api_response({'message': 'Lưu đề bài thành công'})
 
-class ProblemTestcasesAPI(APIView):
+class ProblemTestcasesAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         tests = pkg.get_testcases(p.code)
@@ -189,18 +219,24 @@ class ProblemTestcasesAPI(APIView):
         pkg.save_testcase(p.code, tid, in_data, out_data, points)
         return api_response({'message': f'Đã lưu testcase {tid}', 'id': tid}, status_code=201)
 
-class ProblemTestcaseDetailAPI(APIView):
+class ProblemTestcaseDetailAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def delete(self, request, pk, tid):
         p = get_problem_by_id_or_code(pk)
         deleted = pkg.delete_testcase(p.code, tid)
         return api_response({'deleted': deleted, 'message': f'Đã xóa testcase {tid}'})
 
-class ProblemTestcasesUploadAPI(APIView):
+class ProblemTestcasesUploadAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def post(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         uploaded_file = request.FILES.get('file')
         if not uploaded_file:
             return api_response(error={'message': 'Chưa chọn file zip để upload'}, status_code=400)
+        if uploaded_file.size > 20 * 1024 * 1024:
+            return api_response(error={'message': 'ZIP vượt giới hạn 20 MiB'}, status_code=400)
 
         try:
             count = pkg.import_zip_testcases(p.code, uploaded_file.read())
@@ -208,7 +244,9 @@ class ProblemTestcasesUploadAPI(APIView):
         except Exception as e:
             return api_response(error={'message': f'Lỗi giải nén ZIP: {str(e)}'}, status_code=400)
 
-class ProblemCheckerAPI(APIView):
+class ProblemCheckerAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         chk = pkg.get_checker(p.code)
@@ -221,7 +259,9 @@ class ProblemCheckerAPI(APIView):
         pkg.save_checker(p.code, code, filename)
         return api_response({'message': 'Đã lưu checker'})
 
-class ProblemValidatorAPI(APIView):
+class ProblemValidatorAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         val = pkg.get_validator(p.code)
@@ -234,7 +274,9 @@ class ProblemValidatorAPI(APIView):
         pkg.save_validator(p.code, code, filename)
         return api_response({'message': 'Đã lưu validator'})
 
-class ProblemSolutionsAPI(APIView):
+class ProblemSolutionsAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         sols = pkg.get_solutions(p.code)
@@ -247,14 +289,18 @@ class ProblemSolutionsAPI(APIView):
         pkg.save_solution(p.code, code, filename)
         return api_response({'message': f'Đã lưu solution {filename}'})
 
-class ProblemSolutionsTestAPI(APIView):
+class ProblemSolutionsTestAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def post(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         filename = request.data.get('filename', 'official.py')
         res = pkg.test_solution(p.code, filename)
         return api_response(res)
 
-class ProblemPreviewAPI(APIView):
+class ProblemPreviewAPI(ProblemAuthoringAPIView):
+    permission_classes = [IsStaff]
+
     def get(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         stmt = pkg.get_statement(p.code)
@@ -270,7 +316,7 @@ class ProblemPreviewAPI(APIView):
             'sample_tests': tests[:2]
         })
 
-class ProblemPublishAPI(APIView):
+class ProblemPublishAPI(ProblemAuthoringAPIView):
     def post(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         readiness = pkg.check_publish_readiness(p.code)
@@ -291,7 +337,7 @@ class ProblemPublishAPI(APIView):
             'message': f'Đã Publish bài tập {p.code} ra cộng đồng thành công!'
         })
 
-class ProblemUnpublishAPI(APIView):
+class ProblemUnpublishAPI(ProblemAuthoringAPIView):
     def post(self, request, pk):
         p = get_problem_by_id_or_code(pk)
         p.status = 'draft'

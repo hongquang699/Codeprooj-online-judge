@@ -4,8 +4,15 @@
 const Moderator = {
   approveProblem(problemCode) {
     if (!confirm(`Phê duyệt công khai bài tập ${problemCode}?`)) return;
-    fetch(`/api/v2/problem/${problemCode}/publish`, { method: 'POST' })
-      .then(res => res.json())
+    fetch(`/api/v2/problem/${encodeURIComponent(problemCode)}/publish`, {
+      method: 'POST',
+      headers: window.adminApiHeaders ? window.adminApiHeaders() : {}
+    })
+      .then(async res => {
+        const json = await res.json();
+        if (!res.ok) throw new Error(json?.error?.message || 'Không thể duyệt bài tập');
+        return json;
+      })
       .then(json => {
         alert(json.data?.message || 'Đã duyệt bài tập thành công!');
         window.location.reload();

@@ -387,13 +387,13 @@
         if (editingSlug) {
           resp = await fetch(`${API}/api/v2/blog/${editingSlug}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: window.adminApiHeaders('application/json'),
             body: JSON.stringify({ title, body, is_visible: isVisible })
           });
         } else {
           resp = await fetch(`${API}/api/v2/blogs`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: window.adminApiHeaders('application/json'),
             body: JSON.stringify({ title, slug, body, is_visible: isVisible })
           });
         }
@@ -418,7 +418,7 @@
       if (!confirm(`Bạn có chắc chắn muốn XÓA bài viết "${title}"? Thao tác này không thể hoàn tác!`)) return;
 
       try {
-        const resp = await fetch(`${API}/api/v2/blog/${slug}`, { method: 'DELETE' });
+        const resp = await fetch(`${API}/api/v2/blog/${slug}`, { method: 'DELETE', headers: window.adminApiHeaders() });
         if (resp.ok) {
           alert('✓ Đã xóa bài viết thành công!');
           loadBlogs();

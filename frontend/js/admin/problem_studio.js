@@ -151,7 +151,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
           // POST create
           const res = await fetch('/api/v1/problems', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: window.adminApiHeaders('application/json'),
             body: JSON.stringify({ code, title, time_limit, memory_limit, difficulty, points, tags })
           }).then(r => r.json());
 
@@ -167,7 +167,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
           // PATCH update
           const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: window.adminApiHeaders('application/json'),
             body: JSON.stringify({ title, time_limit, memory_limit, difficulty, points })
           }).then(r => r.json());
 
@@ -196,7 +196,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/statement`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: window.adminApiHeaders('application/json'),
           body: JSON.stringify({ markdown, html })
         }).then(r => r.json());
 
@@ -250,7 +250,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/testcases`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: window.adminApiHeaders('application/json'),
           body: JSON.stringify({ id, input, output, points: 10 })
         }).then(r => r.json());
 
@@ -271,7 +271,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
     async function deleteSingleTest(tid) {
       if (!confirm(`Xóa testcase ${tid}?`)) return;
       try {
-        await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/testcases/${tid}`, { method: 'DELETE' });
+        await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/testcases/${tid}`, { method: 'DELETE', headers: window.adminApiHeaders() });
         loadTestcases();
       } catch (e) {
         alert('Lỗi: ' + e.message);
@@ -289,6 +289,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/testcases/upload`, {
           method: 'POST',
+          headers: window.adminApiHeaders(),
           body: formData
         }).then(r => r.json());
 
@@ -329,7 +330,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
       const code = document.getElementById('checkerCode').value;
       await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/checker`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: window.adminApiHeaders('application/json'),
         body: JSON.stringify({ code, filename: 'checker.cpp' })
       });
       alert('Đã lưu checker thành công!');
@@ -340,7 +341,7 @@ In ra một số nguyên duy nhất là kết quả $A + B$.
       const code = document.getElementById('validatorCode').value;
       await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/validator`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: window.adminApiHeaders('application/json'),
         body: JSON.stringify({ code, filename: 'validator.cpp' })
       });
       alert('Đã lưu validator thành công!');
@@ -426,7 +427,7 @@ if __name__ == '__main__':
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/solutions`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: window.adminApiHeaders('application/json'),
           body: JSON.stringify({ filename, code })
         }).then(r => r.json());
 
@@ -459,7 +460,7 @@ if __name__ == '__main__':
         const filename = document.getElementById('solutionFilename').value;
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/solutions/test`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: window.adminApiHeaders('application/json'),
           body: JSON.stringify({ filename })
         }).then(r => r.json());
 
@@ -549,7 +550,7 @@ if __name__ == '__main__':
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/publish`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
+          headers: window.adminApiHeaders('application/json')
         }).then(r => r.json());
 
         if (res.status === 200) {
@@ -572,7 +573,7 @@ if __name__ == '__main__':
       try {
         const res = await fetch(`/api/v1/problems/${encodeURIComponent(activeCode)}/unpublish`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
+          headers: window.adminApiHeaders('application/json')
         }).then(r => r.json());
 
         if (res.status === 200) {

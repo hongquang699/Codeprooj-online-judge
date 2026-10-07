@@ -11,10 +11,16 @@ import zipfile
 import io
 import time
 import subprocess
+import re
 from django.conf import settings
 
+def _safe_component(value):
+    if not isinstance(value, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,127}', value) or '..' in value:
+        raise ValueError('Tên file hoặc mã bài không hợp lệ')
+    return value
+
 def get_problem_dir(code):
-    return os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, code)
+    return os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, _safe_component(code))
 
 def init_package(code, meta=None):
     base_dir = get_problem_dir(code)
@@ -162,6 +168,7 @@ def get_testcases(code):
     return tests
 
 def save_testcase(code, tid, input_data, output_data, points=10):
+    tid = _safe_component(str(tid))
     base_dir = get_problem_dir(code)
     cases_dir = os.path.join(base_dir, 'cases')
     os.makedirs(cases_dir, exist_ok=True)
@@ -177,6 +184,7 @@ def save_testcase(code, tid, input_data, output_data, points=10):
     return True
 
 def delete_testcase(code, tid):
+    tid = _safe_component(str(tid))
     base_dir = get_problem_dir(code)
     cases_dir = os.path.join(base_dir, 'cases')
     in_path = os.path.join(cases_dir, f"{tid}.in")
@@ -199,18 +207,18 @@ def import_zip_testcases(code, zip_file_bytes):
 
     imported_count = 0
     with zipfile.ZipFile(io.BytesIO(zip_file_bytes)) as zf:
-        for filename in zf.namelist():
-            if filename.endswith('/') or '__MACOSX' in filename:
-                continue
-            base_name = os.path.basename(filename)
-            if base_name.endswith('.in') or base_name.endswith('.out') or base_name.endswith('.ans'):
-                target_name = base_name
-                if target_name.endswith('.ans'):
-                    target_name = target_name[:-4] + '.out'
-                target_path = os.path.join(cases_dir, target_name)
-                with open(target_path, 'wb') as f:
-                    f.write(zf.read(filename))
-                imported_count += 1
+        members = zf.infolist()
+        if len(members) > 1000 or sum(item.file_size for item in members) > 100 * 1024 * 1024:
+            raise ValueError('ZIP vượt giới hạn 1.000 file hoặc 100 MiB')
+        for item in members:
+            if item.is_dir() or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,127}\.(in|out|ans)', item.filename):
+                raise ValueError('ZIP chỉ được chứa file testcase ở thư mục gốc')
+        for item in members:
+            target_name = item.filename[:-4] + '.out' if item.filename.endswith('.ans') else item.filename
+            target_path = os.path.join(cases_dir, target_name)
+            with open(target_path, 'wb') as f:
+                f.write(zf.read(item))
+            imported_count += 1
 
     return imported_count
 
@@ -225,6 +233,9 @@ def get_checker(code):
     return {'type': 'standard', 'filename': 'standard', 'code': '// Standard White-space Agnostic Checker\n'}
 
 def save_checker(code, content, filename='checker.cpp'):
+    filename = _safe_component(filename)
+    if not filename.endswith(('.cpp', '.py')):
+        raise ValueError('Tên checker không hợp lệ')
     base_dir = get_problem_dir(code)
     chk_dir = os.path.join(base_dir, 'checkers')
     os.makedirs(chk_dir, exist_ok=True)
@@ -244,6 +255,9 @@ def get_validator(code):
     return {'type': 'standard', 'filename': 'standard', 'code': '// Standard Non-empty Validator\n'}
 
 def save_validator(code, content, filename='validator.cpp'):
+    filename = _safe_component(filename)
+    if not filename.endswith(('.cpp', '.py')):
+        raise ValueError('Tên validator không hợp lệ')
     base_dir = get_problem_dir(code)
     val_dir = os.path.join(base_dir, 'validators')
     os.makedirs(val_dir, exist_ok=True)
@@ -272,6 +286,9 @@ def get_solutions(code):
     return res
 
 def save_solution(code, content, filename='official.py'):
+    filename = _safe_component(filename)
+    if not filename.endswith(('.cpp', '.py', '.java', '.rs')):
+        raise ValueError('Tên solution không hợp lệ')
     base_dir = get_problem_dir(code)
     sol_dir = os.path.join(base_dir, 'solutions')
     os.makedirs(sol_dir, exist_ok=True)
@@ -281,6 +298,7 @@ def save_solution(code, content, filename='official.py'):
     return True
 
 def test_solution(code, filename='official.py'):
+    filename = _safe_component(filename)
     base_dir = get_problem_dir(code)
     sol_path = os.path.join(base_dir, 'solutions', filename)
     if not os.path.exists(sol_path):

@@ -4,6 +4,15 @@
  * Does NOT require re-entering credentials if already logged in as admin.
  */
 (() => {
+  window.adminApiHeaders = function(contentType) {
+    const headers = contentType ? { 'Content-Type': contentType } : {};
+    const token = localStorage.getItem('token');
+    const csrf = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    if (token) headers.Authorization = `Token ${token}`;
+    if (csrf) headers['X-CSRFToken'] = decodeURIComponent(csrf[1]);
+    return headers;
+  };
+
   function checkAdminPrivileges(u) {
     if (!u) return false;
     return Boolean(

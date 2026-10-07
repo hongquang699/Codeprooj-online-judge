@@ -145,6 +145,10 @@
             <label>Mật khẩu mới (để trống nếu không đổi)</label>
             <input type="password" id="setAccPassword" class="settings-input" placeholder="••••••••">
           </div>
+          <div class="settings-form-group">
+            <label>Mật khẩu hiện tại (cần nhập khi đổi mật khẩu)</label>
+            <input type="password" id="setAccCurrentPassword" class="settings-input" autocomplete="current-password">
+          </div>
           <button class="settings-btn" onclick="saveAccountSettings()">💾 Cập nhật tài khoản</button>
         </div>
 
@@ -335,7 +339,8 @@
       const payload = {
         account: {
           email: document.getElementById('setAccEmail').value.trim(),
-          password: document.getElementById('setAccPassword').value
+          password: document.getElementById('setAccPassword').value,
+          current_password: document.getElementById('setAccCurrentPassword').value
         }
       };
       const res = await ProfileAPI.saveSettings(username, payload);

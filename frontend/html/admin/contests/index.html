@@ -244,8 +244,9 @@
     window.deleteContest = async function(key) {
       if (!confirm(`Bạn có chắc chắn muốn XÓA kỳ thi ${key}? Thao tác này không thể hoàn tác!`)) return;
       try {
-        const resp = await fetch(`${API}/api/v2/contest/${key}`, { method: 'DELETE' });
+        const resp = await fetch(`${API}/api/v2/contest/${key}`, { method: 'DELETE', headers: window.adminApiHeaders() });
         const json = await resp.json();
+        if (!resp.ok) throw new Error(json?.error?.message || 'Không thể xóa kỳ thi');
         alert(json?.data?.message || 'Đã xóa kỳ thi thành công!');
         loadContests();
       } catch (err) {

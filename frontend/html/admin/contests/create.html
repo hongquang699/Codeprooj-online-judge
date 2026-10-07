@@ -359,7 +359,7 @@
         const method = isEditMode ? 'PUT' : 'POST';
         const resp = await fetch(url, {
           method: method,
-          headers: { 'Content-Type': 'application/json' },
+          headers: window.adminApiHeaders('application/json'),
           body: JSON.stringify(payload)
         });
         const json = await resp.json();

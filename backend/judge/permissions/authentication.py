@@ -1,5 +1,9 @@
-from rest_framework.authentication import BaseAuthentication, SessionAuthentication
+from rest_framework.authentication import BaseAuthentication, SessionAuthentication, TokenAuthentication
 from backend.auth.services.session import validate_auth_session
+
+
+class BearerTokenAuthentication(TokenAuthentication):
+    keyword = 'Bearer'
 
 
 class JudgeCookieAuthentication(BaseAuthentication):

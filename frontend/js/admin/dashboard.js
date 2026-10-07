@@ -201,7 +201,7 @@
   window.rejudgeSub = async function(id) {
     showRejudgeMsg(`⏳ Đang gửi yêu cầu rejudge bài #${id}...`, '#38bdf8');
     try {
-      const resp = await fetch(`${API}/api/v2/rejudge/${id}`, { method: 'POST' });
+      const resp = await fetch(`${API}/api/v2/rejudge/${id}`, { method: 'POST', headers: window.adminApiHeaders() });
       const json = await resp.json();
       if (resp.ok) {
         showRejudgeMsg(`✓ ${json?.data?.message || `Bài #${id} đã được chấm lại thành công!`}`, '#34d399');

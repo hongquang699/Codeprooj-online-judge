@@ -1,9 +1,13 @@
 import os
 import json
 import zipfile
+import hmac
+import re
+import secrets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, BasePermission
+from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
@@ -20,6 +24,7 @@ from backend.judge.models import (
 )
 from backend.judge.bridge import grade_submission
 from backend.judge.api.admin_views import JudgeAdminView
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from .serializers import (
     UserProfileSerializer, OrganizationSerializer,
     LanguageSerializer, ProblemListSerializer, ProblemDetailSerializer,
@@ -35,18 +40,24 @@ def dmoj_response(data=None, error=None, status_code=200):
     return Response({'status': status_code, 'data': data}, status=status_code)
 
 
+class V2APIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+
+
 class IsPlatformAdmin(BasePermission):
     """Require a verified server-side session or DRF token with staff privileges."""
     def has_permission(self, request, view):
-        from backend.auth.security.auth_required import get_authenticated_user_from_request
-        user = get_authenticated_user_from_request(request._request)
-        if user is None and request.user and request.user.is_authenticated:
-            user = request.user
+        user = request.user
         return bool(user and user.is_active and (user.is_staff or user.is_superuser))
 
 
+class IsPlatformAdminOrReadOnly(IsPlatformAdmin):
+    def has_permission(self, request, view):
+        return request.method in ('GET', 'HEAD', 'OPTIONS') or super().has_permission(request, view)
+
+
 # ── USERS & PROFILES ────────────────────────────────────────────────────────
-class APIUserList(APIView):
+class APIUserList(V2APIView):
     def get(self, request):
         qs = Profile.objects.select_related('user').all()
         q = request.GET.get('q', '').strip()
@@ -69,7 +80,9 @@ class APIUserList(APIView):
             'objects': serializer.data
         })
 
-class APIUserDetail(APIView):
+class APIUserDetail(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request, username):
         prof = get_object_or_404(Profile.objects.select_related('user'), user__username=username)
         serializer = UserProfileSerializer(prof)
@@ -91,7 +104,8 @@ class APIUserDetail(APIView):
         data['recent_submissions'] = sub_serializer.data
         return dmoj_response({'object': data})
 
-    def put(self, request, username):
+    def put(self, request, username=None):
+        username = username or request.user.username
         prof = get_object_or_404(Profile.objects.select_related('user'), user__username=username)
         u = prof.user
         about = request.data.get('about')
@@ -141,7 +155,7 @@ class APIUserDetail(APIView):
 
 
 # ── RANKINGS / LEADERBOARD ──────────────────────────────────────────────────
-class APIRankings(APIView):
+class APIRankings(V2APIView):
     def get(self, request):
         sort_by = request.GET.get('sort', 'rating') # rating or points
         qs = Profile.objects.select_related('user').all()
@@ -179,7 +193,7 @@ class APIRankings(APIView):
             'objects': items
         })
 
-class APIUserRatingHistory(APIView):
+class APIUserRatingHistory(V2APIView):
     def get(self, request, username):
         prof = get_object_or_404(Profile.objects.select_related('user'), user__username=username)
         ratings = RatingHistory.objects.filter(user=prof).select_related('contest').order_by('last_rated')
@@ -188,7 +202,9 @@ class APIUserRatingHistory(APIView):
 
 
 # ── PROBLEMS ────────────────────────────────────────────────────────────────
-class APIProblemList(APIView):
+class APIProblemList(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request):
         qs = Problem.objects.prefetch_related('types').filter(is_public=True)
         q = request.GET.get('q', '').strip()
@@ -228,6 +244,8 @@ class APIProblemList(APIView):
         name = request.data.get('name', '').strip()
         if not code or not name:
             return dmoj_response(error={'message': 'Mã bài tập và tiêu đề không được để trống'}, status_code=400)
+        if not re.fullmatch(r'[A-Z0-9][A-Z0-9_-]{0,63}', code):
+            return dmoj_response(error={'message': 'Mã bài không hợp lệ'}, status_code=400)
 
         if Problem.objects.filter(code=code).exists():
             return dmoj_response(error={'message': f'Bài tập mã {code} đã tồn tại'}, status_code=400)
@@ -256,20 +274,17 @@ class APIProblemList(APIView):
 
         return dmoj_response(ProblemDetailSerializer(prob).data, status_code=201)
 
-class APIProblemDetail(APIView):
+class APIProblemDetail(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request, problem):
         prob = get_object_or_404(Problem.objects.prefetch_related('types', 'authors'), code=problem)
+        is_admin = IsPlatformAdmin().has_permission(request, self)
         if prob.is_organization_private:
-            user = None
-            if hasattr(request, 'user') and request.user.is_authenticated:
-                user = request.user
-            else:
-                uname = request.headers.get('X-Username') or request.GET.get('user') or request.GET.get('username')
-                if uname:
-                    user = User.objects.filter(username=uname).first()
+            user = request.user if request.user.is_authenticated else None
 
             is_allowed = False
-            if user and (getattr(user, 'is_staff', False) or getattr(user, 'is_superuser', False) or getattr(user, 'username', '') == 'admin'):
+            if is_admin:
                 is_allowed = True
             elif user:
                 from backend.organizations.models import OrganizationMember
@@ -279,6 +294,18 @@ class APIProblemDetail(APIView):
                         break
             if not is_allowed:
                 return dmoj_response(error={'message': 'Bài tập này thuộc quyền quản lý nội bộ của tổ chức. Bạn cần là thành viên tổ chức để truy cập.'}, status_code=403)
+
+        if not prob.is_public and not is_admin:
+            can_view_contest_problem = (
+                request.user.is_authenticated and ContestProblem.objects.filter(
+                    problem=prob, contest__is_visible=True,
+                    contest__start_time__lte=timezone.now(),
+                    contest__end_time__gte=timezone.now(),
+                    contest__participants__user__user=request.user,
+                ).exists()
+            )
+            if not can_view_contest_problem and not prob.is_organization_private:
+                return dmoj_response(error={'message': 'Bài tập chưa công khai'}, status_code=403)
 
         serializer = ProblemDetailSerializer(prob)
         data = serializer.data
@@ -300,7 +327,9 @@ class APIProblemDetail(APIView):
         prob.save()
         return dmoj_response({'message': 'Updated successfully', 'object': ProblemDetailSerializer(prob).data})
 
-class APIProblemStatement(APIView):
+class APIProblemStatement(V2APIView):
+    permission_classes = [IsPlatformAdmin]
+
     def put(self, request, problem):
         prob = get_object_or_404(Problem, code=problem)
         body = request.data
@@ -321,7 +350,9 @@ class APIProblemStatement(APIView):
         prob.save()
         return dmoj_response({'message': 'Statement updated successfully', 'description': prob.description})
 
-class APIProblemTestcases(APIView):
+class APIProblemTestcases(V2APIView):
+    permission_classes = [IsPlatformAdmin]
+
     def get(self, request, problem):
         prob = get_object_or_404(Problem, code=problem)
         cases_dir = os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, prob.code, 'cases')
@@ -348,7 +379,9 @@ class APIProblemTestcases(APIView):
         cases_dir = os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, prob.code, 'cases')
         os.makedirs(cases_dir, exist_ok=True)
 
-        case_id = request.data.get('id') or f"{len(os.listdir(cases_dir)) // 2 + 1:02d}"
+        case_id = str(request.data.get('id') or f"{len(os.listdir(cases_dir)) // 2 + 1:02d}")
+        if not case_id.replace('-', '').replace('_', '').isalnum() or len(case_id) > 64:
+            return dmoj_response(error={'message': 'Mã testcase không hợp lệ'}, status_code=400)
         in_content = request.data.get('input', '')
         out_content = request.data.get('output', '')
 
@@ -365,7 +398,9 @@ class APIProblemTestcases(APIView):
             'case_id': case_id
         }, status_code=201)
 
-class APIProblemTestcasesUpload(APIView):
+class APIProblemTestcasesUpload(V2APIView):
+    permission_classes = [IsPlatformAdmin]
+
     def post(self, request, problem):
         prob = get_object_or_404(Problem, code=problem)
         file_obj = request.FILES.get('file') or request.FILES.get('tests')
@@ -377,12 +412,20 @@ class APIProblemTestcasesUpload(APIView):
 
         try:
             with zipfile.ZipFile(file_obj, 'r') as zip_ref:
+                members = zip_ref.infolist()
+                if len(members) > 1000 or sum(item.file_size for item in members) > 100 * 1024 * 1024:
+                    return dmoj_response(error={'message': 'File ZIP vượt giới hạn'}, status_code=400)
+                for item in members:
+                    if item.is_dir() or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,127}\.(in|out)', item.filename):
+                        return dmoj_response(error={'message': 'ZIP chỉ được chứa file .in và .out tại thư mục gốc'}, status_code=400)
                 zip_ref.extractall(cases_dir)
             return dmoj_response({'message': 'Giải nén và nạp testcase thành công!'})
         except Exception as e:
             return dmoj_response(error={'message': f'Lỗi giải nén: {str(e)}'}, status_code=400)
 
-class APIProblemPublish(APIView):
+class APIProblemPublish(V2APIView):
+    permission_classes = [IsPlatformAdmin]
+
     def post(self, request, problem):
         prob = get_object_or_404(Problem, code=problem)
         vis = request.data.get('visibility', 'public')
@@ -393,7 +436,7 @@ class APIProblemPublish(APIView):
 
 
 # ── SUBMISSIONS ─────────────────────────────────────────────────────────────
-class APISubmissionList(APIView):
+class APISubmissionList(V2APIView):
     def get(self, request):
         qs = Submission.objects.select_related('problem', 'user__user', 'language', 'contest').all()
         user = request.GET.get('user')
@@ -428,29 +471,20 @@ class APISubmissionList(APIView):
             'objects': serializer.data
         })
 
-class APISubmissionDetail(APIView):
+class APISubmissionDetail(V2APIView):
     def get(self, request, submission_id):
         sub = get_object_or_404(Submission.objects.select_related('problem', 'user__user', 'language'), id=submission_id)
         serializer = SubmissionDetailSerializer(sub, context={'request': request})
         return dmoj_response({'object': serializer.data})
 
-class APISubmitView(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
+class APISubmitView(V2APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         problem_code = request.data.get('problem')
         lang_key = request.data.get('language')
         source = request.data.get('source', '')
-        from backend.auth.security.auth_required import get_authenticated_user_from_request
-        auth_user = get_authenticated_user_from_request(request)
-        if auth_user:
-            username = auth_user.username
-        else:
-            username = request.data.get('user')
-
-        if not username:
-            return dmoj_response(error={'message': 'Yêu cầu đăng nhập để nộp bài.'}, status_code=401)
+        username = request.user.username
 
         contest_key = request.data.get('contest')
 
@@ -501,9 +535,8 @@ class APISubmitView(APIView):
             'status': sub.status
         }, status_code=201)
 
-class APIRejudgeView(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
+class APIRejudgeView(V2APIView):
+    permission_classes = [IsPlatformAdmin]
 
     def post(self, request, submission_id):
         sub = get_object_or_404(Submission, id=submission_id)
@@ -531,10 +564,12 @@ class APIRejudgeProblemView(JudgeAdminView):
 
 
 # ── CONTESTS ────────────────────────────────────────────────────────────────
-class APIContestList(APIView):
+class APIContestList(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request):
         now = timezone.now()
-        is_all = request.GET.get('all') == '1' or request.GET.get('admin') == '1'
+        is_all = (request.GET.get('all') == '1' or request.GET.get('admin') == '1') and IsPlatformAdmin().has_permission(request, self)
         qs = Contest.objects.all().order_by('-start_time') if is_all else Contest.objects.filter(is_visible=True).order_by('-start_time')
         items = []
         for ct in qs:
@@ -599,9 +634,13 @@ def resolve_contest(contest_key):
     return c
 
 
-class APIContestDetail(APIView):
+class APIContestDetail(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request, contest):
         ct = resolve_contest(contest)
+        if not ct.is_visible and not IsPlatformAdmin().has_permission(request, self):
+            return dmoj_response(error={'message': 'Kỳ thi chưa công khai'}, status_code=403)
         serializer = ContestDetailSerializer(ct)
         data = serializer.data
         now = timezone.now()
@@ -644,13 +683,12 @@ class APIContestDetail(APIView):
         ct.delete()
         return dmoj_response({'message': f'Đã xóa kỳ thi {contest}'})
 
-class APIContestJoin(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
+class APIContestJoin(V2APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, contest):
         ct = resolve_contest(contest)
-        username = request.data.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
+        username = request.user.username
         prof = get_object_or_404(Profile, user__username=username)
 
         if request.data.get('action') == 'leave':
@@ -696,7 +734,7 @@ class APIContestJoin(APIView):
 
     def delete(self, request, contest):
         ct = resolve_contest(contest)
-        username = request.data.get('user') or request.GET.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
+        username = request.user.username
         prof = get_object_or_404(Profile, user__username=username)
         ContestParticipation.objects.filter(contest=ct, user=prof).delete()
         return dmoj_response({
@@ -708,9 +746,8 @@ class APIContestJoin(APIView):
         })
 
 
-class APIContestLeave(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
+class APIContestLeave(V2APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, contest):
         return APIContestJoin().delete(request, contest)
@@ -718,9 +755,11 @@ class APIContestLeave(APIView):
     def delete(self, request, contest):
         return APIContestJoin().delete(request, contest)
 
-class APIContestScoreboard(APIView):
+class APIContestScoreboard(V2APIView):
     def get(self, request, contest):
         ct = get_object_or_404(Contest, key=contest)
+        if not ct.is_visible and not IsPlatformAdmin().has_permission(request, self):
+            return dmoj_response(error={'message': 'Kỳ thi chưa công khai'}, status_code=403)
         parts = ContestParticipation.objects.filter(contest=ct).select_related('user__user').order_by('-score', 'cumulative_time')
 
         # Contest problems list for table columns
@@ -749,7 +788,9 @@ class APIContestScoreboard(APIView):
 
 
 # ── CLARIFICATIONS (HỎI ĐÁP) ────────────────────────────────────────────────
-class APIClarifications(APIView):
+class APIClarifications(V2APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get(self, request):
         prob_code = request.GET.get('problem')
         ct_key = request.GET.get('contest')
@@ -761,8 +802,8 @@ class APIClarifications(APIView):
             qs = qs.filter(contest__key=ct_key)
 
         # Non-staff only see public clarifications or their own
-        if not (request.user.is_authenticated and request.user.is_staff):
-            username = request.GET.get('user') or (request.user.username if request.user.is_authenticated else None)
+        if not IsPlatformAdmin().has_permission(request, self):
+            username = request.user.username if request.user.is_authenticated else None
             if username:
                 qs = qs.filter(Q(is_public=True) | Q(user__user__username=username))
             else:
@@ -776,7 +817,7 @@ class APIClarifications(APIView):
         if not question:
             return dmoj_response(error={'message': 'Nội dung câu hỏi không được để trống'}, status_code=400)
 
-        username = request.data.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
+        username = request.user.username
         prof = get_object_or_404(Profile, user__username=username)
 
         prob = Problem.objects.filter(code=request.data.get('problem')).first()
@@ -790,13 +831,15 @@ class APIClarifications(APIView):
         )
         return dmoj_response(ClarificationSerializer(clar).data, status_code=201)
 
-class APIClarificationAnswer(APIView):
+class APIClarificationAnswer(V2APIView):
+    permission_classes = [IsPlatformAdmin]
+
     def post(self, request, clarification_id):
         clar = get_object_or_404(Clarification, id=clarification_id)
         answer = request.data.get('answer', '').strip()
         is_public = bool(request.data.get('is_public', clar.is_public))
 
-        username = request.data.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
+        username = request.user.username
         staff_prof = Profile.objects.filter(user__username=username).first()
 
         clar.answer = answer
@@ -809,9 +852,11 @@ class APIClarificationAnswer(APIView):
 
 
 # ── BLOGS & COMMENTS ────────────────────────────────────────────────────────
-class APIBlogList(APIView):
+class APIBlogList(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request):
-        show_all = request.GET.get('all') == '1' or (request.user.is_authenticated and request.user.is_staff)
+        show_all = IsPlatformAdmin().has_permission(request, self) and request.GET.get('all') == '1'
         qs = BlogPost.objects.select_related('author__user').order_by('-publish_on')
         if not show_all:
             qs = qs.filter(is_visible=True)
@@ -823,15 +868,20 @@ class APIBlogList(APIView):
         body = request.data.get('body', '').strip()
         slug = request.data.get('slug', '').strip() or title.lower().replace(' ', '-')
         is_visible = request.data.get('is_visible', True)
-        username = request.data.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
+        username = request.user.username
         prof = get_object_or_404(Profile, user__username=username)
 
         post = BlogPost.objects.create(title=title, slug=slug, body=body, author=prof, is_visible=is_visible)
         return dmoj_response(BlogPostSerializer(post).data, status_code=201)
 
-class APIBlogDetail(APIView):
+class APIBlogDetail(V2APIView):
+    permission_classes = [IsPlatformAdminOrReadOnly]
+
     def get(self, request, slug):
-        post = get_object_or_404(BlogPost.objects.select_related('author__user'), slug=slug)
+        qs = BlogPost.objects.select_related('author__user')
+        if not IsPlatformAdmin().has_permission(request, self):
+            qs = qs.filter(is_visible=True)
+        post = get_object_or_404(qs, slug=slug)
         return dmoj_response({'object': BlogPostSerializer(post).data})
 
     def put(self, request, slug):
@@ -855,7 +905,9 @@ class APIBlogDetail(APIView):
         post.delete()
         return dmoj_response({'message': f'Đã xóa bài viết {slug}'})
 
-class APICommentList(APIView):
+class APICommentList(V2APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get(self, request):
         page_id = request.GET.get('page', 'general')
         qs = Comment.objects.filter(page=page_id).select_related('author__user').order_by('-time')
@@ -868,7 +920,7 @@ class APICommentList(APIView):
         if not body:
             return dmoj_response(error={'message': 'Nội dung bình luận không được để trống'}, status_code=400)
 
-        username = request.data.get('user') or (request.user.username if request.user.is_authenticated else 'admin')
+        username = request.user.username
         prof = get_object_or_404(Profile, user__username=username)
 
         cmt = Comment.objects.create(author=prof, page=page_id, body=body)
@@ -876,38 +928,49 @@ class APICommentList(APIView):
 
 
 # ── LANGUAGES & JUDGE SERVERS ───────────────────────────────────────────────
-class APILanguageList(APIView):
+class APILanguageList(V2APIView):
     def get(self, request):
         qs = Language.objects.filter(is_active=True)
         serializer = LanguageSerializer(qs, many=True)
         return dmoj_response({'objects': serializer.data})
 
-class APILanguageDetail(APIView):
+class APILanguageDetail(V2APIView):
     def get(self, request, key):
         lang = get_object_or_404(Language, key__iexact=key)
         serializer = LanguageSerializer(lang)
         return dmoj_response({'object': serializer.data})
 
-class APIJudgeList(APIView):
+class APIJudgeList(V2APIView):
     def get(self, request):
         qs = Judge.objects.all()
         serializer = JudgeSerializer(qs, many=True)
         return dmoj_response({'objects': serializer.data})
 
-class APIJudgeDetail(APIView):
+class APIJudgeDetail(V2APIView):
     def get(self, request, name):
         jdg = get_object_or_404(Judge, name=name)
         serializer = JudgeSerializer(jdg)
         return dmoj_response({'object': serializer.data})
 
-class APIJudgeHeartbeat(APIView):
+class APIJudgeHeartbeat(V2APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
     def post(self, request):
+        token = request.headers.get('Authorization', '').removeprefix('Bearer ').strip()
+        if not settings.JUDGE_AUTH_TOKEN or not hmac.compare_digest(token, settings.JUDGE_AUTH_TOKEN):
+            return dmoj_response(error={'message': 'Không có quyền gửi heartbeat'}, status_code=403)
         name = request.data.get('name')
-        load = float(request.data.get('load', 0.0))
-        ping = float(request.data.get('ping', 1.0))
+        if not isinstance(name, str) or not name or len(name) > 50:
+            return dmoj_response(error={'message': 'Tên máy chấm không hợp lệ'}, status_code=400)
+        try:
+            load = float(request.data.get('load', 0.0))
+            ping = float(request.data.get('ping', 1.0))
+        except (TypeError, ValueError):
+            return dmoj_response(error={'message': 'Thông số heartbeat không hợp lệ'}, status_code=400)
         runtimes = request.data.get('runtimes', {})
 
-        jdg, _ = Judge.objects.get_or_create(name=name, defaults={'auth_key': 'secret'})
+        jdg, _ = Judge.objects.get_or_create(name=name, defaults={'auth_key': secrets.token_urlsafe(32)})
         jdg.online = True
         jdg.load = load
         jdg.ping = ping
@@ -917,13 +980,13 @@ class APIJudgeHeartbeat(APIView):
 
         return dmoj_response({'status': 'acknowledged', 'judge': name})
 
-class APIOrganizationList(APIView):
+class APIOrganizationList(V2APIView):
     def get(self, request):
         qs = Organization.objects.all()
         serializer = OrganizationSerializer(qs, many=True)
         return dmoj_response({'objects': serializer.data})
 
-class APIOrganizationDetail(APIView):
+class APIOrganizationDetail(V2APIView):
     def get(self, request, slug):
         org = get_object_or_404(Organization, slug=slug)
         serializer = OrganizationSerializer(org)
@@ -931,7 +994,7 @@ class APIOrganizationDetail(APIView):
 
 
 # ── AUTHENTICATION ──────────────────────────────────────────────────────────
-class APILoginView(APIView):
+class APILoginView(V2APIView):
     authentication_classes = []
     permission_classes = []
 
@@ -976,7 +1039,7 @@ class APILoginView(APIView):
             })
         return dmoj_response(error={'message': 'Tên đăng nhập hoặc mật khẩu không chính xác.'}, status_code=401)
 
-class APIRegisterView(APIView):
+class APIRegisterView(V2APIView):
     authentication_classes = []
     permission_classes = []
 
@@ -1022,20 +1085,20 @@ class APIRegisterView(APIView):
             }
         }, status_code=201)
 
-class APIAuthProfileView(APIView):
+class APIAuthProfileView(V2APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        username = request.GET.get('user') or (request.user.username if request.user.is_authenticated else None)
-        if not username:
-            return dmoj_response(error={'message': 'Chưa đăng nhập'}, status_code=401)
+        username = request.user.username
         prof = get_object_or_404(Profile.objects.select_related('user'), user__username=username)
         return dmoj_response({'user': UserProfileSerializer(prof).data})
 
-class APILogoutView(APIView):
+class APILogoutView(V2APIView):
     def post(self, request):
         return dmoj_response({'message': 'Đã đăng xuất thành công'})
 
 
-class APIAdminCheckView(APIView):
+class APIAdminCheckView(V2APIView):
     """
     Checks if requesting user has role 'admin'.
     Strict token verification - NO bypasses.
@@ -1057,9 +1120,6 @@ class APIAdminCheckView(APIView):
         # 2. Check DRF Token authentication
         if not user:
             token_key = request.headers.get('Authorization', '').replace('Token ', '').replace('Bearer ', '').strip()
-            if not token_key:
-                token_key = request.GET.get('token')
-
             if token_key:
                 from rest_framework.authtoken.models import Token
                 try:
@@ -1075,12 +1135,7 @@ class APIAdminCheckView(APIView):
         if not user:
             return dmoj_response(error={'message': 'Chưa đăng nhập. Vui lòng đăng nhập với tài khoản Admin.'}, status_code=401)
 
-        is_admin = bool(
-            user.is_staff or 
-            user.is_superuser or 
-            user.username.lower() in ['admin', 'root'] or 
-            getattr(user, 'role', '') in ['admin', 'teacher', 'setter']
-        )
+        is_admin = bool(user.is_active and (user.is_staff or user.is_superuser))
         if not is_admin:
             return dmoj_response(error={'message': 'Từ chối truy cập: Tài khoản không có quyền Admin.'}, status_code=403)
 
@@ -1091,7 +1146,7 @@ class APIAdminCheckView(APIView):
         })
 
 
-class APIAdminJudgeWorkersView(APIView):
+class APIAdminJudgeWorkersView(V2APIView):
     """
     Secure server-side proxy to the Judge Server (port 9999).
     Hides internal judge secret bearer tokens and API keys from the browser.
@@ -1161,7 +1216,7 @@ SYSTEM_STATE = {
     'announcement_active': True
 }
 
-class APIAdminOverviewView(APIView):
+class APIAdminOverviewView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def get(self, request):
@@ -1207,7 +1262,7 @@ class APIAdminOverviewView(APIView):
         })
 
 
-class APIAdminUserRoleView(APIView):
+class APIAdminUserRoleView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def post(self, request, username):
@@ -1313,7 +1368,7 @@ class APIRejudgeContestView(JudgeAdminView):
         return dmoj_response({'message': f'Đã rejudge thành công toàn bộ {count} bài nộp của kỳ thi {ct.name}'})
 
 
-class APIAdminSystemView(APIView):
+class APIAdminSystemView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def get(self, request):
@@ -1338,7 +1393,7 @@ class APIAdminSystemView(APIView):
         return dmoj_response(error={'message': 'Hành động không hợp lệ'}, status_code=400)
 
 
-class APIAdminContestManageDetailView(APIView):
+class APIAdminContestManageDetailView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def get(self, request, contest):
@@ -1478,7 +1533,7 @@ class APIAdminContestManageDetailView(APIView):
         return dmoj_response(error={'message': 'Hành động không hợp lệ'}, status_code=400)
 
 
-class APIAdminJudgeQueueView(APIView):
+class APIAdminJudgeQueueView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def get(self, request):
@@ -1531,7 +1586,7 @@ class APIAdminJudgeQueueView(APIView):
         return dmoj_response(error={'message': 'Hành động không hợp lệ'}, status_code=400)
 
 
-class APIAdminJudgeLogsView(APIView):
+class APIAdminJudgeLogsView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def get(self, request):
@@ -1565,7 +1620,7 @@ class APIAdminJudgeLogsView(APIView):
         })
 
 
-class APIAdminSystemMetricsView(APIView):
+class APIAdminSystemMetricsView(V2APIView):
     permission_classes = [IsPlatformAdmin]
 
     def get(self, request):
@@ -1642,7 +1697,7 @@ class APIAdminBatchRejudgeView(JudgeAdminView):
         })
 
 
-class APISearchUnifiedView(APIView):
+class APISearchUnifiedView(V2APIView):
     def get(self, request):
         q = request.GET.get('q', '').strip()
         if not q:

@@ -11,8 +11,12 @@ from urllib import request
 
 API_URL = os.getenv('VNOI_API_URL', 'http://127.0.0.1:8000/api/v2')
 JUDGE_NAME = os.getenv('JUDGE_NAME', 'vnoj-judge-01')
+JUDGE_AUTH_TOKEN = os.getenv('JUDGE_AUTH_TOKEN', '')
 
 def send_heartbeat():
+    if not JUDGE_AUTH_TOKEN:
+        print('[JUDGE WORKER] JUDGE_AUTH_TOKEN is required for heartbeat')
+        return False
     try:
         payload = json.dumps({
             'name': JUDGE_NAME,
@@ -28,7 +32,10 @@ def send_heartbeat():
         req = request.Request(
             f"{API_URL}/judge/heartbeat",
             data=payload,
-            headers={'Content-Type': 'application/json'}
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {JUDGE_AUTH_TOKEN}',
+            }
         )
         with request.urlopen(req, timeout=5) as resp:
             return resp.status == 200

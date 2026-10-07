@@ -2,28 +2,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from ...models import UserSettings
 
 class ProfileSettingsAPIView(APIView):
-    authentication_classes = []
-    permission_classes = []
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def _verify_owner(self, request, target_user):
-        token_key = None
-        auth_header = request.headers.get('Authorization', '')
-        if auth_header.startswith('Token '):
-            token_key = auth_header.split(' ')[1]
-        elif auth_header.startswith('Bearer '):
-            token_key = auth_header.split(' ')[1]
-
-        if not token_key:
-            return False
-
-        from rest_framework.authtoken.models import Token
-        token_obj = Token.objects.filter(key=token_key).first()
-        if token_obj and (token_obj.user == target_user or token_obj.user.is_staff or token_obj.user.is_superuser):
-            return True
-        return False
+        return request.user == target_user or request.user.is_staff or request.user.is_superuser
 
     def get(self, request, username):
         user = User.objects.filter(username=username).first()
@@ -77,6 +66,9 @@ class ProfileSettingsAPIView(APIView):
 
         st, _ = UserSettings.objects.get_or_create(user=user)
         data = request.data
+        acc = data.get('account', {})
+        if acc.get('password') and request.user == user and not user.check_password(acc.get('current_password', '')):
+            return Response({'error': 'Mật khẩu hiện tại không đúng'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Update preferences
         pref = data.get('preferences', {})
@@ -97,7 +89,6 @@ class ProfileSettingsAPIView(APIView):
                 setattr(st, field, priv[field])
 
         # Update email if provided
-        acc = data.get('account', {})
         if 'email' in acc and acc['email']:
             user.email = acc['email']
             user.save(update_fields=['email'])

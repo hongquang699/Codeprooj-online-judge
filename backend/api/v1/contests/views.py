@@ -6,33 +6,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from django.db.models import Q, Max, Sum
 
 from backend.judge.models import (
     Contest, ContestProblem, ContestParticipation, Problem,
-    Submission, SubmissionTestCase, Language, Profile, Clarification
+    Submission, Language, Profile, Clarification
 )
 from backend.judge.bridge import grade_submission
+from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 
 def get_current_user(request):
-    """Resolve requesting user from Token header, X-Username, or query string."""
-    token_key = request.headers.get('Authorization', '').replace('Token ', '').replace('Bearer ', '').strip()
-    if not token_key:
-        token_key = request.GET.get('token')
-    if token_key:
-        try:
-            t = Token.objects.select_related('user').get(key=token_key)
-            return t.user
-        except Token.DoesNotExist:
-            pass
-    if hasattr(request, 'user') and request.user.is_authenticated:
-        return request.user
-    username = request.headers.get('X-Username') or request.GET.get('user') or request.GET.get('username')
-    if username:
-        return User.objects.filter(username=username).first()
-    return None
+    """Return only the identity verified by DRF authentication."""
+    return request.user if request.user.is_authenticated else None
+
+
+class ContestAPIView(APIView):
+    authentication_classes = [TokenAuthentication, BearerTokenAuthentication, JudgeCookieAuthentication, SessionAuthentication]
 
 def check_org_contest_access(contest, user):
     """
@@ -95,7 +85,7 @@ def get_problem_user_status(user, problem, contest=None):
 
 
 # ── CONTEST LIST & LANDING ──────────────────────────────────────────────────
-class ContestListAPIView(APIView):
+class ContestListAPIView(ContestAPIView):
     def get(self, request):
         contests = Contest.objects.filter(is_visible=True).order_by('-start_time')
         now = timezone.now()
@@ -141,7 +131,7 @@ class ContestListAPIView(APIView):
         return Response({'status': 200, 'data': results, 'active_contest_key': active_contest_key})
 
 
-class ContestDetailAPIView(APIView):
+class ContestDetailAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         now = timezone.now()
@@ -198,14 +188,10 @@ class ContestDetailAPIView(APIView):
         })
 
 
-class ContestRegisterAPIView(APIView):
+class ContestRegisterAPIView(ContestAPIView):
     def post(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
-        if not user:
-            username = request.data.get('username') or request.data.get('user')
-            if username:
-                user = User.objects.filter(username=username).first()
         if not user:
             return Response({'status': 401, 'error': {'message': 'Vui lòng đăng nhập để tham gia cuộc thi.'}}, status=401)
 
@@ -259,14 +245,10 @@ class ContestRegisterAPIView(APIView):
         return ContestLeaveAPIView().post(request, contest_id)
 
 
-class ContestLeaveAPIView(APIView):
+class ContestLeaveAPIView(ContestAPIView):
     def post(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
-        if not user:
-            username = request.data.get('username') or request.data.get('user')
-            if username:
-                user = User.objects.filter(username=username).first()
         if not user:
             return Response({'status': 401, 'error': {'message': 'Vui lòng đăng nhập để rời cuộc thi.'}}, status=401)
 
@@ -290,7 +272,7 @@ class ContestLeaveAPIView(APIView):
 
 
 # ── CONTEST DASHBOARD ────────────────────────────────────────────────────────
-class ContestDashboardAPIView(APIView):
+class ContestDashboardAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
@@ -381,10 +363,12 @@ class ContestDashboardAPIView(APIView):
 
 
 # ── CONTEST PROBLEMS ────────────────────────────────────────────────────────
-class ContestProblemsListAPIView(APIView):
+class ContestProblemsListAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
+        if not user or not c.is_visible or timezone.now() < c.start_time:
+            return Response({'status': 403, 'error': {'message': 'Bài thi chưa được mở.'}}, status=403)
         has_access, err_msg, org_data = check_org_contest_access(c, user)
         if not has_access:
             return Response({
@@ -411,10 +395,15 @@ class ContestProblemsListAPIView(APIView):
         return Response({'status': 200, 'data': res})
 
 
-class ContestProblemDetailAPIView(APIView):
+class ContestProblemDetailAPIView(ContestAPIView):
     def get(self, request, contest_id, problem_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
+        if not user or not c.is_visible or timezone.now() < c.start_time:
+            return Response({'status': 403, 'error': {'message': 'Bài thi chưa được mở.'}}, status=403)
+        has_access, err_msg, _ = check_org_contest_access(c, user)
+        if not has_access:
+            return Response({'status': 403, 'error': {'message': err_msg}}, status=403)
         cp = get_problem_in_contest(c, problem_id)
         if not cp:
             return Response({'status': 404, 'error': {'message': f'Bài tập {problem_id} không tồn tại trong cuộc thi.'}}, status=404)
@@ -460,16 +449,19 @@ class ContestProblemDetailAPIView(APIView):
 
 
 # ── CONTEST SUBMIT & SUBMISSIONS ─────────────────────────────────────────────
-class ContestProblemSubmitAPIView(APIView):
+class ContestProblemSubmitAPIView(ContestAPIView):
     def post(self, request, contest_id, problem_id):
         c = get_contest_or_404(contest_id)
         user = get_current_user(request)
         if not user:
-            username = request.data.get('user') or request.data.get('username')
-            if username:
-                user = User.objects.filter(username=username).first()
-        if not user:
             return Response({'status': 401, 'error': {'message': 'Vui lòng đăng nhập để nộp bài.'}}, status=401)
+
+        now = timezone.now()
+        if not c.is_visible or not (c.start_time <= now <= c.end_time):
+            return Response({'status': 403, 'error': {'message': 'Kỳ thi chưa mở hoặc đã kết thúc.'}}, status=403)
+        has_access, err_msg, _ = check_org_contest_access(c, user)
+        if not has_access:
+            return Response({'status': 403, 'error': {'message': err_msg}}, status=403)
 
         cp = get_problem_in_contest(c, problem_id)
         if not cp:
@@ -513,25 +505,12 @@ class ContestProblemSubmitAPIView(APIView):
         try:
             grade_submission(sub.id)
             sub.refresh_from_db()
-        except Exception as e:
-            # Fallback mock evaluation if sandbox offline
+        except Exception:
             sub.status = 'D'
-            sub.result = 'AC'
-            sub.points = cp.points
-            sub.time = 0.032
-            sub.memory = 8192
-            sub.save()
-            for i in range(1, 5):
-                SubmissionTestCase.objects.create(
-                    submission=sub,
-                    case=i,
-                    status='AC',
-                    time=0.012 + i * 0.003,
-                    memory=8192,
-                    points=cp.points / 4,
-                    total_points=cp.points / 4,
-                    feedback='Accepted'
-                )
+            sub.result = 'SE'
+            sub.points = 0.0
+            sub.error = 'Judge unavailable; submission requires rejudge.'
+            sub.save(update_fields=['status', 'result', 'points', 'error'])
 
         return Response({
             'status': 201,
@@ -547,7 +526,7 @@ class ContestProblemSubmitAPIView(APIView):
         }, status=201)
 
 
-class ContestSubmissionsListAPIView(APIView):
+class ContestSubmissionsListAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         qs = Submission.objects.filter(contest=c).select_related('problem', 'user__user', 'language').order_by('-date')
@@ -587,7 +566,7 @@ class ContestSubmissionsListAPIView(APIView):
 
 
 # ── SUBMISSION DETAIL, STATUS & RESULT ───────────────────────────────────────
-class SubmissionUnifiedDetailAPIView(APIView):
+class SubmissionUnifiedDetailAPIView(ContestAPIView):
     def get(self, request, submission_id):
         sub = get_object_or_404(Submission.objects.select_related('problem', 'user__user', 'language', 'contest'), id=submission_id)
         user = get_current_user(request)
@@ -642,7 +621,7 @@ class SubmissionUnifiedDetailAPIView(APIView):
         })
 
 
-class SubmissionStatusPollAPIView(APIView):
+class SubmissionStatusPollAPIView(ContestAPIView):
     def get(self, request, submission_id):
         sub = get_object_or_404(Submission, id=submission_id)
         is_done = sub.status == 'D' or bool(sub.result)
@@ -667,7 +646,7 @@ class SubmissionStatusPollAPIView(APIView):
 
 
 # ── CONTEST REALTIME SCOREBOARD / RANKING ────────────────────────────────────
-class ContestRankingAPIView(APIView):
+class ContestRankingAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         cps = ContestProblem.objects.filter(contest=c).select_related('problem').order_by('order')
@@ -746,7 +725,7 @@ class ContestRankingAPIView(APIView):
 
 
 # ── ANNOUNCEMENTS & CLARIFICATIONS ──────────────────────────────────────────
-class ContestAnnouncementsAPIView(APIView):
+class ContestAnnouncementsAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         # Standard contest notices
@@ -769,7 +748,7 @@ class ContestAnnouncementsAPIView(APIView):
         return Response({'status': 200, 'data': notices})
 
 
-class ContestClarificationsAPIView(APIView):
+class ContestClarificationsAPIView(ContestAPIView):
     def get(self, request, contest_id):
         c = get_contest_or_404(contest_id)
         clars = Clarification.objects.filter(is_public=True).select_related('asked_by__user', 'problem').order_by('-asked_at')
