@@ -26,7 +26,7 @@ from backend.judge.bridge import grade_submission
 from backend.judge.api.admin_views import JudgeAdminView
 from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from .serializers import (
-    UserProfileSerializer, OrganizationSerializer,
+    UserProfileSerializer, PublicUserProfileSerializer, OrganizationSerializer,
     LanguageSerializer, ProblemListSerializer, ProblemDetailSerializer,
     SubmissionListSerializer, SubmissionDetailSerializer,
     ContestListSerializer, ContestDetailSerializer, JudgeSerializer,
@@ -59,10 +59,15 @@ class IsPlatformAdminOrReadOnly(IsPlatformAdmin):
 # ── USERS & PROFILES ────────────────────────────────────────────────────────
 class APIUserList(V2APIView):
     def get(self, request):
+        is_admin = bool(request.user.is_authenticated and request.user.is_active and
+                        (request.user.is_staff or request.user.is_superuser))
         qs = Profile.objects.select_related('user').all()
         q = request.GET.get('q', '').strip()
         if q:
-            qs = qs.filter(Q(user__username__icontains=q) | Q(user__email__icontains=q))
+            search = Q(user__username__icontains=q)
+            if is_admin:
+                search |= Q(user__email__icontains=q)
+            qs = qs.filter(search)
         
         page = max(1, int(request.GET.get('page', 1)))
         page_size = min(100, max(1, int(request.GET.get('page_size', 50))))
@@ -70,7 +75,8 @@ class APIUserList(V2APIView):
         start = (page - 1) * page_size
         end = start + page_size
 
-        serializer = UserProfileSerializer(qs[start:end], many=True)
+        serializer_class = UserProfileSerializer if is_admin else PublicUserProfileSerializer
+        serializer = serializer_class(qs[start:end], many=True)
         return dmoj_response({
             'current_page': page,
             'page_size': page_size,
@@ -85,7 +91,11 @@ class APIUserDetail(V2APIView):
 
     def get(self, request, username):
         prof = get_object_or_404(Profile.objects.select_related('user'), user__username=username)
-        serializer = UserProfileSerializer(prof)
+        user = request.user
+        can_view_private = bool(user.is_authenticated and user.is_active and
+                                (user.pk == prof.user_id or user.is_staff or user.is_superuser))
+        serializer_class = UserProfileSerializer if can_view_private else PublicUserProfileSerializer
+        serializer = serializer_class(prof)
         data = serializer.data
 
         # Solved problems
@@ -1036,10 +1046,10 @@ class APILoginView(V2APIView):
         if not user:
             user_obj = User.objects.filter(email__iexact=username_or_email).first() or \
                        User.objects.filter(username__iexact=username_or_email).first()
-            if user_obj and user_obj.check_password(password):
+            if user_obj and user_obj.is_active and user_obj.check_password(password):
                 user = user_obj
 
-        if user:
+        if user and user.is_active:
             token, _ = Token.objects.get_or_create(user=user)
             prof, _ = Profile.objects.get_or_create(user=user)
             is_adm = user.is_staff or user.is_superuser or user.username == 'admin'

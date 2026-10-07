@@ -48,6 +48,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
         full = obj.user.get_full_name()
         return full if full else obj.user.username
 
+
+class PublicUserProfileSerializer(UserProfileSerializer):
+    """Profile fields safe to expose on public user and ranking pages."""
+
+    class Meta(UserProfileSerializer.Meta):
+        fields = [
+            'id', 'username', 'first_name', 'last_name', 'display_name',
+            'about', 'timezone', 'points', 'performance_points', 'problem_count',
+            'rating', 'display_rank', 'is_verified', 'role', 'organizations',
+            'date_joined',
+        ]
+
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language

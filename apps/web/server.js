@@ -30,6 +30,12 @@ function getClientIp(req) {
   return securityDefense.resolveClientIp(req);
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+}
+
 function isAdminIpAllowed(req) {
   const clientIp = getClientIp(req);
   if (!clientIp) return false;
@@ -191,7 +197,13 @@ const server = http.createServer(async (req, res) => {
   securityDefense.applySecurityHeaders(res);
 
   const urlParts = req.url.split('?');
-  let reqUrl = decodeURI(urlParts[0]);
+  let reqUrl;
+  try {
+    reqUrl = decodeURI(urlParts[0]);
+  } catch (error) {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('Invalid URL');
+  }
   const queryString = urlParts.length > 1 ? `?${urlParts[1]}` : '';
 
   // The administrative security controls live on the gateway and never pass
@@ -359,7 +371,7 @@ const server = http.createServer(async (req, res) => {
             <div class="badge">TRUY CẬP BỊ TỪ CHỐI (403)</div>
             <h1>Bảo Vệ Quản Trị Viên: IP Không Được Ủy Quyền</h1>
             <p>Tài khoản Quản trị viên chỉ cho phép truy cập từ địa chỉ IP được cấp phép riêng. Địa chỉ IP hiện tại của bạn không nằm trong danh sách trắng:</p>
-            <div class="ip-box">IP HIỆN TẠI: ${clientIp}</div>
+            <div class="ip-box">IP HIỆN TẠI: ${escapeHtml(clientIp)}</div>
             <p style="font-size: 0.82rem; color: #64748b;">Dù tên tài khoản và mật khẩu quản trị chính xác, hệ thống vẫn từ chối mọi yêu cầu quản trị từ IP này.</p>
             <a href="/" class="btn">Quay về Trang chủ</a>
           </div>
@@ -901,7 +913,7 @@ const server = http.createServer(async (req, res) => {
           <div class="card">
             <h1>404</h1>
             <h2>Không tìm thấy trang</h2>
-            <p>Đường dẫn <code>${reqUrl}</code> không tồn tại trên hệ thống.</p>
+            <p>Đường dẫn <code>${escapeHtml(reqUrl)}</code> không tồn tại trên hệ thống.</p>
             <a href="/frontend/html/home/index.html">Quay về Trang chủ</a>
           </div>
         </body>
