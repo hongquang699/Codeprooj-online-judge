@@ -8,20 +8,10 @@
  * - Strict no-underline styling
  */
 
-function getRatingColor(rating) {
-  if (typeof CPRating !== 'undefined') return CPRating.getColor(rating);
-  const r = parseInt(rating, 10);
-  if (isNaN(r) || r <= 0) return '#94a3b8'; // Unrated / 0 rating -> Gray
-  if (r >= 3000) return '#ef4444'; // Legendary Grandmaster
-  if (r >= 2600) return '#ef4444'; // International Grandmaster
-  if (r >= 2400) return '#ef4444'; // Grandmaster
-  if (r >= 2300) return '#f97316'; // International Master
-  if (r >= 2100) return '#f97316'; // Master
-  if (r >= 1900) return '#a855f7'; // Candidate Master
-  if (r >= 1600) return '#3b82f6'; // Expert
-  if (r >= 1400) return '#10b981'; // Specialist
-  if (r >= 1200) return '#06b6d4'; // Pupil
-  return '#94a3b8'; // Newbie
+function escapeNavbarText(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
 }
 
 function initNavbar() {
@@ -97,22 +87,19 @@ function initNavbar() {
   // Auth Actions HTML
   let authHtml = '';
   if (isAuth && user) {
-    const userRating = (user.rating != null && !isNaN(parseInt(user.rating, 10))) ? parseInt(user.rating, 10) : 0;
-    const ratingColor = getRatingColor(userRating);
+    const username = String(user.username || 'User');
+    const safeUsername = escapeNavbarText(username);
+    const avatarInitial = escapeNavbarText(Array.from(username)[0].toUpperCase());
     const logoutText = (typeof CPI18n !== 'undefined') ? CPI18n.t('nav.logout', 'Đăng xuất') : 'Đăng xuất';
     authHtml = `
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <a href="/profile/${encodeURIComponent(user.username)}" 
-           id="navUserProfileLink"
-           style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none !important; padding: 0.25rem 0.65rem; background: var(--color-surface, rgba(255,255,255,0.06)); border-radius: 9999px; border: 1px solid var(--color-border, rgba(255,255,255,0.1));">
-          <div id="navUserAvatar" style="width: 24px; height: 24px; border-radius: 50%; background: ${ratingColor}; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.75rem;">
-            ${(user.username || 'U')[0].toUpperCase()}
-          </div>
-          <span id="navUsernameText" style="color: ${ratingColor}; font-weight: 700; font-size: 0.88rem;">
-            ${user.username}
-          </span>
+      <div class="nav-account-actions">
+        <a href="/profile/${encodeURIComponent(username)}"
+           id="navUserProfileLink" class="nav-account-link"
+           aria-label="Hồ sơ của ${safeUsername}" title="Hồ sơ của ${safeUsername}">
+          <span class="nav-account-avatar" aria-hidden="true">${avatarInitial}</span>
+          <span class="nav-account-name">${safeUsername}</span>
         </a>
-        <button onclick="logoutUser()" class="btn-nav-control" style="font-size: 0.8rem; padding: 0.35rem 0.7rem; border-radius: var(--radius-sm, 6px);" data-i18n="nav.logout">
+        <button onclick="logoutUser()" class="btn-nav-control nav-logout-button" data-i18n="nav.logout">
           ${logoutText}
         </button>
       </div>
@@ -162,7 +149,7 @@ function initNavbar() {
   if (window.CPI18n) window.CPI18n.updateButtons();
   if (window.CPIcons) window.CPIcons.renderAll();
 
-  // Dynamically sync real-time user rating and rank color from backend
+  // Keep the cached user profile in sync with the server.
   if (isAuth && user) {
     fetch('/api/v1/auth/me', { credentials: 'include', headers: { 'Accept': 'application/json' } })
       .then(r => r.ok ? r.json() : null)
@@ -175,11 +162,6 @@ function initNavbar() {
             const curObj = curRaw ? JSON.parse(curRaw) : {};
             localStorage.setItem('user', JSON.stringify({ ...curObj, ...res.user, rating: freshRating }));
           } catch (e) {}
-          const freshColor = getRatingColor(freshRating);
-          const av = document.getElementById('navUserAvatar');
-          const un = document.getElementById('navUsernameText');
-          if (av) av.style.background = freshColor;
-          if (un) un.style.color = freshColor;
         }
       }).catch(() => {});
   }
