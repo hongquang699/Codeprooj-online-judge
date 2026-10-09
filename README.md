@@ -23,6 +23,8 @@ Giới hạn hiện tại: so khớp dựa trên token và dấu vân tay, chưa
 
 Giao diện Bot chống gian lận trong Contest Admin chia thành Tổng quan, Lượt quét, Tương đồng, Nhóm nghi vấn, Hồ sơ & bằng chứng, AI Risk, Xử lý, Kháng nghị, Cấu hình và Nhật ký. Mỗi mục tải dữ liệu khi được mở để tránh dồn truy vấn lên API. Các số liệu hiển thị lấy từ API của kỳ thi, không dùng dữ liệu minh họa; số bài đã quét là ước tính từ các lượt quét hoàn tất. Mục AI Risk giải thích trạng thái chưa kích hoạt; hệ thống không tạo điểm AI giả hoặc gửi mã nguồn sang dịch vụ AI bên ngoài. Danh sách quyết định xử lý có endpoint đọc riêng `GET /api/v1/admin/contests/{key}/anti-cheat/penalties` và yêu cầu quyền xem xét chống gian lận.
 
+Trang bot cần mở qua gateway (`/admin/contests/{key}/anti-cheat`). Nếu file HTML được mở trực tiếp bằng `file://`, trang tự chuyển về gateway để CSS, JavaScript, phiên đăng nhập và API hoạt động đúng. Các thao tác cấu hình, quét, xét hồ sơ, xử lý và kháng nghị được lưu cùng audit log trong một giao dịch: không ghi được nhật ký thì thay đổi không được xác nhận. API giới hạn dữ liệu theo kỳ thi và vai trò, yêu cầu CSRF khi xác thực bằng session/cookie, ngăn kháng nghị lặp cho cùng một quyết định. Có thể chạy các bài kiểm tra luồng và ranh giới quyền bằng `python manage.py test backend.anti_cheat.tests`.
+
 ---
 
 ## 📁 Cấu Trúc Thư Mục Chuẩn Hóa Của Dự Án

@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <script>
+    if (window.location.protocol === 'file:') {
+      const key = new URLSearchParams(window.location.search).get('contest');
+      const destination = key
+        ? `/admin/contests/${encodeURIComponent(key)}/anti-cheat`
+        : '/admin/anti-cheat';
+      window.location.replace(`http://localhost:8888${destination}`);
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chống gian lận kỳ thi | CodeProOJ</title>

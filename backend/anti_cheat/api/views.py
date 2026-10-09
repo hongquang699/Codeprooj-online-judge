@@ -11,7 +11,6 @@ from rest_framework.views import APIView
 
 from backend.contest_admin.models.models import ContestAuditLog
 from backend.contest_admin.permissions.permissions import has_contest_permission
-from backend.contest_admin.services.audit_service import log_contest_audit
 from backend.judge.models import Contest, ContestParticipation
 from backend.judge.permissions.authentication import BearerTokenAuthentication, JudgeCookieAuthentication
 from backend.anti_cheat.models import (
@@ -34,8 +33,12 @@ class ContestAPIView(AuthenticatedAPIView):
 
     @staticmethod
     def audit(request, contest, action, target_type='', target_id='', details=''):
-        log_contest_audit(contest, request.user, action, target_type, target_id, details,
-                          request.META.get('REMOTE_ADDR', ''))
+        # Administrative actions must not commit without their audit record.
+        return ContestAuditLog.objects.create(
+            contest=contest, actor=request.user, action=action,
+            target_type=target_type, target_id=str(target_id), details=details,
+            ip_address=request.META.get('REMOTE_ADDR') or '127.0.0.1',
+        )
 
 
 def _case_payload(case):
@@ -101,6 +104,7 @@ class SettingsView(ContestAPIView):
         return Response({'enabled': config.enabled, 'similarity_threshold': config.similarity_threshold,
                          'scan_mode': config.scan_mode, 'min_tokens': config.min_tokens})
 
+    @transaction.atomic
     def patch(self, request, contest_id):
         contest = self.contest(request, contest_id, 'anti_cheat.manage')
         config, _ = AntiCheatSettings.objects.get_or_create(contest=contest)
@@ -136,6 +140,7 @@ class ScansView(ContestAPIView):
         contest = self.contest(request, contest_id)
         return Response({'scans': [_job_payload(job) for job in ScanJob.objects.filter(contest=contest)[:50]]})
 
+    @transaction.atomic
     def post(self, request, contest_id):
         contest = self.contest(request, contest_id, 'anti_cheat.manage')
         config, _ = AntiCheatSettings.objects.get_or_create(contest=contest)
@@ -154,6 +159,7 @@ class ScanDetailView(ContestAPIView):
 
 
 class RetryScanView(ContestAPIView):
+    @transaction.atomic
     def post(self, request, contest_id, scan_id):
         contest = self.contest(request, contest_id, 'anti_cheat.manage')
         job = get_object_or_404(ScanJob, pk=scan_id, contest=contest)
@@ -373,15 +379,22 @@ class MyAppealsView(AuthenticatedAPIView):
             'created_at': item.created_at.isoformat(),
         } for item in appeals]})
 
+    @transaction.atomic
     def post(self, request):
         penalty_id, reason = request.data.get('penalty_id'), request.data.get('reason')
         if type(penalty_id) is not int or not isinstance(reason, str) or not 10 <= len(reason.strip()) <= 4000:
             raise ValidationError({'error': 'Cần mã quyết định và lý do từ 10 đến 4000 ký tự.'})
-        penalty = get_object_or_404(AntiCheatPenalty, pk=penalty_id, user=request.user, revoked_at__isnull=True)
-        if AntiCheatAppeal.objects.filter(penalty=penalty, status='OPEN').exists():
-            raise ValidationError({'error': 'Quyết định này đã có khiếu nại đang chờ.'})
+        penalty = get_object_or_404(
+            AntiCheatPenalty.objects.select_for_update().select_related('case__contest'),
+            pk=penalty_id, user=request.user, revoked_at__isnull=True,
+        )
+        if AntiCheatAppeal.objects.filter(penalty=penalty).exists():
+            raise ValidationError({'error': 'Quyết định này đã có khiếu nại.'})
         appeal = AntiCheatAppeal.objects.create(penalty=penalty, appellant=request.user, reason=reason.strip())
         AntiCheatCase.objects.filter(pk=penalty.case_id).update(status='APPEALED')
-        log_contest_audit(penalty.case.contest, request.user, 'ANTI_CHEAT_APPEAL_CREATED',
-                          target_type='appeal', target_id=appeal.pk)
+        ContestAuditLog.objects.create(
+            contest=penalty.case.contest, actor=request.user,
+            action='ANTI_CHEAT_APPEAL_CREATED', target_type='appeal', target_id=str(appeal.pk),
+            ip_address=request.META.get('REMOTE_ADDR') or '127.0.0.1',
+        )
         return Response({'id': appeal.pk, 'status': appeal.status}, status=201)
