@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlsplit
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -17,13 +18,27 @@ def _load_project_env(path: Path) -> None:
 
 _load_project_env(BASE_DIR / '.env')
 
+def _env_bool(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in ('1', 'true', 'yes', 'on')
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY:
     raise RuntimeError('SECRET_KEY must be set in the environment or project .env file')
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,codeprooj.com,www.codeprooj.com').split(',') if h.strip()]
-if 'codeprooj.com' not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.extend(['codeprooj.com', 'www.codeprooj.com'])
+DEBUG = _env_bool('DEBUG')
+_allowed_hosts_env = os.getenv('ALLOWED_HOSTS')
+ALLOWED_HOSTS = [
+    host.strip() for host in (
+        _allowed_hosts_env.split(',') if _allowed_hosts_env is not None else
+        ['localhost', '127.0.0.1', 'codeprooj.com', 'www.codeprooj.com']
+    ) if host.strip()
+]
+if not DEBUG and not ALLOWED_HOSTS:
+    raise RuntimeError('ALLOWED_HOSTS must contain at least one host in production')
+if not DEBUG and '*' in ALLOWED_HOSTS:
+    raise RuntimeError('Wildcard ALLOWED_HOSTS is not permitted in production')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -166,30 +181,58 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
-# ── CORS Settings (Strict Origin Whitelist when credentials allowed) ─────────
-CORS_ALLOW_CREDENTIALS = True
-if not DEBUG and os.getenv('CORS_ALLOW_ALL') != 'True':
-    CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGINS = [
-        'https://codeprooj.com',
-        'http://codeprooj.com',
-        'https://www.codeprooj.com',
-        'http://www.codeprooj.com',
-        'http://localhost:8888',
-        'http://127.0.0.1:8888',
-        'http://localhost:8000',
-        'http://127.0.0.1:8000',
-        'http://localhost:3000',
-        'http://127.0.0.1:3000',
-    ]
-    env_cors = os.getenv('CORS_ALLOWED_ORIGINS')
-    if env_cors:
-        CORS_ALLOWED_ORIGINS.extend([o.strip() for o in env_cors.split(',') if o.strip()])
-else:
-    CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL', 'False').lower() == 'true'
+# ── CORS & CSRF Origins: explicit origins only; wildcard+credentials is forbidden ──
+def _validated_origins(env_name, defaults, *, allow_http):
+    values = list(defaults)
+    configured = os.getenv(env_name, '')
+    if configured:
+        values.extend(item.strip() for item in configured.split(',') if item.strip())
 
-csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://codeprooj.com,http://codeprooj.com,https://www.codeprooj.com,http://www.codeprooj.com,http://localhost:8888,http://127.0.0.1:8888,http://localhost:8000,http://127.0.0.1:8000')
-CSRF_TRUSTED_ORIGINS = [o.strip() for o in csrf_origins.split(',') if o.strip()]
+    origins = []
+    for value in values:
+        parsed = urlsplit(value)
+        try:
+            parsed.port  # Validate that any explicit port is syntactically valid.
+        except ValueError:
+            raise RuntimeError(f'{env_name} contains an invalid origin: {value!r}') from None
+        if (parsed.scheme not in (('https', 'http') if allow_http else ('https',))
+                or not parsed.hostname or parsed.path or parsed.query or parsed.fragment
+                or parsed.username or parsed.password or '*' in value):
+            raise RuntimeError(f'{env_name} contains an invalid or insecure origin: {value!r}')
+        try:
+            hostname = parsed.hostname.encode('idna').decode('ascii').lower()
+        except UnicodeError:
+            raise RuntimeError(f'{env_name} contains an invalid origin: {value!r}') from None
+        if ':' in hostname:
+            hostname = f'[{hostname}]'
+        default_port = 80 if parsed.scheme == 'http' else 443
+        port_suffix = f':{parsed.port}' if parsed.port and parsed.port != default_port else ''
+        normalized = f'{parsed.scheme}://{hostname}{port_suffix}'
+        if normalized not in origins:
+            origins.append(normalized)
+    return origins
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = _validated_origins(
+    'CORS_ALLOWED_ORIGINS',
+    ['https://codeprooj.com', 'https://www.codeprooj.com'] + ([
+        'http://localhost:8888', 'http://127.0.0.1:8888',
+        'http://localhost:8000', 'http://127.0.0.1:8000',
+        'http://localhost:3000', 'http://127.0.0.1:3000',
+    ] if DEBUG else []),
+    allow_http=DEBUG,
+)
+
+CSRF_TRUSTED_ORIGINS = _validated_origins(
+    'CSRF_TRUSTED_ORIGINS',
+    ['https://codeprooj.com', 'https://www.codeprooj.com'] + ([
+        'http://localhost:8888', 'http://127.0.0.1:8888',
+        'http://localhost:8000', 'http://127.0.0.1:8000',
+        'http://localhost:3000', 'http://127.0.0.1:3000',
+    ] if DEBUG else []),
+    allow_http=DEBUG,
+)
 
 # ── Security & Cookie Hardening (XSS, CSRF, Clickjacking) ─────────────────────
 SESSION_COOKIE_HTTPONLY = True
@@ -201,9 +244,9 @@ X_FRAME_OPTIONS = 'DENY'
 
 # Production HTTPS & HSTS Settings (Activated when DEBUG is False)
 if not DEBUG:
-    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True') == 'True'
-    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True') == 'True'
-    CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True') == 'True'
+    SECURE_SSL_REDIRECT = _env_bool('SECURE_SSL_REDIRECT', True)
+    SESSION_COOKIE_SECURE = _env_bool('SESSION_COOKIE_SECURE', True)
+    CSRF_COOKIE_SECURE = _env_bool('CSRF_COOKIE_SECURE', True)
     SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '31536000'))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True

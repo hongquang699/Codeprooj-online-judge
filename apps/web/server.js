@@ -449,12 +449,13 @@ const server = http.createServer(async (req, res) => {
     });
 
     proxyReq.on('error', (err) => {
-      res.writeHead(502, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ 
-        error: 'Backend API unavailable on port 8000', 
-        details: err.message,
-        tip: 'Ensure Django is running: python manage.py runserver 0.0.0.0:8000'
-      }));
+      console.error(`[API GATEWAY] Backend request failed (${req.method} ${reqUrl}): ${err.code || 'UPSTREAM_ERROR'}`);
+      if (res.headersSent) return res.destroy();
+      res.writeHead(502, {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store'
+      });
+      res.end(JSON.stringify({ error: 'API temporarily unavailable', code: 'UPSTREAM_UNAVAILABLE' }));
     });
 
     if (req.method === 'GET' || req.method === 'HEAD') {

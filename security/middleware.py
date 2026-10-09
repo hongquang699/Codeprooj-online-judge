@@ -11,6 +11,7 @@ Implements the 6 Core Defense Techniques:
 
 import json
 import re
+from django.conf import settings
 from django.http import JsonResponse
 from security.api_security.rate_limit import RateLimiter
 from security.api_security.input_validation import InputSanitizer
@@ -24,18 +25,7 @@ from security.api_security.api_keys import APIKeyManager
 from security.incident_response import EmergencyContainment
 from security.logging import SecurityLogger
 
-ALLOWED_CORS_ORIGINS = {
-    'https://codeprooj.com',
-    'http://codeprooj.com',
-    'https://www.codeprooj.com',
-    'http://www.codeprooj.com',
-    'http://localhost:8888',
-    'http://127.0.0.1:8888',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-}
+ALLOWED_CORS_ORIGINS = frozenset(getattr(settings, 'CORS_ALLOWED_ORIGINS', ()))
 
 # Known security scanner User-Agents to block at WAF layer
 BAD_USER_AGENTS = [
