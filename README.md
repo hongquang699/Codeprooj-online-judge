@@ -21,6 +21,8 @@ Người có quyền phải ghi lý do khi xác nhận hoặc bác bỏ hồ sơ
 
 Giới hạn hiện tại: so khớp dựa trên token và dấu vân tay, chưa dùng AST hoặc nhận diện AI; mã nguồn ngắn và template phổ biến có thể tạo trùng khớp giả. Hồ sơ cần được con người xem xét cùng quy chế kỳ thi và các bằng chứng khác. Mỗi lượt chỉ xem tối đa 100 ứng viên có nhiều dấu vân tay chung nhất cho mỗi bài nộp để giới hạn tải; kỳ thi rất lớn có thể cần tăng năng lực worker hoặc cơ chế tìm kiếm chuyên dụng.
 
+Giao diện Bot chống gian lận trong Contest Admin chia thành Tổng quan, Lượt quét, Tương đồng, Nhóm nghi vấn, Hồ sơ & bằng chứng, AI Risk, Xử lý, Kháng nghị, Cấu hình và Nhật ký. Mỗi mục tải dữ liệu khi được mở để tránh dồn truy vấn lên API. Các số liệu hiển thị lấy từ API của kỳ thi, không dùng dữ liệu minh họa; số bài đã quét là ước tính từ các lượt quét hoàn tất. Mục AI Risk giải thích trạng thái chưa kích hoạt; hệ thống không tạo điểm AI giả hoặc gửi mã nguồn sang dịch vụ AI bên ngoài. Danh sách quyết định xử lý có endpoint đọc riêng `GET /api/v1/admin/contests/{key}/anti-cheat/penalties` và yêu cầu quyền xem xét chống gian lận.
+
 ---
 
 ## 📁 Cấu Trúc Thư Mục Chuẩn Hóa Của Dự Án

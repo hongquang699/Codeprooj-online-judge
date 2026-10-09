@@ -1,7 +1,6 @@
 import hashlib
 
 from django.db import transaction
-from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -69,9 +68,18 @@ class DashboardView(ContestAPIView):
         jobs = ScanJob.objects.filter(contest=contest)
         cases = AntiCheatCase.objects.filter(contest=contest)
         config, _ = AntiCheatSettings.objects.get_or_create(contest=contest)
+        completed = jobs.filter(status='COMPLETED')
+        full_scan_count = completed.filter(target_submission__isnull=True).order_by('-finished_at').values_list('processed', flat=True).first() or 0
+        targeted_count = completed.filter(target_submission__isnull=False).values('target_submission_id').distinct().count()
+        flagged_ids = set()
+        for first_id, second_id in SimilarityResult.objects.filter(contest=contest).values_list('submission_a_id', 'submission_b_id'):
+            flagged_ids.update((first_id, second_id))
         return Response({'contest': contest.key, 'enabled': config.enabled,
                          'threshold': config.similarity_threshold,
                          'scan_mode': config.scan_mode,
+                         'scanned_submissions': max(full_scan_count, targeted_count),
+                         'flagged_submissions': len(flagged_ids),
+                         'high_risk_cases': cases.filter(result__score__gte=95, status__in=['OPEN', 'UNDER_REVIEW']).count(),
                          'scans': jobs.count(), 'pending_scans': jobs.filter(status__in=['PENDING', 'RUNNING']).count(),
                          'cases': cases.count(), 'open_cases': cases.filter(status__in=['OPEN', 'UNDER_REVIEW']).count(),
                          'confirmed_cases': cases.filter(status='CONFIRMED').count(),
@@ -205,6 +213,13 @@ class CasesView(ContestAPIView):
         return Response({'cases': [_case_payload(case) for case in cases[:100]]})
 
 
+class CaseDetailView(ContestAPIView):
+    def get(self, request, contest_id, case_id):
+        contest = self.contest(request, contest_id, 'anti_cheat.review')
+        case = get_object_or_404(_case_queryset(contest), pk=case_id)
+        return Response({'case': _case_payload(case)})
+
+
 class EvidenceView(ContestAPIView):
     def get(self, request, contest_id, case_id):
         contest = self.contest(request, contest_id, 'anti_cheat.review')
@@ -243,7 +258,21 @@ class CaseDecisionView(ContestAPIView):
 
 
 class PenaltiesView(ContestAPIView):
-    def post(self, request, contest_id, case_id):
+    def get(self, request, contest_id):
+        contest = self.contest(request, contest_id, 'anti_cheat.review')
+        penalties = AntiCheatPenalty.objects.filter(case__contest=contest).select_related(
+            'case', 'user', 'issued_by'
+        ).order_by('-created_at')[:100]
+        return Response({'penalties': [{
+            'id': item.pk, 'case_id': item.case_id, 'user': item.user.username,
+            'kind': item.kind, 'reason': item.reason,
+            'issued_by': item.issued_by.username if item.issued_by else 'system',
+            'created_at': item.created_at.isoformat(), 'revoked': bool(item.revoked_at),
+        } for item in penalties]})
+
+    def post(self, request, contest_id, case_id=None):
+        if case_id is None:
+            raise ValidationError({'case_id': 'Cần chọn hồ sơ đã xác nhận.'})
         contest = self.contest(request, contest_id, 'anti_cheat.penalize')
         kind, user_id, reason = request.data.get('kind'), request.data.get('user_id'), request.data.get('reason')
         if kind not in ('WARNING', 'DISQUALIFY') or not isinstance(reason, str) or not 10 <= len(reason.strip()) <= 4000:
