@@ -149,6 +149,8 @@ const ROUTE_ALIASES = {
   '/admin/contests': '/frontend/html/admin/contests/index.html',
   '/admin/contests/': '/frontend/html/admin/contests/index.html',
   '/admin/contests/create': '/frontend/html/admin/contests/create.html',
+  '/admin/anti-cheat': '/frontend/html/admin/reports/index.html',
+  '/admin/anti-cheat/': '/frontend/html/admin/reports/index.html',
   '/admin/judge': '/frontend/html/admin/judge/index.html',
   '/admin/judge/': '/frontend/html/admin/judge/index.html',
   '/admin/users': '/frontend/html/admin/users/index.html',
@@ -528,7 +530,7 @@ const server = http.createServer(async (req, res) => {
     // The create form is not a contest. Send this stale/mistyped URL to the
     // contest picker instead of treating "create" as a contest key.
     if (key.toLowerCase() === 'create') {
-      res.writeHead(302, { Location: '/admin/reports' });
+      res.writeHead(302, { Location: '/admin/anti-cheat' });
       return res.end();
     }
     res.writeHead(302, { Location: `/frontend/html/contest-admin/anti-cheat/index.html?contest=${key}` });

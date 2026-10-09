@@ -58,6 +58,9 @@
       <a href="/admin/contests/create" class="admin-nav-item">
         <cp-icon name="plus" size="sm"></cp-icon> Tạo kỳ thi mới
       </a>
+      <a href="/admin/anti-cheat" class="admin-nav-item">
+        <cp-icon name="shield" size="sm"></cp-icon> Bot chống gian lận
+      </a>
       <a href="/admin/blogs" class="admin-nav-item">
         <cp-icon name="edit" size="sm"></cp-icon> Quản lý Blog &amp; Bài viết
       </a>
@@ -221,6 +224,7 @@
             <td style="text-align:right;">
               <a href="/admin/contests/manage?key=${c.key}" class="btn-act" style="background:#2563eb;color:#fff;font-weight:700;" title="Quản lý toàn diện kỳ thi">⚙️ Quản lý</a>
               <a href="/admin/contests/create?key=${c.key}" class="btn-act" title="Sửa kỳ thi">✏️ Sửa</a>
+              <a href="/admin/contests/${encodeURIComponent(c.key)}/anti-cheat" class="btn-act" title="Bot chống gian lận của kỳ thi">🛡️ Chống gian lận</a>
               <a href="/contests/${c.key}/ranking" target="_blank" class="btn-act" style="margin-left:4px;" title="Bảng điểm"><cp-icon name="chart" size="sm"></cp-icon> Bảng điểm</a>
               <button onclick="rejudgeContest('${c.key}', '${c.name}')" class="btn-act" style="margin-left:4px;" title="Chấm lại toàn bộ">🔄</button>
               <button onclick="deleteContest('${c.key}')" class="btn-act btn-act-danger" style="margin-left:4px;" title="Xóa kỳ thi">🗑️</button>

@@ -21,7 +21,7 @@ const ContestAdminUI = {
       { id: 'clarifications', label: 'Hỏi Đáp (Clarification)', icon: 'bubble', path: `/admin/contests/${pathKey}/clarifications` },
       { id: 'jury', label: 'Cụm Máy Chấm (Jury)', icon: 'judge', path: `/admin/contests/${pathKey}/jury` },
       { id: 'reports', label: 'Báo Cáo & Thống Kê', icon: 'chart', path: `/admin/contests/${pathKey}/reports` },
-      { id: 'anti-cheat', label: 'Chống Gian Lận', icon: 'shield', path: `/admin/contests/${pathKey}/anti-cheat` },
+      { id: 'anti-cheat', label: 'Bot Chống Gian Lận', icon: 'shield', path: `/admin/contests/${pathKey}/anti-cheat` },
       { id: 'audit', label: 'Nhật Ký Kiểm Toán (Audit)', icon: 'shield', path: `/admin/contests/${pathKey}/audit` },
     ];
 
