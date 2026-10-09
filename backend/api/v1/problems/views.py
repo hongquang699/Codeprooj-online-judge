@@ -1,5 +1,5 @@
 """
-VNOI Problem Authoring API v1 Views
+CodeProOJ Problem Authoring API v1 Views
 Comprehensive endpoints for Problem Setter and Admin workflows
 """
 

@@ -109,7 +109,7 @@ def run_server():
     httpd = HTTPServer(server_address, JudgeHttpHandler)
 
     logger.info("=" * 60)
-    logger.info(f"VNOI Judge Server listening at http://{config.host}:{config.port}")
+    logger.info(f"CodeProOJ Judge Server listening at http://{config.host}:{config.port}")
     logger.info(f"Auth Token: {config.auth_token[:8]}***")
     logger.info(f"Problem base dir: {config.problem_data_dir}")
     logger.info(f"Storage dir: {config.storage_dir}")

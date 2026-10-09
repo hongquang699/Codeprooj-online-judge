@@ -1,4 +1,4 @@
-# VNOI Online Judge - Standalone Judge System
+# CodeProOJ - Standalone Judge System
 
 Hệ thống máy chấm độc lập (Judge System) hiệu năng cao cho hệ thống chấm thi trực tuyến (Online Judge), kiến trúc microservice tách biệt hoàn toàn với Web Backend.
 

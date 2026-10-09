@@ -4,7 +4,7 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 cd "$DIR"
 
-echo "=== Starting VNOI Judge System ==="
+echo "=== Starting CodeProOJ Judge System ==="
 
 mkdir -p logs storage/executables storage/submissions storage/testcases storage/results
 
@@ -14,4 +14,4 @@ SERVER_PID=$!
 echo "$SERVER_PID" > logs/judge-server.pid
 echo "Judge Server started with PID $SERVER_PID (Port 9999)"
 
-echo "VNOI Judge System running. Check logs/judge-server.log for details."
+echo "CodeProOJ Judge System running. Check logs/judge-server.log for details."

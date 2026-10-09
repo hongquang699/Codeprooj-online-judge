@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 cd "$DIR"
 
-echo "=== Stopping VNOI Judge System ==="
+echo "=== Stopping CodeProOJ Judge System ==="
 
 if [ -f logs/judge-server.pid ]; then
     PID=$(cat logs/judge-server.pid)

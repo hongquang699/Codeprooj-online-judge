@@ -146,10 +146,15 @@ print(a + b)
                 print(f"Created thread: {t_obj.title}")
 
         # 4. Seed Initial Group
+        legacy_group = Group.objects.filter(slug='vnoi-olympiad-club').first()
+        if legacy_group and not Group.objects.filter(slug='codeprooj-olympiad-club').exists():
+            legacy_group.slug = 'codeprooj-olympiad-club'
+            legacy_group.name = 'CodeProOJ Olympiad Club'
+            legacy_group.save(update_fields=['slug', 'name'])
         g_obj, created = Group.objects.get_or_create(
-            slug="vnoi-olympiad-club",
+            slug="codeprooj-olympiad-club",
             defaults={
-                "name": "CLB Tin học Trẻ & VNOI Olympiad",
+                "name": "CodeProOJ Olympiad Club",
                 "description": "Nơi quy tụ các bạn học sinh sinh viên đam mê lập trình giải thuật trên cả nước.",
                 "owner": admin_prof,
                 "member_count": 128

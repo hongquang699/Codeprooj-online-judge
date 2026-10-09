@@ -10,7 +10,7 @@ class ContestRankingService:
     def get_scoreboard(contest_identifier, live=True):
         """
         Retrieves or calculates the scoreboard for a contest.
-        contest_identifier: ID or key (e.g. 'vnoi-cup-2026-r1' or 1)
+        contest_identifier: ID or key (e.g. 'codeprooj-cup-2026-r1' or 1)
         """
         contest = None
         if isinstance(contest_identifier, int) or (isinstance(contest_identifier, str) and contest_identifier.isdigit()):

@@ -1,6 +1,6 @@
 ================================================================================
           HƯỚNG DẪN CHI TIẾT DEPLOY HỆ THỐNG CHẤM CODING_OJ LÊN VPS
-               (CHUẨN VNOI - COMPETITIVE PROGRAMMING PLATFORM)
+               (CODEPROOJ - COMPETITIVE PROGRAMMING PLATFORM)
 ================================================================================
 
 I. YÊU CẦU PHẦN CỨNG & NƠI THUÊ VPS

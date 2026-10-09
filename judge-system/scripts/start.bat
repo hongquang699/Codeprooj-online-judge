@@ -1,6 +1,6 @@
 @echo off
 echo ========================================================
-echo Starting VNOI Judge Server on Port 9999
+echo Starting CodeProOJ Judge Server on Port 9999
 echo ========================================================
 
 cd /d "%~dp0\.."

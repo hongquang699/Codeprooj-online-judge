@@ -1,4 +1,4 @@
-# VNOI Judge System - Master Server Configuration
+# CodeProOJ Judge System - Master Server Configuration
 server:
   host: "0.0.0.0"
   port: 9999

@@ -227,7 +227,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': REST_FRAMEWORK_RENDERERS
 }
 
-# DMOJ / VNOI Specific configs
+# DMOJ / CodeProOJ settings
 DMOJ_PROBLEM_DATA_ROOT = os.getenv('DMOJ_PROBLEM_DATA_ROOT', str(BASE_DIR / 'problem-data' / 'problems'))
 DMOJ_CONTEST_DATA_ROOT = os.getenv('DMOJ_CONTEST_DATA_ROOT', str(BASE_DIR / 'contest-data' / 'contests'))
 

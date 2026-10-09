@@ -1,6 +1,6 @@
 /**
  * CodeProOJ - Universal Rating & Rank Tier Engine
- * Codeforces & VNOI Standard Tiers & Hex Palette
+ * Codeforces-inspired Rating Tiers & Hex Palette
  */
 
 (function (window) {

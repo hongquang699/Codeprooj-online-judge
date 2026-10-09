@@ -1,5 +1,5 @@
 """
-VNOI API v1 URL Routing
+CodeProOJ API v1 URL Routing
 """
 
 from django.urls import path, include

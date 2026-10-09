@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "=== Installing VNOI Judge System Dependencies ==="
+echo "=== Installing CodeProOJ Judge System Dependencies ==="
 
 # Update package lists
 if command -v apt-get &> /dev/null; then
@@ -26,4 +26,4 @@ fi
 pip install --upgrade pip
 pip install psutil pyyaml
 
-echo "=== VNOI Judge System Dependencies Installed Successfully ==="
+echo "=== CodeProOJ Judge System Dependencies Installed Successfully ==="

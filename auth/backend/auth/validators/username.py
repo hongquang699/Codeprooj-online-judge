@@ -5,7 +5,7 @@ RESERVED_USERNAMES = {
     'admin', 'administrator', 'root', 'system', 'superuser',
     'support', 'security', 'moderator', 'staff', 'api',
     'null', 'undefined', 'anonymous', 'guest', 'user', 'users',
-    'bot', 'official', 'codepro', 'vnoj', 'dmoj', 'auth'
+    'bot', 'official', 'codepro', 'codeprooj', 'dmoj', 'auth'
 }
 
 USERNAME_REGEX = re.compile(r'^[a-zA-Z0-9_\-]+$')

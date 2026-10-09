@@ -1,5 +1,5 @@
-# CODING_OJ - Hệ Thống Chấm Bài & Luyện Lập Trình Thi Đấu Trực Tuyến
-> Nền tảng luyện thi Olympic Tin học, HSG Quốc Gia và ICPC thế hệ mới theo chuẩn VNOI, Codeforces và DMOJ.
+# CodeProOJ - Hệ Thống Chấm Bài & Luyện Lập Trình Thi Đấu Trực Tuyến
+> Nền tảng CodeProOJ phục vụ luyện thi Olympic Tin học, HSG Quốc Gia và ICPC, với hệ thống chấm bài phân tán và môi trường quản trị riêng.
 
 ---
 
@@ -31,11 +31,11 @@ HQ/
 │   │   ├── contest/              # Phòng thi đấu, bảng điểm trực tiếp và thông báo
 │   │   ├── submission/           # Danh sách bài nộp, mã nguồn và kết quả testcase
 │   │   ├── ranking/              # Bảng xếp hạng toàn cầu, trường học và rating
-│   │   ├── learning/             # Thư viện thuật toán VNOI Wiki (DP, Graph, Cây, STL,...)
+│   │   ├── learning/             # Thư viện thuật toán (DP, Graph, Cây, STL,...)
 │   │   ├── community/            # Diễn đàn thảo luận và nhóm học tập
 │   │   ├── blog/                 # Blog chia sẻ giải thuật và Studio soạn thảo Markdown
 │   │   ├── teacher/              # Cổng giáo viên: quản lý lớp, giao bài tập, xuất điểm
-│   │   ├── admin/                # Bảng điều khiển quản trị toàn diện (VNOI Standard)
+│   │   ├── admin/                # Bảng điều khiển quản trị toàn diện (CodeProOJ)
 │   │   └── auth/                 # Đăng nhập, đăng ký, xác thực 2FA và kích hoạt email
 │   ├── css/                      # Hệ thống CSS module hóa, Dark Mode và Responsive
 │   └── js/                       # Core API Client, Auth State, Components và Utilities
@@ -57,7 +57,7 @@ HQ/
 │   └── protect_backend.py        # Script biên dịch bytecode (.pyc) & kiểm toán rò rỉ mã nguồn
 │
 ├── database/                     # Cơ sở dữ liệu và kịch bản khởi tạo
-│   ├── vnoi_db.sqlite3           # CSDL SQLite mặc định cho môi trường phát triển cục bộ
+│   ├── vnoi_db.sqlite3           # Tệp SQLite phát triển; giữ tên cũ để dùng lại dữ liệu hiện có
 │   ├── schemas/                  # Bản vẽ cấu trúc bảng SQL chuẩn cho PostgreSQL / MySQL
 │   └── seeds/                    # Dữ liệu bài tập mẫu và tài khoản ban đầu
 │
@@ -124,7 +124,7 @@ Dự án có các lớp kiểm tra quyền, giới hạn request và bảo vệ 
 - **Cộng đồng:** thao tác đăng bài, bình luận, nhắn tin, theo dõi và kiểm duyệt dùng tài khoản đã xác thực; danh sách tin nhắn và thông báo chỉ dành cho chủ tài khoản. Gửi tin nhắn yêu cầu người gửi thuộc cuộc trò chuyện. Feed, tìm kiếm và hồ sơ công khai không trả email hoặc cờ quyền nội bộ.
 - **Quản trị cuộc thi và tổ chức:** API không nhận `X-Username` hoặc `user` trong query để xác định người thao tác. Quyền quản lý cuộc thi dựa trên staff, chủ tổ chức hoặc vai trò được gán cho cuộc thi; danh sách quản trị chỉ hiển thị cuộc thi người dùng có quyền xem. Tên tài khoản không tự cấp quyền admin; chỉ staff có thể xác minh tổ chức mới tạo.
 - **Quyền trên giao diện tổ chức:** API chi tiết tổ chức trả `can_manage` theo quyền `organization.edit` của tài khoản đã xác thực. Trang công khai, tổng quan và các trang quản trị dùng cờ này, không dùng vai trò hoặc tên lưu trong `localStorage`. Quyền tạo tổ chức vẫn dành cho staff/superuser hoặc giáo viên, không dựa vào nhãn profile `admin` đơn lẻ.
-- **Menu tổ chức:** Menu Admin tải các tổ chức có thể quản trị từ API để chọn, thay cho đường dẫn gắn cứng tới `vnoi` (có thể không tồn tại trong cơ sở dữ liệu). Trang tổng quan phân biệt tổ chức không tồn tại, lỗi tải và thiếu quyền. API đọc thử lại bằng phiên cookie khi token lưu trong trình duyệt hết hạn. Khi mở file HTML quản trị trực tiếp bằng `file://`, trang chuyển sang gateway `localhost:8888` để CSS, JavaScript và API hoạt động đúng.
+- **Menu tổ chức:** Menu Admin tải các tổ chức có thể quản trị từ API để chọn, thay cho đường dẫn slug gắn cứng. Trang tổng quan phân biệt tổ chức không tồn tại, lỗi tải và thiếu quyền. API đọc thử lại bằng phiên cookie khi token lưu trong trình duyệt hết hạn. Khi mở file HTML quản trị trực tiếp bằng `file://`, trang chuyển sang gateway `localhost:8888` để CSS, JavaScript và API hoạt động đúng.
 - **Quyền quản trị hệ thống:** staff/superuser đang hoạt động có quyền quản lý mọi tổ chức, cuộc thi và Judge Admin. Các trang admin xác nhận quyền bằng phiên hiện tại từ `/api/v1/auth/me` thay cho vai trò cũ trong `localStorage`; khi đổi tài khoản, token lưu của tài khoản trước được bỏ và navbar đồng bộ theo phiên mới. Trang tổ chức hiển thị vai trò quản trị hệ thống ngay cả khi admin chưa là thành viên; nút tạo tổ chức dùng quyền từ phiên hiện tại. Các API đọc của tổ chức/Menu Admin ưu tiên phiên cookie trước token lưu. API `/auth/me` cấp CSRF cookie để thao tác ghi bằng phiên hiện tại hoạt động sau khi bỏ token cũ.
 - **Trạng thái Judge trong Menu Admin:** lấy từ API sức khỏe Judge cùng origin và token đăng nhập; trước khi có phản hồi hiển thị “Đang kiểm tra”, không mặc định báo ONLINE.
 - **Khi phát triển cục bộ:** nếu chạy Django bằng `runserver --noreload`, phải khởi động lại backend sau khi cập nhật code; nếu không API vẫn dùng phiên bản cũ dù HTML/CSS mới đã hiện trên cổng 8888.

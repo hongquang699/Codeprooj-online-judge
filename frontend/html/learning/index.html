@@ -440,7 +440,7 @@
             </div>
             <h3 class="topic-name">Thể thức thi đấu, Penalty & Đóng băng bảng điểm</h3>
             <p class="topic-summary">
-              Tìm hiểu cách tính điểm theo thể thức ICPC (thời gian phạt) và IOI/VNOI (điểm thành phần từng subtask), quy chế đóng băng bảng xếp hạng (Freeze) trong 60 phút cuối.
+              Tìm hiểu cách tính điểm theo thể thức ICPC (thời gian phạt) và IOI-style (điểm thành phần từng subtask), quy chế đóng băng bảng xếp hạng (Freeze) trong 60 phút cuối.
             </p>
           </div>
           <div class="topic-footer">
@@ -716,12 +716,12 @@
         title: "Giới thiệu nền tảng CodeProOJ",
         badge: "Tổng quan • Online Judge",
         content: `
-          <p><strong>CodeProOJ</strong> là hệ thống chấm bài lập trình thi đấu trực tuyến (Online Judge) hiện đại được thiết kế theo tiêu chuẩn các nền tảng hàng đầu như VNOI, Codeforces và ClueOJ. Hệ thống phục vụ học sinh chuyên Tin, sinh viên và cộng đồng yêu thích thuật toán trên toàn quốc.</p>
+          <p><strong>CodeProOJ</strong> là hệ thống chấm bài lập trình thi đấu trực tuyến (Online Judge), lấy cảm hứng từ các nền tảng thi đấu như Codeforces và ClueOJ. Hệ thống phục vụ học sinh chuyên Tin, sinh viên và cộng đồng yêu thích thuật toán trên toàn quốc.</p>
           <h4>Các tính năng cốt lõi:</h4>
           <ul>
             <li><strong>Máy chấm tự động thời gian thực (Judge Server):</strong> Đánh giá mã nguồn trong môi trường Sandbox cô lập an toàn, đo lường chính xác thời gian chạy (Time Limit) và dung lượng RAM (Memory Limit).</li>
             <li><strong>Hỗ trợ đa ngôn ngữ:</strong> C++17/20, Python 3, Java, Pascal/FreePascal... với trình biên dịch cập nhật mới nhất.</li>
-            <li><strong>Đa dạng thể thức kỳ thi (Contests):</strong> Hỗ trợ thể thức ICPC (xếp hạng theo số bài AC và thời gian phạt Penalty) và thể thức IOI/VNOI (chấm điểm chi tiết theo từng Subtask/Testcase).</li>
+            <li><strong>Đa dạng thể thức kỳ thi (Contests):</strong> Hỗ trợ thể thức ICPC (xếp hạng theo số bài AC và thời gian phạt Penalty) và thể thức IOI-style (chấm điểm chi tiết theo từng Subtask/Testcase).</li>
             <li><strong>Mô hình Tổ chức (Organizations):</strong> Cho phép các trường THPT Chuyên, trường Đại học và Câu lạc bộ Tin học tạo không gian học tập riêng, quản lý thành viên và tổ chức các kỳ thi nội bộ.</li>
             <li><strong>Hệ thống Elo Rating phân cấp:</strong> Xếp hạng trực quan qua các cấp bậc Newbie, Pupil, Specialist, Candidate Master, Master, Grandmaster cùng biểu đồ biến động lịch sử chi tiết.</li>
           </ul>
@@ -829,7 +829,7 @@ int main() {
             <li><strong>Xếp hạng:</strong> Thí sinh giải được nhiều bài hơn sẽ xếp trên. Nếu bằng số bài, thí sinh có tổng thời gian phạt (Penalty) thấp hơn sẽ xếp trên.</li>
             <li><strong>Cách tính Penalty:</strong> Thời điểm nộp bài AC (tính theo phút từ lúc bắt đầu thi) + 20 phút phạt cho mỗi lần nộp sai (WA, TLE, RTE) trước đó.</li>
           </ul>
-          <h4>2. Thể thức IOI / VNOI:</h4>
+          <h4>2. Thể thức IOI-style:</h4>
           <ul>
             <li>Bài tập được chia thành nhiều Subtask (ví dụ: Subtask 1: N ≤ 100, Subtask 2: N ≤ 10⁵).</li>
             <li>Điểm của bạn bằng tổng điểm các Subtask bạn vượt qua. Điểm bài thi là điểm cao nhất trong tất cả các lần nộp.</li>
@@ -845,7 +845,7 @@ int main() {
           <p><strong>Tổ chức (Organization)</strong> trên CodeProOJ là một không gian sinh hoạt học thuật thu nhỏ dành riêng cho các trường THPT Chuyên, các khoa CNTT Đại học và các Câu lạc bộ lập trình.</p>
           <h4>Đặc quyền của Tổ chức:</h4>
           <ul>
-            <li><strong>Trang cộng đồng riêng biệt:</strong> Tên định danh slug độc quyền (ví dụ: <code>/organizations/vnoi</code> hoặc <code>/organizations/ams</code>).</li>
+            <li><strong>Trang cộng đồng riêng biệt:</strong> Tên định danh slug độc quyền (ví dụ: <code>/organizations/codeprooj</code> hoặc <code>/organizations/ams</code>).</li>
             <li><strong>Quản lý thành viên & phân quyền:</strong> Chủ sở hữu (Owner) có thể phê duyệt thành viên, phân cấp vai trò Quản lý (Manager), Giáo viên (Teacher) và Thành viên (Member).</li>
             <li><strong>Kỳ thi nội bộ:</strong> Tạo các cuộc thi riêng chỉ dành cho học sinh trong trường, đặt mật mã truy cập hoặc phân lịch thi định kỳ.</li>
             <li><strong>Kho bài tập chuyên đề nội bộ:</strong> Xây dựng ngân hàng đề bồi dưỡng đội tuyển tin học độc quyền của nhà trường.</li>

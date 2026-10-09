@@ -1,5 +1,5 @@
 """
-VNOI Standalone Judge Worker Daemon
+CodeProOJ Standalone Judge Worker Daemon
 Connects to Django Backend via API & Heartbeat
 Monitors Queued Submissions and Executes Grading
 """
@@ -9,8 +9,8 @@ import time
 import json
 from urllib import request
 
-API_URL = os.getenv('VNOI_API_URL', 'http://127.0.0.1:8000/api/v2')
-JUDGE_NAME = os.getenv('JUDGE_NAME', 'vnoj-judge-01')
+API_URL = os.getenv('CODEPROOJ_API_URL', 'http://127.0.0.1:8000/api/v2')
+JUDGE_NAME = os.getenv('JUDGE_NAME', 'codeprooj-judge-01')
 JUDGE_AUTH_TOKEN = os.getenv('JUDGE_AUTH_TOKEN', '')
 
 def send_heartbeat():
@@ -65,7 +65,7 @@ def check_and_grade_submissions():
 
 def main():
     print(f"==================================================")
-    print(f" [VNOI JUDGE DAEMON] {JUDGE_NAME} Active")
+    print(f" [CODEPROOJ JUDGE DAEMON] {JUDGE_NAME} Active")
     print(f" API Base: {API_URL}")
     print(f"==================================================")
 

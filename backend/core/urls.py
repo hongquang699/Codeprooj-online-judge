@@ -20,11 +20,11 @@ urlpatterns = [
     path('api/v1/auth/', include('backend.auth.urls')),
     path('api/auth/', include('backend.auth.urls')),
 
-    # VNOI Community Platform API
+    # CodeProOJ Community Platform API
     path('api/v1/community/', include('backend.community.api.urls')),
     path('api/v2/community/', include('backend.community.api.urls')),
 
-    # VNOI / Codeforces Ranking Platform API
+    # CodeProOJ / Codeforces Ranking API
     path('api/v1/rankings/', include('backend.ranking.api.urls')),
     path('api/rankings/', include('backend.ranking.api.urls')),
 
@@ -48,9 +48,9 @@ urlpatterns = [
     path('api/v1/contest-admin/', include('backend.contest_admin.urls')),
     path('api/contest-admin/', include('backend.contest_admin.urls')),
 
-    # VNOI / DMOJ API v2
+    # CodeProOJ / DMOJ API v2
     path('api/v2/', include('backend.api.v2.urls')),
-    # VNOI Problem Authoring API v1
+    # CodeProOJ Problem Authoring API v1
     path('api/v1/', include('backend.api.v1.urls')),
     path('api/', include('backend.api.v2.urls')),
     

@@ -1,5 +1,5 @@
 """
-Bridge between Django Backend and the VNOI Judge System.
+Bridge between Django Backend and the CodeProOJ Judge System.
 Routes grading jobs to the external Judge Server (port 9999).
 Never executes contestant code inside Django.
 """

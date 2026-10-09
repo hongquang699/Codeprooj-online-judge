@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: vnoi_postgres
+    container_name: codeprooj_postgres
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER:-coding_app}
@@ -13,11 +13,11 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./database/schemas:/docker-entrypoint-initdb.d
     networks:
-      - vnoi_network
+      - codeprooj_network
 
   redis:
     image: redis:7-alpine
-    container_name: vnoi_redis
+    container_name: codeprooj_redis
     restart: always
     command: redis-server --appendonly yes
     ports:
@@ -25,13 +25,13 @@ services:
     volumes:
       - redisdata:/data
     networks:
-      - vnoi_network
+      - codeprooj_network
 
   backend:
     build:
       context: .
       dockerfile: infrastructure/docker/backend/Dockerfile
-    container_name: vnoi_backend
+    container_name: codeprooj_backend
     restart: always
     environment:
       DEBUG: "False"
@@ -61,16 +61,16 @@ services:
       - ./contest-data:/var/coding-platform/contest-data
       - ./storage:/var/coding-platform/storage
     networks:
-      - vnoi_network
+      - codeprooj_network
 
   judge-server:
     build:
       context: .
       dockerfile: infrastructure/docker/judge/Dockerfile
-    container_name: vnoi_judge_server
+    container_name: codeprooj_judge_server
     restart: always
     environment:
-      JUDGE_NAME: vnoj-judge-01
+      JUDGE_NAME: codeprooj-judge-01
       BACKEND_HOST: backend
       BACKEND_PORT: 8000
       JUDGE_AUTH_TOKEN: ${JUDGE_AUTH_TOKEN:?Set JUDGE_AUTH_TOKEN in .env}
@@ -85,13 +85,13 @@ services:
       - ./storage:/var/coding-platform/storage
       - ./judge-system/logs:/app/judge-system/logs
     networks:
-      - vnoi_network
+      - codeprooj_network
 
   frontend:
     build:
       context: .
       dockerfile: infrastructure/docker/frontend/Dockerfile
-    container_name: vnoi_frontend
+    container_name: codeprooj_frontend
     restart: always
     environment:
       DJANGO_BACKEND_HOST: backend
@@ -101,13 +101,13 @@ services:
     ports:
       - "8888:8888"
     networks:
-      - vnoi_network
+      - codeprooj_network
 
   nginx:
     build:
       context: .
       dockerfile: infrastructure/docker/nginx/Dockerfile
-    container_name: vnoi_gateway
+    container_name: codeprooj_gateway
     restart: always
     ports:
       - "80:80"
@@ -116,12 +116,12 @@ services:
       - frontend
       - backend
     networks:
-      - vnoi_network
+      - codeprooj_network
 
 volumes:
   pgdata:
   redisdata:
 
 networks:
-  vnoi_network:
+  codeprooj_network:
     driver: bridge

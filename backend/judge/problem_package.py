@@ -1,5 +1,5 @@
 """
-VNOI Problem Package Manager
+CodeProOJ Problem Package Manager
 Manages problem package directory in problem-data/problems/{CODE}/
 Handles problem.yml, statements, testcases, checkers, validators, and solution testing
 """

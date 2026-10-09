@@ -23,10 +23,19 @@ def run_seed():
     print("Seeding Ranking & Leaderboard Data...")
 
     # 1. Organizations
-    org_vnoi, _ = Organization.objects.get_or_create(
-        slug='vnoi',
-        defaults={'name': 'VNOI - Vietnam Olympiad in Informatics', 'short_name': 'VNOI', 'about': 'Cộng đồng Tin học trẻ Việt Nam'}
+    legacy_org = Organization.objects.filter(slug='vnoi').first()
+    if legacy_org and not Organization.objects.filter(slug='codeprooj').exists():
+        legacy_org.slug = 'codeprooj'
+        legacy_org.save(update_fields=['slug'])
+    org_codeprooj, org_created = Organization.objects.get_or_create(
+        slug='codeprooj',
+        defaults={'name': 'CodeProOJ', 'short_name': 'CodeProOJ', 'about': 'Cộng đồng luyện tập lập trình thi đấu CodeProOJ'}
     )
+    if not org_created and org_codeprooj.short_name.lower() in ('vnoi', 'vnoj'):
+        org_codeprooj.name = 'CodeProOJ'
+        org_codeprooj.short_name = 'CodeProOJ'
+        org_codeprooj.about = 'Cộng đồng luyện tập lập trình thi đấu CodeProOJ'
+        org_codeprooj.save(update_fields=['name', 'short_name', 'about'])
     org_hust, _ = Organization.objects.get_or_create(
         slug='hust-algo',
         defaults={'name': 'HUST Algorithm Club', 'short_name': 'HUST ACM', 'about': 'Câu lạc bộ Thuật toán ĐHBK Hà Nội'}
@@ -42,16 +51,16 @@ def run_seed():
 
     # 3. Contestants
     contestant_specs = [
-        ('tourist_vn', 'tourist_vn@vnoi.info', 3120, 3250, 'Legendary Grandmaster', 48, 52, 'Vietnam', 'Đại học Khoa học Tự nhiên - ĐHQG HN', org_vnu),
-        ('algo_master', 'algo_master@vnoi.info', 2680, 2740, 'Grandmaster', 42, 49, 'Vietnam', 'Đại học Bách Khoa Hà Nội (HUST)', org_hust),
-        ('petr_vn', 'petr@vnoi.info', 2350, 2410, 'Master', 36, 45, 'Vietnam', 'Phổ thông Năng khiếu - ĐHQG HCM', org_vnoi),
-        ('coder_2026', 'coder2026@vnoi.info', 2045, 2110, 'Candidate Master', 31, 40, 'Vietnam', 'THPT Chuyên Sư Phạm Hà Nội', org_vnoi),
-        ('cpp_ninja', 'cpp_ninja@vnoi.info', 1780, 1850, 'Expert', 26, 38, 'Vietnam', 'Đại học Bách Khoa - ĐH Đà Nẵng', org_vnoi),
+        ('tourist_vn', 'tourist_vn@example.invalid', 3120, 3250, 'Legendary Grandmaster', 48, 52, 'Vietnam', 'Đại học Khoa học Tự nhiên - ĐHQG HN', org_vnu),
+        ('algo_master', 'algo_master@example.invalid', 2680, 2740, 'Grandmaster', 42, 49, 'Vietnam', 'Đại học Bách Khoa Hà Nội (HUST)', org_hust),
+        ('petr_vn', 'petr@example.invalid', 2350, 2410, 'Master', 36, 45, 'Vietnam', 'Phổ thông Năng khiếu - ĐHQG HCM', org_codeprooj),
+        ('coder_2026', 'coder2026@example.invalid', 2045, 2110, 'Candidate Master', 31, 40, 'Vietnam', 'THPT Chuyên Sư Phạm Hà Nội', org_codeprooj),
+        ('cpp_ninja', 'cpp_ninja@example.invalid', 1780, 1850, 'Expert', 26, 38, 'Vietnam', 'Đại học Bách Khoa - ĐH Đà Nẵng', org_codeprooj),
         ('ken_tokyo', 'ken@tokyo.ac.jp', 1690, 1720, 'Expert', 24, 32, 'Japan', 'University of Tokyo', None),
-        ('specialist_dev', 'spec@vnoi.info', 1520, 1590, 'Specialist', 19, 30, 'Vietnam', 'Đại học Cần Thơ', org_vnoi),
+        ('specialist_dev', 'spec@example.invalid', 1520, 1590, 'Specialist', 19, 30, 'Vietnam', 'Đại học Cần Thơ', org_codeprooj),
         ('sg_coder', 'sg_coder@nus.edu.sg', 1480, 1540, 'Specialist', 18, 28, 'Singapore', 'National University of Singapore (NUS)', None),
-        ('pupil_rookie', 'pupil@vnoi.info', 1310, 1370, 'Pupil', 12, 25, 'Vietnam', 'Đại học FPT Cần Thơ', org_vnoi),
-        ('test_coder_99', 'test99@vnoi.info', 1140, 1200, 'Newbie', 7, 20, 'Vietnam', 'Đại học Công nghệ Thông tin - ĐHQG HCM', org_vnoi),
+        ('pupil_rookie', 'pupil@example.invalid', 1310, 1370, 'Pupil', 12, 25, 'Vietnam', 'Đại học FPT Cần Thơ', org_codeprooj),
+        ('test_coder_99', 'test99@example.invalid', 1140, 1200, 'Newbie', 7, 20, 'Vietnam', 'Đại học Công nghệ Thông tin - ĐHQG HCM', org_codeprooj),
         ('us_algo_kid', 'kid@mit.edu', 1950, 2010, 'Candidate Master', 28, 35, 'United States', 'Massachusetts Institute of Technology (MIT)', None),
     ]
 
@@ -59,7 +68,7 @@ def run_seed():
     for uname, email, rating, max_r, tier, solved, subs, country, school, org in contestant_specs:
         user, created = User.objects.get_or_create(username=uname, defaults={'email': email})
         if created:
-            user.set_password('vnoi_password_2026')
+            user.set_password('codeprooj_demo_password_2026')
             user.save()
         users[uname] = user
 
@@ -112,14 +121,18 @@ def run_seed():
     if not contest:
         contest = Contest.objects.create(
             key='weekly-01',
-            name='VNOI Weekly Contest #01',
-            description='Kỳ thi lập trình định kỳ hàng tuần trên hệ thống VNOI.',
+            name='CodeProOJ Weekly Contest #01',
+            description='Kỳ thi lập trình định kỳ hàng tuần trên CodeProOJ.',
             start_time=timezone.now() - timedelta(hours=3),
             end_time=timezone.now() - timedelta(hours=1),
             time_limit=7200,
             format_name='icpc',
             is_rated=True
         )
+    elif contest.name.startswith('VNOI '):
+        contest.name = 'CodeProOJ Weekly Contest #01'
+        contest.description = 'Kỳ thi lập trình định kỳ hàng tuần trên CodeProOJ.'
+        contest.save(update_fields=['name', 'description'])
 
     prob_a = Problem.objects.filter(code='APLUS').first()
     prob_b = Problem.objects.filter(code='KNAPSACK').first()
@@ -214,21 +227,21 @@ def run_seed():
         ('tourist_vn', [
             ('VNOI Open 2025', 3000, 3080, 80, 1, 3300),
             ('ICPC National Vietnam 2025', 3080, 3110, 30, 1, 3250),
-            ('VNOI Weekly Contest #01', 3110, 3120, 10, 1, 3280),
+            ('CodeProOJ Weekly Contest #01', 3110, 3120, 10, 1, 3280),
         ]),
         ('algo_master', [
             ('VNOI Open 2025', 2550, 2610, 60, 3, 2750),
             ('ICPC National Vietnam 2025', 2610, 2650, 40, 2, 2800),
-            ('VNOI Weekly Contest #01', 2650, 2680, 30, 2, 2820),
+            ('CodeProOJ Weekly Contest #01', 2650, 2680, 30, 2, 2820),
         ]),
         ('coder_2026', [
             ('VNOI Open 2025', 1890, 1960, 70, 8, 2150),
             ('ICPC National Vietnam 2025', 1960, 2010, 50, 6, 2180),
-            ('VNOI Weekly Contest #01', 2010, 2045, 35, 4, 2220),
+            ('CodeProOJ Weekly Contest #01', 2010, 2045, 35, 4, 2220),
         ]),
         ('cpp_ninja', [
             ('VNOI Open 2025', 1650, 1710, 60, 15, 1850),
-            ('VNOI Weekly Contest #01', 1710, 1780, 70, 5, 1920),
+            ('CodeProOJ Weekly Contest #01', 1710, 1780, 70, 5, 1920),
         ]),
     ]
 

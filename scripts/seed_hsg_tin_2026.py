@@ -14,7 +14,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from backend.judge.models import Contest, ContestProblem, Problem, Profile, Language, Submission
 
-admin_user, _ = User.objects.get_or_create(username='admin', defaults={'email': 'admin@vnoi.info'})
+admin_user, _ = User.objects.get_or_create(username='admin', defaults={'email': 'admin@example.invalid'})
 admin_prof, _ = Profile.objects.get_or_create(user=admin_user)
 cpp_lang, _ = Language.objects.get_or_create(key='CPP17', defaults={'name': 'C++17 (GNU G++)', 'extension': 'cpp'})
 
@@ -26,7 +26,7 @@ contest, created = Contest.objects.get_or_create(
     key='hsg-tin-2026',
     defaults={
         'name': 'HSG TIN HỌC 2026',
-        'description': 'Kỳ thi chọn Học sinh giỏi Tin học Quốc gia 2026. Bảng thi chính thức hệ thống CODING_OJ / VNOI.',
+        'description': 'Kỳ thi chọn Học sinh giỏi Tin học Quốc gia 2026. Bảng thi chính thức hệ thống CodeProOJ.',
         'start_time': start,
         'end_time': end,
         'time_limit': 18000,

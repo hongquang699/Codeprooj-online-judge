@@ -11,16 +11,25 @@ from backend.judge.models import (
 from backend.judge.bridge import grade_submission
 
 class Command(BaseCommand):
-    help = 'Load VNOI / DMOJ sample fixtures into the database'
+    help = 'Load CodeProOJ / DMOJ sample fixtures into the database'
 
     def handle(self, *args, **options):
-        self.stdout.write("Loading VNOI/DMOJ fixtures...")
+        self.stdout.write("Loading CodeProOJ/DMOJ fixtures...")
 
         # 1. Organizations
-        vnoi, _ = Organization.objects.get_or_create(
-            slug='vnoi',
-            defaults={'name': 'Vietnam Olympiad in Informatics Community', 'short_name': 'VNOI', 'about': 'Cộng đồng Tin học trẻ Việt Nam'}
+        legacy_org = Organization.objects.filter(slug='vnoi').first()
+        if legacy_org and not Organization.objects.filter(slug='codeprooj').exists():
+            legacy_org.slug = 'codeprooj'
+            legacy_org.save(update_fields=['slug'])
+        codeprooj, org_created = Organization.objects.get_or_create(
+            slug='codeprooj',
+            defaults={'name': 'CodeProOJ', 'short_name': 'CodeProOJ', 'about': 'Cộng đồng luyện tập lập trình thi đấu CodeProOJ'}
         )
+        if not org_created and codeprooj.short_name.lower() in ('vnoi', 'vnoj'):
+            codeprooj.name = 'CodeProOJ'
+            codeprooj.short_name = 'CodeProOJ'
+            codeprooj.about = 'Cộng đồng luyện tập lập trình thi đấu CodeProOJ'
+            codeprooj.save(update_fields=['name', 'short_name', 'about'])
         hsgs, _ = Organization.objects.get_or_create(
             slug='hsgs',
             defaults={'name': 'High School for Gifted Students, VNU', 'short_name': 'Chuyên KHTN', 'about': 'Trường THPT Chuyên KHTN Hà Nội'}
@@ -50,10 +59,10 @@ class Command(BaseCommand):
 
         # 4. Users & Profiles
         users_data = [
-            ('admin', 'admin@vnoi.info', 'admin123', 2800, 'Grandmaster'),
-            ('tourist_vn', 'tourist@vnoi.info', 'tourist123', 2850, 'Grandmaster'),
-            ('algo_master', 'algo@vnoi.info', 'algo123', 2420, 'Master'),
-            ('coder_2026', 'coder@vnoi.info', 'coder123', 1542, 'Specialist'),
+            ('admin', 'admin@example.invalid', 'admin123', 2800, 'Grandmaster'),
+            ('tourist_vn', 'tourist@example.invalid', 'tourist123', 2850, 'Grandmaster'),
+            ('algo_master', 'algo@example.invalid', 'algo123', 2420, 'Master'),
+            ('coder_2026', 'coder@example.invalid', 'coder123', 1542, 'Specialist'),
         ]
         profiles = {}
         for uname, email, pwd, rating, rank in users_data:
@@ -65,7 +74,7 @@ class Command(BaseCommand):
                     u.is_superuser = True
                 u.save()
             prof, _ = Profile.objects.get_or_create(user=u, defaults={'rating': rating, 'display_rank': rank})
-            prof.organizations.add(vnoi)
+            prof.organizations.add(codeprooj)
             profiles[uname] = prof
 
         # 5. Problems (APLUS and KNAPSACK)
@@ -95,13 +104,13 @@ class Command(BaseCommand):
         )
         p_knapsack.types.add(dp_type)
 
-        # 6. Contest: VNOI Weekly #01
+        # 6. Contest: CodeProOJ Weekly #01
         now = timezone.now()
-        contest, _ = Contest.objects.get_or_create(
+        contest, contest_created = Contest.objects.get_or_create(
             key='weekly-01',
             defaults={
-                'name': 'VNOI Weekly Contest #01',
-                'description': 'Kỳ thi luyện tập hàng tuần của VNOI.',
+                'name': 'CodeProOJ Weekly Contest #01',
+                'description': 'Kỳ thi luyện tập hàng tuần của CodeProOJ.',
                 'start_time': now - timedelta(hours=1),
                 'end_time': now + timedelta(hours=2),
                 'time_limit': 10800,
@@ -110,6 +119,10 @@ class Command(BaseCommand):
                 'is_visible': True
             }
         )
+        if not contest_created and contest.name.startswith('VNOI '):
+            contest.name = 'CodeProOJ Weekly Contest #01'
+            contest.description = 'Kỳ thi luyện tập hàng tuần của CodeProOJ.'
+            contest.save(update_fields=['name', 'description'])
         ContestProblem.objects.get_or_create(contest=contest, problem=p_aplus, defaults={'order': 1, 'output_prefix': 'A', 'points': 100})
         ContestProblem.objects.get_or_create(contest=contest, problem=p_knapsack, defaults={'order': 2, 'output_prefix': 'B', 'points': 100})
 
@@ -122,8 +135,12 @@ class Command(BaseCommand):
             )
 
         # 8. Judge
+        old_judge = Judge.objects.filter(name='vnoj-judge-01').first()
+        if old_judge and not Judge.objects.filter(name='codeprooj-judge-01').exists():
+            old_judge.name = 'codeprooj-judge-01'
+            old_judge.save(update_fields=['name'])
         judge, _ = Judge.objects.get_or_create(
-            name='vnoj-judge-01',
+            name='codeprooj-judge-01',
             defaults={
                 'auth_key': settings.JUDGE_AUTH_TOKEN,
                 'online': True,
@@ -146,4 +163,4 @@ class Command(BaseCommand):
         )
         grade_submission(sub.id)
 
-        self.stdout.write(self.style.SUCCESS("VNOI/DMOJ fixtures successfully loaded!"))
+        self.stdout.write(self.style.SUCCESS("CodeProOJ/DMOJ fixtures successfully loaded!"))
