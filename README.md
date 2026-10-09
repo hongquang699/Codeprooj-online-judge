@@ -1,6 +1,10 @@
 # CodeProOJ - Hệ Thống Chấm Bài & Luyện Lập Trình Thi Đấu Trực Tuyến
 > Nền tảng CodeProOJ phục vụ luyện thi Olympic Tin học, HSG Quốc Gia và ICPC, với hệ thống chấm bài phân tán và môi trường quản trị riêng.
 
+## Giao diện sáng và tối
+
+Giao diện dùng chung được điều khiển bởi `frontend/js/core/theme.js`. Các token màu nền tảng nằm trong `frontend/css/global/theme.css`; `frontend/css/global/site-refresh.css` bổ sung màu cho các trang học tập, thi đấu, bài nộp và quản trị. Chế độ sáng dùng nền xanh xám nhạt, thẻ trắng, viền dịu, bảng có hàng xen kẽ, trạng thái semantic và bề mặt riêng cho mã nguồn. Khi bổ sung component mới, hãy dùng các token `--color-*`, `--table-*`, `--input-*` và `--code-bg` thay cho màu nền tối hard-code để component đổi theme nhất quán.
+
 ---
 
 ## 📁 Cấu Trúc Thư Mục Chuẩn Hóa Của Dự Án

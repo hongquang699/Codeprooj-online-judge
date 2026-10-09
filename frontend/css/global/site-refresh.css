@@ -44,26 +44,34 @@
   --color-primary-active: #123e93;
   --color-primary-subtle: rgba(36, 94, 213, .09);
   --color-primary-glow: rgba(36, 94, 213, .18);
-  --color-bg: #f3f6fb;
-  --color-bg-secondary: #eaf0f9;
+  --color-success: #16734a;
+  --color-success-bg: rgba(22, 115, 74, .11);
+  --color-danger: #b4232d;
+  --color-danger-bg: rgba(180, 35, 45, .10);
+  --color-warning: #8a5000;
+  --color-warning-bg: rgba(138, 80, 0, .12);
+  --color-info: #0869a6;
+  --color-info-bg: rgba(8, 105, 166, .10);
+  --color-bg: #f4f7fc;
+  --color-bg-secondary: #edf2f9;
   --color-surface: #ffffff;
   --color-surface-hover: #f3f7fd;
   --color-card: #ffffff;
   --color-card-hover: #f8fbff;
-  --color-card-border: #d8e2f0;
-  --color-border: #d8e2f0;
-  --color-border-subtle: #e7edf5;
+  --color-card-border: #dce5f1;
+  --color-border: #dce5f1;
+  --color-border-subtle: #e9eff7;
   --color-text: #17253b;
   --color-text-secondary: #31445d;
-  --color-text-muted: #526781;
-  --color-text-dim: #62748c;
+  --color-text-muted: #52647c;
+  --color-text-dim: #687b94;
   --navbar-bg: rgba(255, 255, 255, .93);
   --navbar-border: rgba(45, 73, 113, .14);
   --table-header-bg: #edf3fa;
-  --table-border: #d8e2f0;
-  --table-row-hover: rgba(36, 94, 213, .06);
+  --table-border: #dce5f1;
+  --table-row-hover: rgba(36, 94, 213, .055);
   --input-bg: #ffffff;
-  --input-border: #a9bad0;
+  --input-border: #b8c6d8;
   --input-focus-border: #245ed5;
   --code-bg: #eaf0f9;
   --code-color: #184fbe;
@@ -71,6 +79,57 @@
   --shadow-md: 0 12px 30px rgba(26, 52, 87, .09);
   --shadow-lg: 0 22px 54px rgba(26, 52, 87, .13);
   --ui-ring: 0 0 0 3px rgba(36, 94, 213, .26);
+}
+
+/* Light appearance is shared by learning, contest, submission and admin pages. */
+[data-theme="light"] :is(.card, .home-card, .profile-card, .table-card, .filter-card,
+  .submissions-card, .ranking-card, .sidebar-card, .stat-card-item, .stat-box,
+  .wiki-preview-card, .modal-card, .panel, .auth-card, .admin-card, .admin-panel,
+  .admin-section, .dashboard-card, .settings-card, .worker-card, .queue-card,
+  .language-card, .monitoring-card, .log-card, .form-card, .content-card) {
+  background-color: var(--color-card) !important;
+  border-color: var(--color-card-border) !important;
+  color: var(--color-text) !important;
+}
+[data-theme="light"] :is(.filter-card, .filter-bar, .filter-panel, .ranking-filter-bar,
+  .ranking-tabs, .prob-tabs, .tabs, .tab-list, .admin-toolbar, .toolbar) {
+  background-color: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+}
+[data-theme="light"] :is(.data-table, .prob-tbl, .table, .ranking-table, .submissions-table,
+  .profile-table, .admin-table) {
+  color: var(--color-text-secondary);
+  background-color: var(--color-card);
+  border-color: var(--table-border);
+}
+[data-theme="light"] :is(.data-table, .prob-tbl, .table, .ranking-table, .submissions-table,
+  .profile-table, .admin-table) thead,
+[data-theme="light"] :is(.data-table, .prob-tbl, .table, .ranking-table, .submissions-table,
+  .profile-table, .admin-table) th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--color-text-secondary) !important;
+}
+[data-theme="light"] :is(.data-table, .prob-tbl, .table, .ranking-table, .submissions-table,
+  .profile-table, .admin-table) :is(th, td, tr) { border-color: var(--table-border) !important; }
+[data-theme="light"] :is(.data-table, .prob-tbl, .table, .ranking-table, .submissions-table,
+  .profile-table, .admin-table) tbody tr:nth-child(even) { background-color: #f8fafd; }
+[data-theme="light"] :is(.data-table, .prob-tbl, .table, .ranking-table, .submissions-table,
+  .profile-table, .admin-table) tbody tr:hover { background-color: var(--table-row-hover) !important; }
+[data-theme="light"] :is(.admin-sidebar, .admin-nav, .sidebar, .side, .page-sidebar) {
+  background-color: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+}
+[data-theme="light"] :is(pre, .code-block, .code-panel, .terminal, .editor-wrapper,
+  .editor-bar, .monaco-editor, .cm-editor) {
+  background-color: var(--code-bg);
+  border-color: var(--color-border);
+}
+[data-theme="light"] :is(.app-footer, footer) {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-muted) !important;
 }
 
 @media (prefers-color-scheme: light) {

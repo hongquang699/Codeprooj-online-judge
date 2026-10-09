@@ -95,35 +95,35 @@
   --color-info: #0284c7;
 
   /* Light mode background & surfaces */
-  --color-bg: #f8fafc;
-  --color-bg-secondary: #f1f5f9;
+  --color-bg: #f4f7fc;
+  --color-bg-secondary: #edf2f9;
   --color-surface: #ffffff;
-  --color-surface-hover: #f8fafc;
+  --color-surface-hover: #f3f7fd;
   --color-card: #ffffff;
   --color-card-hover: #f8fafc;
-  --color-card-border: #e2e8f0;
-  --color-border: #e2e8f0;
-  --color-border-subtle: #f1f5f9;
+  --color-card-border: #dce5f1;
+  --color-border: #dce5f1;
+  --color-border-subtle: #e9eff7;
 
   /* Light mode typography */
   --color-text: #0f172a;
   --color-text-secondary: #334155;
-  --color-text-muted: #64748b;
-  --color-text-dim: #94a3b8;
+  --color-text-muted: #52647c;
+  --color-text-dim: #687b94;
 
   /* Component tokens */
   --navbar-bg: rgba(255, 255, 255, 0.9);
-  --navbar-border: rgba(0, 0, 0, 0.08);
-  --table-header-bg: #f1f5f9;
-  --table-border: #e2e8f0;
-  --table-row-even: #fafbfc;
-  --table-row-hover: rgba(37, 99, 235, 0.04);
-  --code-bg: #f1f5f9;
+  --navbar-border: rgba(45, 73, 113, 0.14);
+  --table-header-bg: #edf3fa;
+  --table-border: #dce5f1;
+  --table-row-even: #f8fafd;
+  --table-row-hover: rgba(37, 99, 235, 0.055);
+  --code-bg: #edf2f9;
   --code-color: #2563eb;
   --input-bg: #ffffff;
-  --input-border: #cbd5e1;
+  --input-border: #b8c6d8;
   --input-focus-border: #2563eb;
-  --pill-bg: #f1f5f9;
+  --pill-bg: #edf2f9;
   --modal-bg: #ffffff;
 
   /* Elevation Shadows */
@@ -132,9 +132,11 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
 }
 
+/* Keep system-preference light colors in sync with the manually selected theme. */
+
 /* Automatic System Preference for Light Mode when not explicitly forced */
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
+  :root:not([data-theme]) {
     --color-primary: #2563eb;
     --color-primary-hover: #1d4ed8;
     --color-primary-active: #1e40af;
@@ -426,22 +428,15 @@ input:focus, select:focus, textarea:focus,
   border-color: #e2e8f0 !important;
 }
 
-/* Force light surface on any dark inline style elements when in light mode */
+/* Dark inline surfaces belong to panels; resolve them to the shared light surface. */
 [data-theme="light"] [style*="background: #0"],
 [data-theme="light"] [style*="background:#0"],
 [data-theme="light"] [style*="background: #1"],
 [data-theme="light"] [style*="background:#1"],
 [data-theme="light"] [style*="background: #23"],
 [data-theme="light"] [style*="background:#23"] {
-  background: #ffffff !important;
-  border-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] [style*="color: #fff"],
-[data-theme="light"] [style*="color:#fff"],
-[data-theme="light"] [style*="color: #f8fafc"],
-[data-theme="light"] [style*="color:#f8fafc"] {
-  color: #0f172a !important;
+  background: var(--color-card) !important;
+  border-color: var(--color-card-border) !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -468,4 +463,94 @@ input:focus, select:focus, textarea:focus,
   background: var(--color-surface-hover);
   color: var(--color-text);
   border-color: var(--color-primary);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   6. LIGHT THEME COMPONENT COLORS
+   Shared semantic colors for pages with or without site-refresh.css.
+   ══════════════════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  color-scheme: light;
+  --color-success-bg: rgba(22, 128, 79, .11);
+  --color-danger-bg: rgba(185, 42, 51, .10);
+  --color-warning-bg: rgba(161, 93, 0, .12);
+  --color-info-bg: rgba(2, 109, 173, .10);
+  --color-accent: #5b4acb;
+}
+
+[data-theme="light"] :is(.card, .home-card, .profile-card, .table-card, .filter-card,
+  .submissions-card, .ranking-card, .sidebar-card, .stat-card-item, .stat-box,
+  .wiki-preview-card, .modal-card, .panel, .auth-card, .admin-card, .admin-panel,
+  .admin-section, .dashboard-card, .settings-card, .worker-card, .queue-card,
+  .language-card, .monitoring-card, .log-card, .form-card, .content-card) {
+  background-color: var(--color-card) !important;
+  border-color: var(--color-card-border) !important;
+  color: var(--color-text) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="light"] :is(.admin-sidebar, .admin-nav, .sidebar, .side, .page-sidebar) {
+  background-color: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="light"] :is(.admin-sidebar a, .admin-nav a, .sidebar a, .side a, .page-sidebar a) {
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="light"] :is(.admin-sidebar a:hover, .admin-nav a:hover, .sidebar a:hover,
+  .side a:hover, .page-sidebar a:hover, .admin-sidebar a.active, .admin-nav a.active,
+  .sidebar a.active, .side a.active, .page-sidebar a.active) {
+  background-color: var(--color-primary-subtle) !important;
+  color: var(--color-primary) !important;
+}
+
+[data-theme="light"] :is(table, .data-table, .prob-tbl, .ranking-table,
+  .submissions-table, .table-responsive) {
+  color: var(--color-text-secondary);
+}
+
+[data-theme="light"] :is(tbody tr:nth-child(even), .table-row:nth-child(even)) {
+  background-color: var(--table-row-even);
+}
+
+[data-theme="light"] :is(th, .table-header, .data-table thead, .prob-tbl thead,
+  .ranking-table thead, .submissions-table thead) {
+  background-color: var(--table-header-bg) !important;
+  color: var(--color-text-secondary) !important;
+  border-color: var(--table-border) !important;
+}
+
+[data-theme="light"] :is(td, th, tr, .table-row) {
+  border-color: var(--table-border) !important;
+}
+
+[data-theme="light"] :is(.filter-bar, .filter-panel, .search-panel, .toolbar,
+  .tabs, .tab-list, .pagination, .breadcrumb, .admin-toolbar) {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+[data-theme="light"] :is(.badge, .status-badge, .status-pill, .tag-chip, .pill-tag, .meta-pill) {
+  border-color: var(--color-border) !important;
+}
+
+[data-theme="light"] :is(.badge-success, .status-success, .status-online, .verdict-ac,
+  .text-success) { color: #16734a !important; }
+[data-theme="light"] :is(.badge-danger, .status-danger, .status-error, .verdict-wa,
+  .text-danger) { color: #b4232d !important; }
+[data-theme="light"] :is(.badge-warning, .status-warning, .text-warning) { color: #8a5000 !important; }
+
+[data-theme="light"] :is(pre, .code-block, .code-panel, .terminal, .editor-wrapper,
+  .editor-bar, .monaco-editor, .cm-editor) {
+  background-color: var(--code-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="light"] :is(.app-footer, footer) {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-muted) !important;
 }
