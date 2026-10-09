@@ -5,6 +5,8 @@
 
 Giao diện dùng chung được điều khiển bởi `frontend/js/core/theme.js`. Các token màu nền tảng nằm trong `frontend/css/global/theme.css`; `frontend/css/global/site-refresh.css` bổ sung màu cho các trang học tập, thi đấu, bài nộp và quản trị. Chế độ sáng dùng nền xanh xám nhạt, thẻ trắng, viền dịu, bảng có hàng xen kẽ, trạng thái semantic và bề mặt riêng cho mã nguồn. Khi bổ sung component mới, hãy dùng các token `--color-*`, `--table-*`, `--input-*` và `--code-bg` thay cho màu nền tối hard-code để component đổi theme nhất quán.
 
+Các trang HTML phải được mở qua web gateway tại `http://localhost:8888` (ví dụ `/admin/contests/create`). Mở trực tiếp file bằng `file://` làm các đường dẫn CSS, JavaScript và API bắt đầu bằng `/frontend/` hoặc `/api/` trỏ sai vị trí; trang tạo kỳ thi sẽ tự chuyển về địa chỉ gateway nếu bị mở theo cách này.
+
 ## Cấu hình an toàn web
 
 Production luôn dùng CORS allowlist theo origin HTTPS rõ ràng; `CORS_ALLOW_ALL_ORIGINS` bị tắt để không phản chiếu origin tùy ý khi cookie được bật. Origin HTTP cho localhost chỉ được thêm trong `DEBUG=True`. Các giá trị `CORS_ALLOWED_ORIGINS` và `CSRF_TRUSTED_ORIGINS` tùy chỉnh phải là origin hợp lệ, không có wildcard; `ALLOWED_HOSTS` tùy chỉnh được giữ nguyên và giá trị `*` bị từ chối ở production. Các cờ HTTPS đọc `true`/`false` không phân biệt hoa thường. Gateway chỉ trả lỗi upstream chung cho client và ghi mã lỗi nội bộ ở log server.

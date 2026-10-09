@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <script>
+    // This page needs the web gateway for its root-relative assets and API.
+    if (window.location.protocol === 'file:') {
+      window.location.replace(`http://localhost:8888/admin/contests/create${window.location.search}`);
+    }
+  </script>
   <link rel="icon" type="image/svg+xml" href="/frontend/assets/icons/favicon.svg">
   <link rel="stylesheet" href="/frontend/css/global/icons.css">
   <script src="/frontend/js/core/icons.js"></script>
