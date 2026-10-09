@@ -86,6 +86,7 @@
         </div>
         <div style="display:flex;gap:.5rem;">
           <a href="/admin/contests" class="btn-top btn-top-secondary">&larr; Danh sách kỳ thi</a>
+          <a id="antiCheatLink" href="/admin/reports" class="btn-top btn-top-secondary" style="display:none;">Chống gian lận</a>
           <button onclick="saveContest()" class="btn-top btn-top-primary">💾 Lưu kỳ thi</button>
         </div>
       </div>
@@ -234,6 +235,9 @@
       if (editKey) {
         isEditMode = true;
         currentKey = editKey;
+        const antiCheatLink = document.getElementById('antiCheatLink');
+        antiCheatLink.href = `/admin/contests/${encodeURIComponent(editKey)}/anti-cheat`;
+        antiCheatLink.style.display = 'inline-flex';
         document.getElementById('pageTitle').textContent = `✏️ Chỉnh Sửa Kỳ Thi: ${editKey}`;
         document.getElementById('contestKey').value = editKey;
         document.getElementById('contestKey').disabled = true;

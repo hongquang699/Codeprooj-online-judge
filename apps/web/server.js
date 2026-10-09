@@ -525,6 +525,12 @@ const server = http.createServer(async (req, res) => {
     return res.end();
   } else if (mCA_AntiCheat) {
     const [, key] = mCA_AntiCheat;
+    // The create form is not a contest. Send this stale/mistyped URL to the
+    // contest picker instead of treating "create" as a contest key.
+    if (key.toLowerCase() === 'create') {
+      res.writeHead(302, { Location: '/admin/reports' });
+      return res.end();
+    }
     res.writeHead(302, { Location: `/frontend/html/contest-admin/anti-cheat/index.html?contest=${key}` });
     return res.end();
   } else if (mCA_Audit) {
