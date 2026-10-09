@@ -27,6 +27,10 @@ const ContestAdminAPI = {
     if (token) {
       headers['Authorization'] = `Token ${token}`;
     }
+    const csrf = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    if (csrf && options.method && !['GET', 'HEAD'].includes(options.method.toUpperCase())) {
+      headers['X-CSRFToken'] = decodeURIComponent(csrf[1]);
+    }
     try {
       const resp = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
@@ -200,6 +204,24 @@ const ContestAdminAPI = {
   // 10. Reports
   getReports(contestKey) {
     return this.request(`/contests/${contestKey}/reports`);
+  },
+
+  antiCheat(contestKey, path = '', options = {}) {
+    const contest = encodeURIComponent(contestKey);
+    const token = localStorage.getItem('token') || localStorage.getItem('access_token');
+    const csrf = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = `Token ${token}`;
+    if (csrf && options.method && !['GET', 'HEAD'].includes(options.method.toUpperCase())) {
+      headers['X-CSRFToken'] = decodeURIComponent(csrf[1]);
+    }
+    return fetch(`/api/v1/admin/contests/${contest}/anti-cheat${path}`, {
+      credentials: 'same-origin', ...options, headers: { ...headers, ...(options.headers || {}) }
+    }).then(async response => {
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.detail || data.error || `HTTP ${response.status}`);
+      return data;
+    });
   },
 
   // 11. Audit Log

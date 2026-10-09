@@ -9,6 +9,16 @@ Giao diện dùng chung được điều khiển bởi `frontend/js/core/theme.j
 
 Production luôn dùng CORS allowlist theo origin HTTPS rõ ràng; `CORS_ALLOW_ALL_ORIGINS` bị tắt để không phản chiếu origin tùy ý khi cookie được bật. Origin HTTP cho localhost chỉ được thêm trong `DEBUG=True`. Các giá trị `CORS_ALLOWED_ORIGINS` và `CSRF_TRUSTED_ORIGINS` tùy chỉnh phải là origin hợp lệ, không có wildcard; `ALLOWED_HOSTS` tùy chỉnh được giữ nguyên và giá trị `*` bị từ chối ở production. Các cờ HTTPS đọc `true`/`false` không phân biệt hoa thường. Gateway chỉ trả lỗi upstream chung cho client và ghi mã lỗi nội bộ ở log server.
 
+## Chống gian lận trong kỳ thi
+
+Phân hệ `backend/anti_cheat` quét mã nguồn trong một worker riêng, không chạy mã bài nộp và không thay đổi kết quả máy chấm. Bài nộp trong kỳ thi được xếp lượt quét sau khi giao dịch lưu bài thành công. Worker chuẩn hóa token, tạo dấu vân tay từ các cụm 7 token và tính độ tương đồng Jaccard cho các bài cùng đề, cùng ngôn ngữ nhưng khác thí sinh. Mặc định ngưỡng mở hồ sơ là 89% và bỏ qua bài dưới 30 token; quản trị viên có thể chọn quét sau khi nộp, mỗi giờ hoặc thủ công. Kết quả quét chỉ là tín hiệu nghi vấn, không tự khóa tài khoản hay loại thí sinh.
+
+Triển khai cần chạy `python manage.py migrate` rồi khởi động `python manage.py run_anticheat_worker` (hoặc service `anti-cheat-worker` trong Docker Compose). Trang `/admin/contests/{key}/anti-cheat` dành cho người có quyền quản trị kỳ thi để xem lượt quét, hồ sơ, mã nguồn đối chiếu, chính sách và khiếu nại. Trang `/my/appeals` cho thí sinh xem quyết định xử lý của mình và gửi khiếu nại. API quản trị nằm dưới `/api/v1/admin/contests/{key}/anti-cheat/`; API cá nhân dưới `/api/v1/anti-cheat/`. Quyền xem mã nguồn, xác nhận, xử lý và xét khiếu nại được kiểm tra ở backend theo vai trò của từng kỳ thi; các thao tác có audit log.
+
+Người có quyền phải ghi lý do khi xác nhận hoặc bác bỏ hồ sơ. Chỉ hồ sơ đã xác nhận mới có thể dẫn tới cảnh cáo hoặc loại khỏi kỳ thi, bằng một thao tác xử lý riêng. Người ban hành quyết định không được tự xét khiếu nại. Nếu khiếu nại về quyết định loại được chấp nhận, quyết định chống gian lận bị thu hồi; quản trị viên cần khôi phục tư cách thi đấu trong mục Thí sinh sau khi kiểm tra các lý do kỷ luật khác. Hệ thống không tự xóa cờ loại vì cờ này cũng được các phân hệ khác sử dụng.
+
+Giới hạn hiện tại: so khớp dựa trên token và dấu vân tay, chưa dùng AST hoặc nhận diện AI; mã nguồn ngắn và template phổ biến có thể tạo trùng khớp giả. Hồ sơ cần được con người xem xét cùng quy chế kỳ thi và các bằng chứng khác. Mỗi lượt chỉ xem tối đa 100 ứng viên có nhiều dấu vân tay chung nhất cho mỗi bài nộp để giới hạn tải; kỳ thi rất lớn có thể cần tăng năng lực worker hoặc cơ chế tìm kiếm chuyên dụng.
+
 ---
 
 ## 📁 Cấu Trúc Thư Mục Chuẩn Hóa Của Dự Án

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'backend.users.apps.UsersConfig',
     'backend.organizations.apps.OrganizationsConfig',
     'backend.contest_admin.apps.ContestAdminConfig',
+    'backend.anti_cheat.apps.AntiCheatConfig',
     'backend.auth.apps.AuthConfig',
 ]
 

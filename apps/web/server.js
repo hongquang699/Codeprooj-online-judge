@@ -134,6 +134,7 @@ const ROUTE_ALIASES = {
   '/logout': '/frontend/html/auth/logout.html',
   '/profile': '/frontend/html/profile/index.html',
   '/settings': '/frontend/html/profile/settings.html',
+  '/my/appeals': '/frontend/html/user/appeals.html',
   '/admin': '/frontend/html/admin/dashboard.html',
   '/admin/': '/frontend/html/admin/dashboard.html',
   '/admin/dashboard': '/frontend/html/admin/dashboard.html',
@@ -477,6 +478,7 @@ const server = http.createServer(async (req, res) => {
   const mCA_Clarifications = reqUrl.match(/^\/admin\/contests\/([^\/]+)\/clarifications\/?$/);
   const mCA_Jury           = reqUrl.match(/^\/admin\/contests\/([^\/]+)\/jury\/?$/);
   const mCA_Reports        = reqUrl.match(/^\/admin\/contests\/([^\/]+)\/reports\/?$/);
+  const mCA_AntiCheat      = reqUrl.match(/^\/admin\/contests\/([^\/]+)\/anti-cheat\/?$/);
   const mCA_Audit          = reqUrl.match(/^\/admin\/contests\/([^\/]+)\/audit\/?$/);
   const mCA_Base           = reqUrl.match(/^\/admin\/contests\/([^\/]+)\/?$/);
   const mCA_Portal         = reqUrl.match(/^\/admin\/contests\/?$/);
@@ -520,6 +522,10 @@ const server = http.createServer(async (req, res) => {
   } else if (mCA_Reports) {
     const [, key] = mCA_Reports;
     res.writeHead(302, { Location: `/frontend/html/contest-admin/reports/index.html?contest=${key}` });
+    return res.end();
+  } else if (mCA_AntiCheat) {
+    const [, key] = mCA_AntiCheat;
+    res.writeHead(302, { Location: `/frontend/html/contest-admin/anti-cheat/index.html?contest=${key}` });
     return res.end();
   } else if (mCA_Audit) {
     const [, key] = mCA_Audit;

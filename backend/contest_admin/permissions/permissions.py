@@ -6,7 +6,8 @@ ROLE_PERMISSIONS = {
     'contest_manager': [
         'contest.view', 'contest.edit', 'participant.manage', 'announcement.manage',
         'clarification.manage', 'ranking.manage', 'reports.view', 'problem.view',
-        'submission.view', 'audit.view'
+        'submission.view', 'audit.view', 'anti_cheat.view', 'anti_cheat.manage',
+        'anti_cheat.review', 'anti_cheat.penalize'
     ],
     'problem_setter': [
         'contest.view', 'problem.view', 'problem.create', 'problem.edit',
@@ -15,7 +16,8 @@ ROLE_PERMISSIONS = {
     ],
     'jury_manager': [
         'contest.view', 'submission.view', 'submission.rejudge', 'judge.view',
-        'ranking.manage', 'reports.view', 'audit.view'
+        'ranking.manage', 'reports.view', 'audit.view', 'anti_cheat.view',
+        'anti_cheat.manage', 'anti_cheat.review'
     ],
     'moderator': [
         'contest.view', 'participant.manage', 'clarification.manage', 'announcement.manage',

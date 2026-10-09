@@ -63,6 +63,30 @@ services:
     networks:
       - codeprooj_network
 
+  anti-cheat-worker:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/backend/Dockerfile
+    container_name: codeprooj_anti_cheat_worker
+    restart: always
+    command: python manage.py run_anticheat_worker
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+      ALLOWED_HOSTS: localhost,127.0.0.1,backend,codeprooj.com,www.codeprooj.com
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-coding_app}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      DB_NAME: ${DB_NAME:-coding_platform}
+    depends_on:
+      - backend
+      - postgres
+    volumes:
+      - .:/app
+    networks:
+      - codeprooj_network
+
   judge-server:
     build:
       context: .

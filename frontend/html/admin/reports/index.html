@@ -44,32 +44,29 @@
     <main class="admin-main">
       <div class="admin-topbar">
         <div class="topbar-title">
-          <h1>Quản Lý Khiếu Nại &amp; Phát Hiện Gian Lận (Anti-Plagiarism)</h1>
-          <p>Xử lý tố cáo sao chép mã nguồn trong contest, khiếu nại test case và các báo cáo vi phạm cộng đồng.</p>
+          <h1>Giám sát chống gian lận kỳ thi</h1>
+          <p>Chọn kỳ thi để xem lượt quét, bằng chứng mã nguồn và hồ sơ đang chờ duyệt.</p>
         </div>
         <div class="topbar-actions">
-          <button class="btn-top btn-top-primary" onclick="runMossCheck()"><cp-icon name="bolt" size="sm"></cp-icon> Chạy MOSS Code Similarity Check</button>
+          <a class="btn-top btn-top-primary" href="/admin/contests">Danh sách kỳ thi</a>
         </div>
       </div>
 
       <!-- Reports Table -->
       <div class="panel-box">
         <div class="panel-hdr">
-          <h3>🚨 Danh sách Báo cáo &amp; Cảnh báo gian lận</h3>
-          <span class="badge-v bv-other" id="pendingCountBadge">0 chờ xử lý</span>
+          <h3>Các kỳ thi có thể quản trị</h3>
+          <span class="badge-v bv-other" id="pendingCountBadge">Đang tải...</span>
         </div>
         <div class="panel-bdy" style="padding:0;">
           <table class="admin-tbl">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Phân loại</th>
-                <th>Đối tượng vi phạm</th>
-                <th>Người báo cáo</th>
-                <th>Mô tả / Bằng chứng</th>
-                <th>Thời điểm</th>
+                <th>Mã kỳ thi</th>
+                <th>Tên kỳ thi</th>
                 <th>Trạng thái</th>
-                <th>Hành động</th>
+                <th>Bài nộp</th>
+                <th>Chống gian lận</th>
               </tr>
             </thead>
             <tbody id="reportsTbody">
@@ -82,60 +79,44 @@
   </div>
 
   <script>
-    const mockReports = [
-      { id: 101, type: "Trùng mã nguồn (MOSS 94%)", target: "Bài #12345 (User: hacker_vn & leet_coder)", reporter: "Hệ thống MOSS AI", note: "Thuật toán và cấu trúc code tương đồng 94.2% trong kỳ thi HSG_TIN_2026", date: "2026-09-30 21:15", status: "PENDING" },
-      { id: 102, type: "Khiếu nại Test Case", target: "Problem: KNAPSACK (Test #14)", reporter: "quang_pro", note: "Test 14 có input N=0 gây Runtime Error cho code chuẩn", date: "2026-09-30 18:40", status: "RESOLVED" },
-      { id: 103, type: "Spam Submissions", target: "IP: 185.220.101.5", reporter: "WAF Anti-DDoS", note: "Nộp 40 bài/phút gây nghẽn hàng đợi máy chấm", date: "2026-09-30 15:10", status: "RESOLVED" }
-    ];
-
-    function renderReports() {
+    async function renderReports() {
       const tbody = document.getElementById('reportsTbody');
-      tbody.innerHTML = mockReports.map(r => `
-        <tr>
-          <td>#${r.id}</td>
-          <td><span class="badge-v ${r.type.includes('MOSS') ? 'bv-WA' : 'bv-other'}">${r.type}</span></td>
-          <td><strong>${r.target}</strong></td>
-          <td>${r.reporter}</td>
-          <td style="font-size:0.85rem;color:#cbd5e1;max-width:300px;">${r.note}</td>
-          <td style="font-size:0.75rem;color:#94a3b8;">${r.date}</td>
-          <td>
-            <span class="badge-v ${r.status === 'RESOLVED' ? 'bv-AC' : 'bv-WA'}">${r.status === 'RESOLVED' ? 'Đã xử lý' : 'Đang chờ'}</span>
-          </td>
-          <td>
-            ${r.status === 'PENDING' ? `
-              <button class="btn-act" style="background:#065f46;color:#34d399;" onclick="resolveReport(${r.id})">Duyệt xử phạt</button>
-              <button class="btn-act" onclick="dismissReport(${r.id})">Bác bỏ</button>
-            ` : '<span style="color:#64748b;font-size:0.8rem;">Hoàn tất</span>'}
-          </td>
-        </tr>
-      `).join('');
-
-      const pending = mockReports.filter(r => r.status === 'PENDING').length;
-      document.getElementById('pendingCountBadge').textContent = `${pending} chờ xử lý`;
-    }
-
-    function resolveReport(id) {
-      const r = mockReports.find(x => x.id === id);
-      if (r) {
-        if (confirm(`Xác nhận xử phạt vi phạm #${id}? Điểm contest của thí sinh liên quan sẽ bị hủy.`)) {
-          r.status = 'RESOLVED';
-          renderReports();
-          alert('Đã xử phạt và ghi nhận biên bản vi phạm!');
+      tbody.replaceChildren();
+      try {
+        const token = localStorage.getItem('token') || localStorage.getItem('access_token');
+        const response = await fetch('/api/v1/contest-admin/contests', {
+          credentials: 'same-origin',
+          headers: token ? { Authorization: `Token ${token}` } : {}
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const contests = payload.data || [];
+        document.getElementById('pendingCountBadge').textContent = `${contests.length} kỳ thi`;
+        if (!contests.length) {
+          const row = tbody.insertRow();
+          const cell = row.insertCell();
+          cell.colSpan = 5;
+          cell.textContent = 'Chưa có kỳ thi được phân quyền.';
+          return;
         }
+        for (const contest of contests) {
+          const row = tbody.insertRow();
+          for (const value of [contest.key, contest.name, contest.status, contest.submissions_count]) {
+            row.insertCell().textContent = String(value);
+          }
+          const link = document.createElement('a');
+          link.href = `/admin/contests/${encodeURIComponent(contest.key)}/anti-cheat`;
+          link.className = 'btn-act';
+          link.textContent = 'Mở hồ sơ';
+          row.insertCell().appendChild(link);
+        }
+      } catch (error) {
+        const row = tbody.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 5;
+        cell.textContent = `Không tải được kỳ thi: ${error.message}`;
+        document.getElementById('pendingCountBadge').textContent = 'Lỗi tải dữ liệu';
       }
-    }
-
-    function dismissReport(id) {
-      const r = mockReports.find(x => x.id === id);
-      if (r) {
-        r.status = 'RESOLVED';
-        renderReports();
-        alert('Đã đóng báo cáo.');
-      }
-    }
-
-    function runMossCheck() {
-      alert('Đang chạy thuật toán kiểm tra tương đồng mã nguồn (MOSS AST Tree Diff) trên toàn bộ bài nộp của HSG_TIN_2026... Không phát hiện thêm cặp bài nộp trùng lặp mới.');
     }
 
     renderReports();
