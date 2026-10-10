@@ -2,6 +2,16 @@
 
 Chạy từ thư mục gốc dự án bằng tài khoản có quyền truy cập máy chủ và cơ sở dữ liệu. `--user` phải là username của một tài khoản Django đang hoạt động và có quyền staff.
 
+Trong PowerShell, cài lệnh ngắn một lần:
+
+```powershell
+.\scripts\install-codepro-command.ps1
+. $PROFILE
+codepro
+```
+
+`codepro` chỉ mở khi thư mục hiện tại nằm trong project (kể cả thư mục con). Khi gọi không có `--user`, lệnh hỏi tên tài khoản quản trị. Có thể chạy trực tiếp `codepro --user admin status`. Ngoài project, lệnh báo lỗi và không kết nối cơ sở dữ liệu. Sau khi clone project ở chỗ khác, chạy lại script cài đặt để cập nhật đường dẫn.
+
 ```powershell
 python manage.py site_terminal --user admin
 ```
