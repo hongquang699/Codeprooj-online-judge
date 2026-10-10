@@ -38,7 +38,7 @@ HQ/
 │   ├── admin/                    # Tiến trình nền quản trị và giám sát cụm
 │   └── worker/                   # Background Task Daemon (xử lý queue, dọn dẹp)
 │
-├── backend/                      # Mã nguồn trung tâm Django 5 REST Framework
+├── backend/                      # Mã nguồn trung tâm Django 6.1 và REST Framework
 │   ├── core/                     # Cấu hình chính (settings.py, urls.py, wsgi.py)
 │   ├── api/                      # REST API Endpoints v1 & v2 (/api/v2/*)
 │   ├── judge/                    # Core Database Models (Problem, Submission, Contest, Profile)
@@ -46,6 +46,7 @@ HQ/
 │   ├── community/                # Diễn đàn, bình luận và thảo luận
 │   ├── ranking/                  # Thuật toán tính toán Rating Elo & Bảng xếp hạng
 │   ├── users/                    # Quản lý người dùng, phân quyền và profile
+│   ├── anti_cheat/               # Quét tương đồng, hồ sơ và kháng nghị kỳ thi
 │   └── moderation/               # Hệ thống báo cáo vi phạm và kỷ luật tài khoản
 │
 ├── frontend/                     # Toàn bộ giao diện người dùng (UI / UX)
@@ -208,10 +209,13 @@ python manage.py test tests
 
 ## 🚀 Khởi động trên máy cục bộ
 
-Chạy các lệnh từ thư mục gốc `HQ/`. Cần Python, Node.js và compiler/runtime tương ứng với ngôn ngữ chấm bài. Cài thư viện Python trong môi trường ảo và chuẩn bị database trước:
+Chạy các lệnh từ thư mục gốc `HQ/`. Backend Docker dùng Python 3.12 và dòng Django 6.1; CI dùng Node.js 20. Khi chạy cục bộ, dùng Python 3.12 và Node.js 20 để gần với môi trường triển khai. Cần compiler/runtime tương ứng với ngôn ngữ chấm bài. Tạo môi trường ảo, kích hoạt bằng `.\.venv\Scripts\Activate.ps1` trên PowerShell hoặc `source .venv/bin/activate` trên Linux/macOS, rồi cài thư viện và chuẩn bị database:
 
 ```bash
+python -m venv .venv
+# Kích hoạt .venv theo shell đang dùng trước các lệnh bên dưới.
 python -m pip install -r requirements.txt
+npm ci
 # Sao chép .env.example thành .env rồi điền các secret ngẫu nhiên (xem bên dưới).
 python manage.py migrate
 # Chỉ tạo tài khoản quản trị khi chưa có:
@@ -222,15 +226,16 @@ Sao chép `.env.example` thành `.env` và điền secret ngẫu nhiên riêng c
 
 Sao chép `config/admin_ip_whitelist.example.json` thành `config/admin_ip_whitelist.json` trước khi mở trang quản trị. File thật chứa IP vận hành và được loại khỏi Git; mẫu chỉ cho phép loopback.
 
-Mở ba terminal riêng, chạy lần lượt:
+Mở bốn terminal riêng, chạy lần lượt (worker chống gian lận chạy sau khi database đã migrate):
 
 | Dịch vụ | Lệnh | Cổng mặc định |
 | --- | --- | --- |
 | Django API | `python manage.py runserver 127.0.0.1:8000` | 8000 |
 | Judge Manager và embedded workers | `python judge-system/judge-server/main.py` | 9999 |
 | Web gateway | `node apps/web/server.js` | 8888 |
+| Worker chống gian lận | `python manage.py run_anticheat_worker` | Không mở cổng HTTP |
 
-`npm start` hiện trỏ tới backend Node cũ (`backend/server.js`), không phải gateway của luồng Django ở trên.
+`npm start` hiện trỏ tới backend Node cũ (`backend/server.js`), không phải gateway của luồng Django ở trên. `requirements.txt` cũng cài `beautifulsoup4` cho các script nhập/tạo dữ liệu bài tập; phân hệ chống gian lận dùng các thư viện Django hiện có và không cần SDK AI bên ngoài.
 
 - Trang chính: [localhost:8888](http://localhost:8888).
 - Quản trị chung: [localhost:8888/admin](http://localhost:8888/admin).
