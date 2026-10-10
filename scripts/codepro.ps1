@@ -4,12 +4,8 @@ param(
 )
 
 $projectRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\', '/')
-$currentPath = [System.IO.Path]::GetFullPath((Get-Location).ProviderPath).TrimEnd('\', '/')
-$insideProject = $currentPath.Equals($projectRoot, [System.StringComparison]::OrdinalIgnoreCase) -or
-    $currentPath.StartsWith($projectRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)
-
-if (-not $insideProject) {
-    Write-Error "Lệnh codepro chỉ chạy trong project: $projectRoot"
+if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'manage.py') -PathType Leaf)) {
+    Write-Error "Không tìm thấy project CodeProOJ tại: $projectRoot"
     exit 1
 }
 

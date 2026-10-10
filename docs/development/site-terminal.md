@@ -10,7 +10,7 @@ Trong PowerShell, cài lệnh ngắn một lần:
 codepro
 ```
 
-`codepro` chỉ mở khi thư mục hiện tại nằm trong project (kể cả thư mục con). Khi gọi không có `--user`, lệnh hỏi tên tài khoản quản trị. Có thể chạy trực tiếp `codepro --user admin status`. Ngoài project, lệnh báo lỗi và không kết nối cơ sở dữ liệu. Script cài lệnh cho PowerShell, PowerShell trong VS Code và CMD của tài khoản Windows hiện tại. Sau khi cài, hãy mở terminal mới để PATH trong CMD được cập nhật. Sau khi clone project ở chỗ khác, chạy lại script cài đặt để cập nhật đường dẫn.
+Gõ `codepro` từ bất kỳ thư mục nào; công cụ tự chạy trong project và trả terminal về thư mục ban đầu khi thoát. Khi gọi không có `--user`, lệnh hỏi tên tài khoản quản trị. Có thể chạy trực tiếp `codepro --user admin status`. Script cài lệnh cho PowerShell, PowerShell trong VS Code và CMD của tài khoản Windows hiện tại. Sau khi cài, hãy mở terminal mới để PATH trong CMD được cập nhật. Sau khi clone project ở chỗ khác, chạy lại script cài đặt để cập nhật đường dẫn.
 
 ```powershell
 python manage.py site_terminal --user admin
