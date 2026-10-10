@@ -2,11 +2,13 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from backend.auth.security.auth_required import auth_required, parse_json_body
+from backend.auth.security.csrf import csrf_protect_cookie_auth
 from backend.auth.services.password import change_user_password
 
 
 @csrf_exempt
 @require_POST
+@csrf_protect_cookie_auth
 @auth_required
 def change_password_view(request):
     """

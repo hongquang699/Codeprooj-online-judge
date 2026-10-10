@@ -4,6 +4,7 @@ from django.views.decorators.http import require_GET, require_POST
 from backend.auth.security.auth_required import auth_required, parse_json_body
 from backend.auth.services.session import get_user_active_sessions, revoke_all_user_sessions
 from backend.auth.models.auth_session import AuthSession
+from backend.auth.security.csrf import csrf_protect_cookie_auth
 
 
 @require_GET
@@ -22,6 +23,7 @@ def list_sessions_view(request):
 
 @csrf_exempt
 @require_POST
+@csrf_protect_cookie_auth
 @auth_required
 def revoke_other_sessions_view(request):
     """
@@ -44,6 +46,7 @@ def revoke_other_sessions_view(request):
 
 @csrf_exempt
 @require_POST
+@csrf_protect_cookie_auth
 @auth_required
 def revoke_session_by_id_view(request, session_id):
     """

@@ -6,6 +6,15 @@
 const Auth = {
   API_BASE: '/api/v1/auth',
 
+  async getCsrfToken() {
+    let match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    if (!match) {
+      await fetch(`${this.API_BASE}/me`, { credentials: 'include' });
+      match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
+    }
+    return match ? decodeURIComponent(match[1]) : '';
+  },
+
   getRedirectUrl() {
     const params = new URLSearchParams(window.location.search);
     const next = params.get('next');
@@ -31,10 +40,11 @@ const Auth = {
 
   async logout() {
     try {
+      const csrfToken = await this.getCsrfToken();
       await fetch(`${this.API_BASE}/logout`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken }
       });
     } catch (e) {
       console.warn('Logout request failed:', e);

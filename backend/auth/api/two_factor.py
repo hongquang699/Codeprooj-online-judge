@@ -9,6 +9,7 @@ from backend.auth.services.two_factor import (
     disable_2fa_for_user
 )
 from backend.auth.models.two_factor import TwoFactorAuth
+from backend.auth.security.csrf import csrf_protect_cookie_auth
 
 
 @require_GET
@@ -43,6 +44,7 @@ def setup_2fa_view(request):
 
 @csrf_exempt
 @require_POST
+@csrf_protect_cookie_auth
 @auth_required
 def enable_2fa_view(request):
     """
@@ -74,6 +76,7 @@ def enable_2fa_view(request):
 
 @csrf_exempt
 @require_POST
+@csrf_protect_cookie_auth
 @auth_required
 def disable_2fa_view(request):
     """

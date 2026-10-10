@@ -2,10 +2,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from backend.auth.services.session import revoke_auth_session
+from backend.auth.security.csrf import csrf_protect_cookie_auth
 
 
 @csrf_exempt
 @require_POST
+@csrf_protect_cookie_auth
 def logout_view(request):
     """
     POST /api/v1/auth/logout

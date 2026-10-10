@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
+        const csrfToken = await Auth.getCsrfToken();
         const res = await fetch('/api/v1/auth/change-password', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
           credentials: 'include',
           body: JSON.stringify({
             current_password: currentPassword,
