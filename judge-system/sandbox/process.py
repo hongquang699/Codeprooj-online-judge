@@ -7,6 +7,7 @@ and real-time memory monitoring.
 import subprocess
 import time
 import os
+import tempfile
 import psutil
 from typing import Optional, Tuple
 from dataclasses import dataclass
@@ -65,9 +66,15 @@ class ProcessRunner:
         """
         Executes a process with strict resource monitoring.
         """
-        run_env = os.environ.copy()
+        # Contestant processes receive only runtime settings, never manager
+        # credentials such as JUDGE_AUTH_TOKEN or database connection secrets.
+        run_env = {
+            key: os.environ[key] for key in ('PATH', 'LANG', 'LC_ALL', 'TZ', 'SYSTEMROOT', 'WINDIR', 'TMP', 'TEMP', 'TMPDIR', 'HOME', 'USERPROFILE')
+            if key in os.environ
+        }
         if env:
-            run_env.update(env)
+            allowed_overrides = {'LANG', 'LC_ALL', 'TZ', 'PYTHONPATH', 'JAVA_TOOL_OPTIONS'}
+            run_env.update({key: value for key, value in env.items() if key in allowed_overrides})
 
         start_wall_time = time.time()
         start_cpu_time = 0.0
@@ -90,12 +97,14 @@ class ProcessRunner:
             except Exception:
                 preexec = None
 
+        stdout_file = tempfile.TemporaryFile(mode='w+b')
+        stderr_file = tempfile.TemporaryFile(mode='w+b')
         try:
             proc = subprocess.Popen(
                 cmd,
                 stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                stdout=stdout_file,
+                stderr=stderr_file,
                 text=True,
                 encoding="utf-8",
                 errors="replace",
@@ -104,6 +113,8 @@ class ProcessRunner:
                 preexec_fn=preexec
             )
         except Exception as e:
+            stdout_file.close()
+            stderr_file.close()
             return ProcessExecutionResult(
                 exit_code=-1,
                 time_ms=0,
@@ -123,25 +134,14 @@ class ProcessRunner:
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             pass
 
-        # Write stdin in a background thread or directly if small
-        # To handle large inputs without deadlock:
-        stdout_chunks = []
-        stderr_chunks = []
-        total_stdout_bytes = 0
-
-        # We can use communicate with timeout or loop
-        # Communicate handles pipe buffers properly
-        # But we need memory tracking concurrently.
-        # So we run memory monitoring in a short loop until communicate finishes.
+        # Communicate writes stdin while stdout and stderr go to bounded files.
         import threading
 
-        result_container = {"stdout": "", "stderr": "", "exc": None}
+        result_container = {"exc": None}
 
         def comm_worker():
             try:
-                out, err = proc.communicate(input=stdin_data)
-                result_container["stdout"] = out
-                result_container["stderr"] = err
+                proc.communicate(input=stdin_data)
             except Exception as ex:
                 result_container["exc"] = ex
 
@@ -154,6 +154,11 @@ class ProcessRunner:
 
         while comm_thread.is_alive():
             elapsed_wall = time.time() - start_wall_time
+
+            if os.fstat(stdout_file.fileno()).st_size + os.fstat(stderr_file.fileno()).st_size > output_limit_bytes:
+                is_ole = True
+                cls.kill_process_tree(proc.pid)
+                break
 
             # Check TLE by wall time (with 2x safety margin) or cpu time
             if elapsed_wall > (time_limit_sec + 0.5):
@@ -193,12 +198,20 @@ class ProcessRunner:
         comm_thread.join(timeout=0.5)
 
         # Finalize
-        raw_stdout = result_container["stdout"]
-        raw_stderr = result_container["stderr"]
+        stdout_file.seek(0)
+        stderr_file.seek(0)
+        total_output_bytes = os.fstat(stdout_file.fileno()).st_size + os.fstat(stderr_file.fileno()).st_size
+        stdout_bytes = stdout_file.read(output_limit_bytes + 1)
+        stderr_bytes = stderr_file.read(max(0, output_limit_bytes - len(stdout_bytes)) + 1)
+        raw_stdout = stdout_bytes.decode('utf-8', errors='replace')
+        raw_stderr = stderr_bytes.decode('utf-8', errors='replace')
+        stdout_file.close()
+        stderr_file.close()
 
-        if len(raw_stdout.encode("utf-8", errors="replace")) > output_limit_bytes:
+        if total_output_bytes > output_limit_bytes:
             is_ole = True
             raw_stdout = raw_stdout[:1000] + "\n...[OUTPUT TRUNCATED - OLE]..."
+            raw_stderr = raw_stderr[:1000]
 
         # Calculate final execution time in ms
         time_ms = int(max(cpu_time_spent, time.time() - start_wall_time) * 1000)
@@ -214,6 +227,8 @@ class ProcessRunner:
                 is_tle = True
             elif sig_verdict == "SEC":
                 is_sec = True
+            elif sig_verdict == "OLE":
+                is_ole = True
             elif sig_verdict == "MLE/RE" and peak_memory_kb >= (memory_limit_kb * 0.9):
                 is_mle = True
 

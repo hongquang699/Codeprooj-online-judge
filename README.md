@@ -68,7 +68,7 @@ HQ/
 ├── judge-system/                 # Cụm máy chấm phân tán (Distributed Judge Cluster)
 │   ├── judge-server/             # Judge Coordinator & Heartbeat Manager (Port 9999)
 │   ├── judging/                  # Bộ biên dịch (Compiler) & thực thi (Executor)
-│   ├── sandbox/                  # Cơ chế cách ly tài nguyên, SecurityScanner chặn mã độc
+│   ├── sandbox/                  # Giới hạn tài nguyên và quét mã; chưa phải cách ly mạnh
 │   ├── checker/                  # Bộ so khớp đáp án chuẩn và Custom Testlib
 │   └── validator/                # Bộ thẩm định dữ liệu đầu vào testcase
 │
@@ -161,6 +161,8 @@ Dự án có các lớp kiểm tra quyền, giới hạn request và bảo vệ 
 
 Docker Compose hiện chỉ mở cổng HTTP 80. Hãy đặt dịch vụ sau reverse proxy HTTPS có chứng chỉ hợp lệ trước khi mở công khai; cổng 443 trong Compose chưa được cấu hình TLS. File `.env` và whitelist IP được loại khỏi Docker image; Compose gắn whitelist thật vào backend và frontend ở chế độ chỉ đọc.
 Backend và frontend chạy từ image, không gắn toàn bộ mã nguồn host vào container; dùng `docker compose up --build -d` để áp dụng thay đổi mã.
+
+**Rủi ro máy chấm còn tồn tại:** bài nộp hiện được biên dịch và chạy trong cùng container với Judge Manager; container đó cần truy cập kho testcase và mạng nội bộ để vận hành. Quét từ khóa, hạ quyền UID, giới hạn tài nguyên và seccomp tùy chọn không tạo ranh giới đủ mạnh trước mã do người lạ gửi. Trước khi nhận bài từ Internet công khai, cần chuyển phần biên dịch và thực thi sang môi trường riêng cho từng job, không có token dịch vụ hoặc kết nối mạng, chỉ gắn đúng dữ liệu cần cho job đó, rồi kiểm thử trên Linux với Docker đang chạy.
 
 ---
 

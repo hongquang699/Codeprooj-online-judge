@@ -21,21 +21,15 @@ class PrivilegeDropper:
 
         # 1. Enable PR_SET_NO_NEW_PRIVS
         # Ensures that execve will never grant child processes additional privileges (e.g. via setuid)
-        try:
-            libc = ctypes.CDLL("libc.so.6", use_errno=True)
-            if hasattr(libc, "prctl"):
-                libc.prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)
-        except Exception:
-            pass
+        libc = ctypes.CDLL("libc.so.6", use_errno=True)
+        if not hasattr(libc, "prctl") or libc.prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) != 0:
+            raise OSError(ctypes.get_errno(), "Could not set no_new_privs")
 
         # 2. Drop user privileges if running as root
         if hasattr(os, "getuid") and os.getuid() == 0:
-            try:
-                if hasattr(os, "setgroups"):
-                    os.setgroups([])
-                if hasattr(os, "setgid"):
-                    os.setgid(target_gid)
-                if hasattr(os, "setuid"):
-                    os.setuid(target_uid)
-            except OSError:
-                pass
+            if hasattr(os, "setgroups"):
+                os.setgroups([])
+            os.setgid(target_gid)
+            os.setuid(target_uid)
+            if os.getuid() != target_uid or os.getgid() != target_gid:
+                raise RuntimeError("Could not drop judge process privileges")

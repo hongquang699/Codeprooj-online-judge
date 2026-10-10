@@ -13,9 +13,10 @@ class FilesystemSandbox:
         if base_dir:
             self.base_dir = os.path.abspath(base_dir)
         else:
-            # Default to judge-system/storage/executables
+            # Use the mounted writable storage when the container root is read-only.
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            self.base_dir = os.path.abspath(os.path.join(current_dir, "..", "storage", "executables"))
+            storage_dir = os.getenv('JUDGE_STORAGE_DIR', os.path.join(current_dir, '..', 'storage'))
+            self.base_dir = os.path.abspath(os.path.join(storage_dir, 'executables'))
         os.makedirs(self.base_dir, exist_ok=True)
 
     def create_sandbox_dir(self, prefix: str = "run_") -> str:
@@ -31,8 +32,8 @@ class FilesystemSandbox:
             return
         
         # Security check: must reside inside base_dir
-        abs_path = os.path.abspath(path)
-        if not abs_path.startswith(self.base_dir):
+        abs_path = os.path.realpath(path)
+        if os.path.commonpath([os.path.realpath(self.base_dir), abs_path]) != os.path.realpath(self.base_dir):
             raise PermissionError(f"Attempted to clean path outside sandbox base: {path}")
 
         try:
@@ -43,7 +44,7 @@ class FilesystemSandbox:
     @staticmethod
     def sanitize_path(path: str, root_dir: str) -> str:
         """Prevents path traversal outside of root directory."""
-        resolved = os.path.abspath(os.path.join(root_dir, path))
-        if not resolved.startswith(os.path.abspath(root_dir)):
+        resolved = os.path.realpath(os.path.join(root_dir, path))
+        if os.path.commonpath([os.path.realpath(root_dir), resolved]) != os.path.realpath(root_dir):
             raise ValueError(f"Path traversal detected: {path}")
         return resolved

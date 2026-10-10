@@ -45,7 +45,7 @@ class ServerConfig:
         self.storage_dir = os.path.abspath(os.getenv('JUDGE_STORAGE_DIR', os.path.join(root_dir, paths.get("storage", "./storage"))))
         self.problem_data_dir = os.path.abspath(os.getenv('JUDGE_PROBLEM_DATA_DIR', os.path.join(root_dir, paths.get("problem_data", "../problem-data/problems"))))
         self.logs_dir = os.path.abspath(os.path.join(root_dir, paths.get("logs", "./logs")))
-        self.tmp_dir = os.path.abspath(os.path.join(root_dir, paths.get("tmp", "./storage/executables")))
+        self.tmp_dir = os.path.abspath(os.getenv('JUDGE_TMP_DIR', os.path.join(self.storage_dir, 'executables')))
 
         os.makedirs(self.storage_dir, exist_ok=True)
         os.makedirs(self.logs_dir, exist_ok=True)

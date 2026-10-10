@@ -4,6 +4,7 @@ Manages isolated workspace and artifact generation for each submission.
 """
 
 import os
+import re
 from judging.compile import Compiler, CompileResult
 
 class WorkerCompiler:
@@ -16,6 +17,8 @@ class WorkerCompiler:
         """
         Compiles the submission inside an isolated directory storage/executables/{job_id}.
         """
+        if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', str(job_id)):
+            return CompileResult(False, None, '', 'Invalid job ID')
         job_dir = os.path.join(self.base_dir, f"job_{job_id}")
         os.makedirs(job_dir, exist_ok=True)
         return self.compiler.compile(

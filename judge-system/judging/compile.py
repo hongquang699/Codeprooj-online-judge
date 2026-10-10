@@ -17,6 +17,11 @@ class CompileResult:
     error_message: str = ""
 
 class Compiler:
+    @staticmethod
+    def _compiler_env():
+        return {key: os.environ[key] for key in ('PATH', 'LANG', 'LC_ALL', 'TZ', 'SYSTEMROOT', 'WINDIR', 'TMP', 'TEMP', 'TMPDIR', 'HOME', 'USERPROFILE')
+                if key in os.environ}
+
     def __init__(self, languages_config_path: Optional[str] = None):
         if not languages_config_path:
             current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -70,7 +75,8 @@ class Compiler:
                         text=True,
                         encoding="utf-8",
                         errors="replace",
-                        timeout=time_limit_sec
+                        timeout=time_limit_sec,
+                        env=self._compiler_env(),
                     )
                     if proc.returncode != 0:
                         return CompileResult(
@@ -120,7 +126,8 @@ class Compiler:
                 encoding="utf-8",
                 errors="replace",
                 timeout=time_limit_sec,
-                cwd=build_dir
+                cwd=build_dir,
+                env=self._compiler_env(),
             )
 
             output = (proc.stdout + "\n" + proc.stderr).strip()

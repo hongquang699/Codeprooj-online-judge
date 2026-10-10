@@ -6,6 +6,7 @@ Provides endpoints for submissions, status polling, worker heartbeats, and metri
 import json
 import uuid
 import time
+import re
 from typing import Dict, Any, Tuple
 from urllib.parse import urlparse, parse_qs
 try:
@@ -119,6 +120,8 @@ class JudgeApiRouter:
                 data['memory_limit'] = min(max(int(data.get('memory_limit', 256)),
                     execution.get('min_memory_limit_mb', 16)), execution.get('max_memory_limit_mb', 1024))
                 job_id = str(data.get("job_id") or data.get("submission_id") or uuid.uuid4().hex[:12])
+                if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', job_id):
+                    return 400, {"error": "Invalid job ID"}
                 data["job_id"] = job_id
                 priority = int(data.get("priority", 10))
 

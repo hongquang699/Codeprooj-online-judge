@@ -18,7 +18,7 @@ class IsolatedRunnerHelper:
         memory_limit_mb: int,
         stack_limit_mb: int = 64,
         max_output_bytes: int = 33554432,
-        max_processes: int = 1,
+        max_processes: int = 32,
         enable_seccomp: bool = True,
         target_uid: int = 65534,
         target_gid: int = 65534
@@ -65,6 +65,8 @@ class IsolatedRunnerHelper:
                 return "TLE"
             elif sig == signal.SIGSEGV:
                 return "MLE/RE"
+            elif hasattr(signal, "SIGXFSZ") and sig == signal.SIGXFSZ:
+                return "OLE"
             elif hasattr(signal, "SIGSYS") and sig == signal.SIGSYS:
                 return "SEC"  # Terminated by Seccomp BPF due to illegal syscall
             elif sig == signal.SIGFPE:

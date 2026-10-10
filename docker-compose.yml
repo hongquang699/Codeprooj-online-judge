@@ -86,7 +86,20 @@ services:
       dockerfile: infrastructure/docker/judge/Dockerfile
     container_name: codeprooj_judge_server
     restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+    pids_limit: 256
+    mem_limit: 4g
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=256m
     environment:
+      PYTHONDONTWRITEBYTECODE: "1"
       JUDGE_NAME: codeprooj-judge-01
       BACKEND_HOST: backend
       BACKEND_PORT: 8000
