@@ -1,22 +1,33 @@
 """Small, allowlisted terminal for site content and direct messages."""
 
 import shlex
+import time
+from datetime import timedelta
 from pathlib import Path
 
+import psutil
 from django.contrib.admin.models import CHANGE, LogEntry
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction
+from django.db import DatabaseError, close_old_connections, connection, transaction
 from django.utils import timezone
 
 from backend.community.models import Conversation, Message, Post
 from backend.community.services.notification_service import NotificationService
-from backend.judge.models import Profile
+from backend.judge.models import JudgeJob, JudgeWorker, Profile, Submission
+from backend.anti_cheat.models import ScanJob
+from backend.community import site_runtime
 
 
 HELP = """Commands:
-  status                         Show content and chat counts
+  status                         Show services and system activity
+  server start [api|web|judge|worker|all]  Start local services (default: api + web)
+  server stop api|web|judge|worker          Stop a service started here
+  server status                  Show local service health and process info
+  server logs SERVICE [LINES]    Show captured service log (max 200 lines)
+  monitor [SECONDS]              Refresh status until Ctrl+C (default: 3 seconds)
+  activity [COUNT]               Show recent submissions and judge jobs
   posts                          List recent posts
   show-post ID                   Show a post
   edit-post ID title|content FILE  Replace a post field with UTF-8 file contents
@@ -66,7 +77,21 @@ class Command(BaseCommand):
         if action == 'help':
             self.stdout.write(HELP)
         elif action == 'status' and not arguments:
-            self.stdout.write(f'Posts: {Post.objects.count()} | Chats: {Conversation.objects.count()} | Messages: {Message.objects.count()}')
+            self.show_status()
+        elif action == 'server':
+            self.server(arguments)
+        elif action == 'monitor' and len(arguments) <= 1:
+            interval = self.bounded_number(arguments[0], 1, 60) if arguments else 3
+            try:
+                while True:
+                    self.stdout.write(f'\n[{timezone.localtime():%Y-%m-%d %H:%M:%S}]')
+                    self.show_status()
+                    time.sleep(interval)
+            except KeyboardInterrupt:
+                self.stdout.write('\nMonitoring stopped.')
+        elif action == 'activity' and len(arguments) <= 1:
+            count = self.bounded_number(arguments[0], 1, 50) if arguments else 10
+            self.show_activity(count)
         elif action == 'posts' and not arguments:
             for post in Post.objects.select_related('author__user').order_by('-created_at')[:20]:
                 self.stdout.write(f'{post.pk}\t{post.title}\t{post.author.user.username}')
@@ -94,6 +119,63 @@ class Command(BaseCommand):
         if not value.isdecimal() or int(value) < 1:
             raise CommandError('ID must be a positive integer.')
         return int(value)
+
+    @staticmethod
+    def bounded_number(value, minimum, maximum):
+        if not value.isdecimal() or not minimum <= int(value) <= maximum:
+            raise CommandError(f'Number must be between {minimum} and {maximum}.')
+        return int(value)
+
+    def show_status(self):
+        for name in site_runtime.SERVICES:
+            self.stdout.write(site_runtime.service_status(name))
+        memory = psutil.virtual_memory()
+        self.stdout.write(f'Host: CPU {psutil.cpu_percent(interval=None):.0f}% | RAM {memory.percent:.0f}%')
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT 1')
+            self.stdout.write(f'Database: connected ({connection.vendor})')
+            self.stdout.write(
+                f'Data: posts {Post.objects.count()} | chats {Conversation.objects.count()} | '
+                f'messages {Message.objects.count()} | submissions queued {Submission.objects.filter(status="QU").count()} | '
+                f'grading {Submission.objects.filter(status__in=["P", "G"]).count()}'
+            )
+            self.stdout.write(
+                f'Judge: jobs waiting {JudgeJob.objects.filter(status="WAITING").count()} | '
+                f'workers online {JudgeWorker.objects.filter(status="ONLINE", enabled=True, last_heartbeat__gte=timezone.now() - timedelta(minutes=2)).count()} | '
+                f'anti-cheat pending {ScanJob.objects.filter(status="PENDING").count()}'
+            )
+        except DatabaseError:
+            close_old_connections()
+            self.stdout.write('Database: unavailable')
+
+    def show_activity(self, count):
+        self.stdout.write('Recent submissions:')
+        for item in Submission.objects.select_related('user__user', 'problem').order_by('-date')[:count]:
+            self.stdout.write(f'#{item.pk} {item.date:%Y-%m-%d %H:%M} {item.user.user.username} {item.problem.code} {item.status}/{item.result or "-"}')
+        self.stdout.write('Recent judge jobs:')
+        for job in JudgeJob.objects.order_by('-created_at')[:count]:
+            self.stdout.write(f'#{job.pk} submission {job.submission_id} {job.status}')
+
+    def server(self, arguments):
+        if arguments == ['status']:
+            for name in site_runtime.SERVICES:
+                self.stdout.write(site_runtime.service_status(name))
+            return
+        if arguments and arguments[0] == 'start' and len(arguments) <= 2:
+            target = arguments[1] if len(arguments) == 2 else 'default'
+            names = ('api', 'web') if target == 'default' else tuple(site_runtime.SERVICES) if target == 'all' else (target,)
+            for name in names:
+                self.stdout.write(site_runtime.start(name))
+            return
+        if len(arguments) == 2 and arguments[0] == 'stop':
+            self.stdout.write(site_runtime.stop(arguments[1]))
+            return
+        if 2 <= len(arguments) <= 3 and arguments[0] == 'logs':
+            lines = self.bounded_number(arguments[2], 1, 200) if len(arguments) == 3 else 30
+            self.stdout.write(site_runtime.log_tail(arguments[1], lines))
+            return
+        raise CommandError('Usage: server start [api|web|judge|worker|all], server stop SERVICE, server status, or server logs SERVICE [LINES].')
 
     def get_post(self, value):
         post = Post.objects.filter(pk=self.parse_id(value)).first()
