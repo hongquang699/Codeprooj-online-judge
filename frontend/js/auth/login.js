@@ -57,10 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
           })
         });
 
-        const data = await response.json();
+        // A server error may return an HTML traceback while DEBUG is enabled.
+        // Never display an unexpected response body on the login page.
+        let data;
+        try {
+          data = await response.json();
+        } catch (_) {
+          data = null;
+        }
 
-        if (!response.ok || !data.success) {
-          Auth.showAlert('authAlert', data.message || 'Tài khoản hoặc mật khẩu không chính xác.', 'error');
+        if (!response.ok || !data?.success) {
+          const knownError = (response.status === 401 && data?.error_code === 'INVALID_CREDENTIALS') ||
+            (response.status === 403 && data?.error_code === 'ADMIN_IP_RESTRICTED');
+          const message = knownError && typeof data?.message === 'string'
+            ? data.message
+            : 'Không thể đăng nhập lúc này. Vui lòng thử lại sau.';
+          Auth.showAlert('authAlert', message, 'error');
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span>Đăng nhập</span>';

@@ -54,6 +54,26 @@ class LoginTestCase(TestCase):
         data = res.json()
         self.assertFalse(data['authenticated'])
 
+    def test_quote_in_credentials_does_not_expose_sql(self):
+        for ip, credentials in (
+            ('198.51.100.81', {'username': "'", 'password': self.password}),
+            ('198.51.100.82', {'username': self.username, 'password': "'"}),
+        ):
+            with self.subTest(credentials=credentials):
+                res = self.client.post(
+                    '/api/v1/auth/login',
+                    data=json.dumps(credentials),
+                    content_type='application/json',
+                    secure=True,
+                    REMOTE_ADDR=ip,
+                )
+                self.assertEqual(res.status_code, 401)
+                data = res.json()
+                self.assertEqual(data['error_code'], 'INVALID_CREDENTIALS')
+                self.assertFalse(data['authenticated'])
+                self.assertNotIn('SELECT ', res.content.decode('utf-8'))
+                self.assertNotIn('Traceback', res.content.decode('utf-8'))
+
     def test_brute_force_lockout_after_five_attempts(self):
         for _ in range(5):
             self.client.post(
