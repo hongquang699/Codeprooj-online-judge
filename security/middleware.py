@@ -24,6 +24,7 @@ from security.authorization.permissions import Permissions
 from security.api_security.api_keys import APIKeyManager
 from security.incident_response import EmergencyContainment
 from security.logging import SecurityLogger
+from backend.auth.security.device import get_client_ip
 
 ALLOWED_CORS_ORIGINS = frozenset(getattr(settings, 'CORS_ALLOWED_ORIGINS', ()))
 
@@ -216,10 +217,4 @@ class FullSecurityMiddleware:
 
     @staticmethod
     def _get_client_ip(request):
-        remote_addr = request.META.get('REMOTE_ADDR', '127.0.0.1')
-        trusted_proxies = ('127.0.0.1', '::1', 'localhost', '::ffff:127.0.0.1')
-        if remote_addr in trusted_proxies:
-            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-            if x_forwarded_for:
-                return x_forwarded_for.split(',')[0].strip()
-        return remote_addr
+        return get_client_ip(request)

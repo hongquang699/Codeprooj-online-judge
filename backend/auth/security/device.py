@@ -6,8 +6,15 @@ def get_client_ip(request) -> str:
     """Trust the gateway's client IP only when the socket peer is a known proxy."""
     remote = (request.META.get('REMOTE_ADDR') or '').strip()
     trusted = os.getenv('TRUSTED_PROXY_IPS', '127.0.0.1,::1,::ffff:127.0.0.1')
-    trusted_ips = {value.strip() for value in trusted.split(',') if value.strip()}
-    candidate = request.META.get('HTTP_X_REAL_IP', '') if remote in trusted_ips else remote
+    trusted_ips = [value.strip() for value in trusted.split(',') if value.strip()]
+    try:
+        remote_ip = ipaddress.ip_address(remote)
+        is_trusted = any(remote_ip in ipaddress.ip_network(value, strict=False) for value in trusted_ips)
+    except ValueError:
+        is_trusted = False
+    candidate = remote
+    if is_trusted:
+        candidate = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip() or remote
     try:
         address = ipaddress.ip_address(candidate.strip())
         return str(getattr(address, 'ipv4_mapped', None) or address)

@@ -7,6 +7,23 @@ const fs = require('fs');
 const path = require('path');
 const net = require('net');
 
+const normalizeProxyIp = value => value.startsWith('::ffff:') ? value.substring(7) : (value === '::1' ? '127.0.0.1' : value);
+const trustedProxyRules = (process.env.TRUSTED_PROXY_IPS || '127.0.0.1,::1,::ffff:127.0.0.1')
+  .split(',').map(value => normalizeProxyIp(value.trim())).filter(Boolean);
+function isTrustedProxy(remoteAddress) {
+  const remote = normalizeProxyIp(remoteAddress || '');
+  if (trustedProxyRules.includes(remote)) return true;
+  if (net.isIP(remote) !== 4) return false;
+  const toNumber = value => value.split('.').reduce((result, octet) => (result << 8) | Number(octet), 0) >>> 0;
+  return trustedProxyRules.some(rule => {
+    const [network, bitsText] = rule.split('/');
+    const bits = Number(bitsText);
+    if (net.isIP(network) !== 4 || !Number.isInteger(bits) || bits < 0 || bits > 32) return false;
+    const mask = bits === 0 ? 0 : (0xffffffff << (32 - bits)) >>> 0;
+    return (toNumber(remote) & mask) === (toNumber(network) & mask);
+  });
+}
+
 // ── IP Validation & Sanitization Regex ──────────────────────────────────────
 const IPV4_REGEX = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 const IPV6_REGEX = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
@@ -69,7 +86,7 @@ class SecurityDefenseSystem {
     };
 
     // Garbage collection of old sliding windows every 30s
-    setInterval(() => this.cleanup(), 30000);
+    setInterval(() => this.cleanup(), 30000).unref();
   }
 
   /**
@@ -83,12 +100,9 @@ class SecurityDefenseSystem {
 
     // Only the local gateway/backend hop is trusted by default. Private network
     // addresses are not inherently proxies and must not be able to spoof headers.
-    const normalizeProxyIp = value => value.startsWith('::ffff:') ? value.substring(7) : (value === '::1' ? '127.0.0.1' : value);
-    const trustedProxyIps = (process.env.TRUSTED_PROXY_IPS || '127.0.0.1,::1,::ffff:127.0.0.1')
-      .split(',').map(value => normalizeProxyIp(value.trim())).filter(Boolean);
-    const isSocketTrusted = trustedProxyIps.includes(normalizeProxyIp(req.socket?.remoteAddress || ''));
+    const isSocketTrusted = isTrustedProxy(req.socket?.remoteAddress);
 
-    let candidateIp = rawIp || '127.0.0.1';
+    let candidateIp = rawIp;
 
     if (isSocketTrusted) {
       // Behind Cloudflare or reverse proxy
@@ -235,7 +249,7 @@ class SecurityDefenseSystem {
     // 8. Rate Limiting & DoS / DDoS Mitigation
     const isStatic = url.match(/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff2?|map)$/i);
     const isSubmit = url.includes('/api/v2/submit') || url.includes('/api/v1/submissions');
-    const isAuth = url.includes('/api/v2/auth/login') || url.includes('/api/v2/auth/register');
+    const isAuth = /^\/api\/(?:v1\/|v2\/)?auth\/(?:login|register)(?:[/?]|$)/.test(url);
 
     // Retrieve or initialize IP state
     let record = this.ipHistory.get(ip);

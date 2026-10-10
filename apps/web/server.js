@@ -209,6 +209,21 @@ const server = http.createServer(async (req, res) => {
   }
   const queryString = urlParts.length > 1 ? `?${urlParts[1]}` : '';
 
+  // Apply the same WAF and rate limits to gateway-owned admin endpoints.
+  const secCheck = securityDefense.inspect(req);
+  if (!secCheck.allowed) {
+    res.writeHead(secCheck.status, {
+      'Content-Type': 'application/json',
+      ...(secCheck.headers || {})
+    });
+    return res.end(JSON.stringify({
+      error: 'SECURITY_BLOCKED',
+      status: secCheck.status,
+      message: secCheck.message,
+      client_ip: secCheck.ip
+    }));
+  }
+
   // The administrative security controls live on the gateway and never pass
   // through the application backend. Protect them before any handler runs.
   if (ADMIN_SECURITY_PATHS.has(reqUrl)) {
@@ -305,24 +320,6 @@ const server = http.createServer(async (req, res) => {
 
     res.writeHead(405, { 'Allow': reqUrl.endsWith('/stats') ? 'GET' : 'POST', 'Content-Type': 'application/json; charset=utf-8' });
     return res.end(JSON.stringify({ error: 'METHOD_NOT_ALLOWED' }));
-  }
-
-  // WAF & Anti-DoS / Anti-Bot / Anti-Spoofing Inspection
-  const secCheck = securityDefense.inspect(req);
-  if (!secCheck.allowed) {
-    const respHeaders = {
-      'Content-Type': 'application/json',
-      ...(secCheck.headers || {})
-    };
-    res.writeHead(secCheck.status, respHeaders);
-    return res.end(JSON.stringify({
-      error: 'SECURITY_BLOCKED',
-      status: secCheck.status,
-      message: secCheck.message,
-      client_ip: secCheck.ip,
-      waf_engine: 'CodeProOJ Anti-DDoS & Anti-Bot Defense System v2.4',
-      timestamp: new Date().toISOString()
-    }));
   }
 
   // Handle legacy ranking pages redirects
@@ -430,6 +427,15 @@ const server = http.createServer(async (req, res) => {
 
   // Reverse proxy for Django backend API calls
   if (reqUrl.startsWith('/api/')) {
+    const isV2Upload = /^\/api\/v2\/problem\/[^/]+\/testcases\/upload$/.test(reqUrl);
+    const isV1Upload = /^\/api\/v1\/problems\/[^/]+\/testcases\/upload$/.test(reqUrl);
+    const maxRequestBytes = isV2Upload ? 110 * 1024 * 1024 :
+      isV1Upload ? 25 * 1024 * 1024 : 2 * 1024 * 1024;
+    const declaredLength = Number(req.headers['content-length'] || 0);
+    if (declaredLength > maxRequestBytes) {
+      res.writeHead(413, { 'Content-Type': 'application/json', 'Connection': 'close' });
+      return res.end(JSON.stringify({ error: 'REQUEST_TOO_LARGE' }));
+    }
     const clientIp = getClientIp(req);
     // The gateway has already resolved the trusted client IP. Do not pass
     // caller supplied forwarding headers to Django's authentication endpoints.
@@ -459,6 +465,19 @@ const server = http.createServer(async (req, res) => {
         'Cache-Control': 'no-store'
       });
       res.end(JSON.stringify({ error: 'API temporarily unavailable', code: 'UPSTREAM_UNAVAILABLE' }));
+    });
+
+    let receivedBytes = 0;
+    req.on('data', chunk => {
+      receivedBytes += chunk.length;
+      if (receivedBytes > maxRequestBytes) {
+        req.unpipe(proxyReq);
+        proxyReq.destroy();
+        if (!res.headersSent) {
+          res.writeHead(413, { 'Content-Type': 'application/json', 'Connection': 'close' });
+          res.end(JSON.stringify({ error: 'REQUEST_TOO_LARGE' }), () => req.destroy());
+        }
+      }
     });
 
     if (req.method === 'GET' || req.method === 'HEAD') {
@@ -973,7 +992,16 @@ const server = http.createServer(async (req, res) => {
         return tryServe(index + 1);
       }
 
-      fs.readFile(targetFile, (readErr, content) => {
+      fs.realpath(targetFile, (realErr, realTarget) => {
+        if (realErr) return tryServe(index + 1);
+        const realInsideFrontend = realTarget.startsWith(FRONTEND_DIR + path.sep);
+        const realAllowedRoot = isAllowedRoot && realTarget === resolvedTarget;
+        if (!realInsideFrontend && !realAllowedRoot) return tryServe(index + 1);
+        fs.stat(realTarget, (statErr, realStats) => {
+          if (statErr || !realStats.isFile() || realStats.size > 2 * 1024 * 1024) {
+            return tryServe(index + 1);
+          }
+          fs.readFile(realTarget, (readErr, content) => {
         if (readErr) {
           return tryServe(index + 1);
         }
@@ -1007,27 +1035,6 @@ const server = http.createServer(async (req, res) => {
       } catch(e){}
     })();
   </script>
-  <!-- Anti-DevTools / Source Code Inspection Defense -->
-  <script>
-    (function() {
-      document.addEventListener('contextmenu', function(e) {
-        if (!window.__ALLOW_INSPECT__) {
-          e.preventDefault();
-        }
-      });
-      document.addEventListener('keydown', function(e) {
-        if (window.__ALLOW_INSPECT__) return;
-        if (
-          e.key === 'F12' ||
-          (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
-          (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's'))
-        ) {
-          e.preventDefault();
-          return false;
-        }
-      });
-    })();
-  </script>
   <script src="/frontend/js/core/icons.js"></script>
   <script src="/frontend/js/core/rating.js"></script>
   <script src="/frontend/js/core/theme.js"></script>
@@ -1047,12 +1054,18 @@ const server = http.createServer(async (req, res) => {
         }
         res.writeHead(200, { 'Content-Type': contentType });
         res.end(content);
+          });
+        });
       });
     });
   }
 
   tryServe(0);
 });
+
+server.headersTimeout = 15000;
+server.requestTimeout = 120000;
+server.timeout = 120000;
 
 server.on('error', (err) => {
   console.error('[FRONTEND SERVER ERROR]', err.message);
@@ -1063,6 +1076,9 @@ process.on('uncaughtException', (err) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`[FRONTEND SERVER] Active at http://localhost:${PORT} and http://127.0.0.1:${PORT}`);
+  const listeningPort = server.address().port;
+  console.log(`[FRONTEND SERVER] Active at http://localhost:${listeningPort} and http://127.0.0.1:${listeningPort}`);
   console.log(`[FRONTEND SERVER] Backend API target: http://${BACKEND_HOST}:${BACKEND_PORT}`);
 });
+
+module.exports = { server };

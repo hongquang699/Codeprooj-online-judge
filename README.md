@@ -154,10 +154,13 @@ Dự án có các lớp kiểm tra quyền, giới hạn request và bảo vệ 
 - **Trạng thái Judge trong Menu Admin:** lấy từ API sức khỏe Judge cùng origin và token đăng nhập; trước khi có phản hồi hiển thị “Đang kiểm tra”, không mặc định báo ONLINE.
 - **Khi phát triển cục bộ:** nếu chạy Django bằng `runserver --noreload`, phải khởi động lại backend sau khi cập nhật code; nếu không API vẫn dùng phiên bản cũ dù HTML/CSS mới đã hiện trên cổng 8888.
 - **Các trang nộp bài cũ:** nút chạy thử với input riêng từng tạo bài nộp thật dù không dùng input đó; các trang này nay thông báo chưa hỗ trợ. API cộng đồng và tổ chức mặc định dùng cùng origin với website.
-- **IP và proxy:** gateway mặc định chỉ tin header IP từ loopback và chuyển IP đã xác minh tới Django. Django chỉ nhận `X-Real-IP` từ địa chỉ proxy được liệt kê trong `TRUSTED_PROXY_IPS`, mặc định là loopback; không dùng header chuyển tiếp do client tự khai báo để quyết định quyền admin.
+- **IP và proxy:** gateway mặc định chỉ tin header IP từ loopback và chuyển IP đã xác minh tới Django. Docker Compose cấu hình `TRUSTED_PROXY_IPS=172.16.0.0/12` cho mạng container; khi triển khai trên mạng khác, hãy giới hạn giá trị này theo dải IP của proxy thực tế. Django chỉ nhận IP chuyển tiếp từ proxy được tin cậy.
 - **Chấm bài:** Django gửi bài tới Judge Manager và không biên dịch/thực thi mã thí sinh trong web process. Khi manager không phản hồi, bài được ghi lỗi hệ thống để chấm lại. Bộ quét mã tĩnh chỉ là một lớp hỗ trợ, không thay thế sandbox và cách ly worker.
 
-**Trước khi triển khai công khai:** Docker Compose chạy với `DEBUG=False` và yêu cầu các secret riêng trong `.env`; không dùng `.env.example` làm cấu hình thật. Cấu hình Compose hiện publish cổng PostgreSQL, Redis và backend ra host, vì vậy cần giới hạn firewall hoặc bỏ publish các cổng nội bộ. Tiếp tục rà soát phân quyền và CSRF của các API còn lại. Không coi các bộ test hiện có là xác nhận toàn bộ hệ thống an toàn.
+**Trước khi triển khai công khai:** Docker Compose chạy với `DEBUG=False` và yêu cầu các secret riêng trong `.env`; không dùng `.env.example` làm cấu hình thật. Compose chỉ publish Nginx; PostgreSQL, Redis, Django và Node gateway chỉ nằm trên mạng container. Cần cấu hình TLS tại reverse proxy hoặc tầng ngoài trước khi phục vụ người dùng qua Internet. Tiếp tục rà soát phân quyền và CSRF của các API còn lại. Không coi các bộ test hiện có là xác nhận toàn bộ hệ thống an toàn.
+
+Docker Compose hiện chỉ mở cổng HTTP 80. Hãy đặt dịch vụ sau reverse proxy HTTPS có chứng chỉ hợp lệ trước khi mở công khai; cổng 443 trong Compose chưa được cấu hình TLS. File `.env` và whitelist IP được loại khỏi Docker image; Compose gắn whitelist thật vào backend và frontend ở chế độ chỉ đọc.
+Backend và frontend chạy từ image, không gắn toàn bộ mã nguồn host vào container; dùng `docker compose up --build -d` để áp dụng thay đổi mã.
 
 ---
 

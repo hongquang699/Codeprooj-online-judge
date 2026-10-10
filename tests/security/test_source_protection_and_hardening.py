@@ -8,6 +8,7 @@ Verifies all patches implemented for:
 """
 
 from django.test import TestCase, RequestFactory
+from unittest.mock import patch
 from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory
 
@@ -168,3 +169,12 @@ class AntiIPSpoofingSecurityTest(TestCase):
         request.META['HTTP_X_FORWARDED_FOR'] = '198.51.100.42, 127.0.0.1'
         resolved_ip = FullSecurityMiddleware._get_client_ip(request)
         self.assertEqual(resolved_ip, '198.51.100.42')
+
+    def test_docker_proxy_cidr_only_trusts_its_network(self):
+        with patch.dict('os.environ', {'TRUSTED_PROXY_IPS': '172.16.0.0/12'}):
+            trusted = self.factory.get('/api/test', REMOTE_ADDR='172.19.0.3',
+                                       HTTP_X_REAL_IP='198.51.100.44')
+            untrusted = self.factory.get('/api/test', REMOTE_ADDR='192.168.1.5',
+                                         HTTP_X_REAL_IP='127.0.0.1')
+            self.assertEqual(FullSecurityMiddleware._get_client_ip(trusted), '198.51.100.44')
+            self.assertEqual(FullSecurityMiddleware._get_client_ip(untrusted), '192.168.1.5')
